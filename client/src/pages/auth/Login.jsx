@@ -53,6 +53,23 @@ const Login = () => {
           </div>
         )}
 
+        <div className="flex gap-4 mb-4">
+          <button
+            type="button"
+            onClick={() => { setEmail("rares@gmail.com"); setPassword("raresrares"); }}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Autofill Client
+          </button>
+          <button
+            type="button"
+            onClick={() => { setEmail("admin@mobilux.com"); setPassword("raresrares"); }}
+            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+          >
+            Autofill Admin
+          </button>
+        </div>
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>

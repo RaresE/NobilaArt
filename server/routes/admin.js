@@ -12,6 +12,14 @@ router.get("/dashboard/stats", authenticate, isAdmin, async (req, res) => {
     const totalOrders = await Order.count()
 
     // Get total revenue
+    const ordersForRevenue = await Order.findAll({
+      where: {
+        status: {
+          [Op.ne]: "cancelled",
+        },
+      },
+    });
+    console.log('Comenzi incluse în total revenue:', ordersForRevenue.map(o => o.total));
     const revenueResult = await Order.findOne({
       attributes: [[sequelize.fn("SUM", sequelize.col("total")), "totalRevenue"]],
       where: {
