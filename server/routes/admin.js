@@ -88,6 +88,26 @@ router.get("/orders", authenticate, isAdmin, async (req, res) => {
       }
     }
 
+    // Search logic
+    let userInclude = {
+      model: User,
+      attributes: ["id", "name", "email"],
+    };
+    if (search) {
+      if (!isNaN(Number(search))) {
+        // Search by order ID
+        whereConditions.id = Number(search);
+      } else {
+        // Search by customer name or email
+        userInclude.where = {
+          [Op.or]: [
+            { name: { [Op.like]: `%${search}%` } },
+            { email: { [Op.like]: `%${search}%` } },
+          ],
+        };
+      }
+    }
+
     // Calculate offset for pagination
     const offset = (page - 1) * limit
 
@@ -95,26 +115,7 @@ router.get("/orders", authenticate, isAdmin, async (req, res) => {
     const { count, rows: orders } = await Order.findAndCountAll({
       where: whereConditions,
       include: [
-        {
-          model: User,
-          attributes: ["id", "name", "email"],
-          where: search
-            ? {
-                [Op.or]: [
-                  {
-                    name: {
-                      [Op.like]: `%${search}%`,
-                    },
-                  },
-                  {
-                    email: {
-                      [Op.like]: `%${search}%`,
-                    },
-                  },
-                ],
-              }
-            : undefined,
-        },
+        userInclude,
         {
           model: OrderItem,
           include: [
