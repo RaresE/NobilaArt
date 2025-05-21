@@ -25,6 +25,8 @@ const AdminProducts = () => {
   })
   const [selectedProducts, setSelectedProducts] = useState([])
   const [bulkActionLoading, setBulkActionLoading] = useState(false)
+  const [editingStockId, setEditingStockId] = useState(null)
+  const [editingStockValue, setEditingStockValue] = useState(0)
 
   useEffect(() => {
     fetchCategories()
@@ -175,6 +177,33 @@ const AdminProducts = () => {
         console.error("Error deleting product:", err)
         setError("Failed to delete product. Please try again.")
       }
+    }
+  }
+
+  const handleStockClick = (product) => {
+    setEditingStockId(product.id)
+    setEditingStockValue(product.stock)
+  }
+
+  const handleStockChange = (e) => {
+    setEditingStockValue(e.target.value)
+  }
+
+  const handleStockBlur = async (product) => {
+    if (Number(editingStockValue) !== product.stock) {
+      try {
+        await axios.put(`http://localhost:5000/api/admin/products/${product.id}`, { stock: Number(editingStockValue) })
+        fetchProducts()
+      } catch (err) {
+        setError("Failed to update stock. Please try again.")
+      }
+    }
+    setEditingStockId(null)
+  }
+
+  const handleStockKeyDown = (e, product) => {
+    if (e.key === "Enter") {
+      e.target.blur()
     }
   }
 
@@ -436,13 +465,28 @@ const AdminProducts = () => {
                     <div className="text-sm text-gray-900">${product.price.toFixed(2)}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        product.stock > 10 ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {product.stock}
-                    </span>
+                    {editingStockId === product.id ? (
+                      <input
+                        type="number"
+                        min={0}
+                        value={editingStockValue}
+                        onChange={handleStockChange}
+                        onBlur={() => handleStockBlur(product)}
+                        onKeyDown={(e) => handleStockKeyDown(e, product)}
+                        className="w-16 px-2 py-1 border rounded"
+                        autoFocus
+                      />
+                    ) : (
+                      <span
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                          product.stock > 10 ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                        } cursor-pointer`}
+                        title="Click to edit stock"
+                        onClick={() => handleStockClick(product)}
+                      >
+                        {product.stock}
+                      </span>
+                    )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">

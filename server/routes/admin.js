@@ -489,4 +489,38 @@ router.post("/users", authenticate, isAdmin, async (req, res) => {
   }
 })
 
+// Update product by ID
+router.put("/products/:id", authenticate, isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    const product = await Product.findByPk(id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    await product.update(updateData);
+    res.json(product);
+  } catch (err) {
+    console.error("Update product error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Update material by ID
+router.put("/materials/:id", authenticate, isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    const material = await Material.findByPk(id);
+    if (!material) {
+      return res.status(404).json({ message: "Material not found" });
+    }
+    await material.update(updateData);
+    res.json(material);
+  } catch (err) {
+    console.error("Update material error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router
