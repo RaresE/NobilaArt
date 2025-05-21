@@ -10,20 +10,20 @@ const OrderItem = require("./OrderItem")
 Category.hasMany(Product, { foreignKey: 'categoryId' })
 Product.belongsTo(Category, { foreignKey: 'categoryId' })
 
-User.hasMany(Cart)
-Cart.belongsTo(User)
+User.hasMany(Cart, { foreignKey: 'userId' })
+Cart.belongsTo(User, { foreignKey: 'userId' })
 
-Product.hasMany(Cart)
-Cart.belongsTo(Product)
+Product.hasMany(Cart, { foreignKey: 'productId' })
+Cart.belongsTo(Product, { foreignKey: 'productId' })
 
-User.hasMany(Order)
-Order.belongsTo(User)
+User.hasMany(Order, { foreignKey: 'userId' })
+Order.belongsTo(User, { foreignKey: 'userId' })
 
-Order.hasMany(OrderItem)
-OrderItem.belongsTo(Order)
+Order.hasMany(OrderItem, { foreignKey: 'orderId' })
+OrderItem.belongsTo(Order, { foreignKey: 'orderId' })
 
-Product.hasMany(OrderItem)
-OrderItem.belongsTo(Product)
+Product.hasMany(OrderItem, { foreignKey: 'productId' })
+OrderItem.belongsTo(Product, { foreignKey: 'productId' })
 
 // Export models
 module.exports = {

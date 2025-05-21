@@ -12,6 +12,7 @@ import Cart from "./pages/client/Cart"
 import Checkout from "./pages/client/Checkout"
 import ClientDashboard from "./pages/client/Dashboard"
 import ClientOrders from "./pages/client/Orders"
+import OrderDetail from "./pages/client/OrderDetail"
 
 // Admin Pages
 import AdminLogin from "./pages/admin/AdminLogin"
@@ -151,6 +152,14 @@ function App() {
                 element={
                   <ClientRoute>
                     <ClientOrders />
+                  </ClientRoute>
+                }
+              />
+              <Route
+                path="/orders/:id"
+                element={
+                  <ClientRoute>
+                    <OrderDetail />
                   </ClientRoute>
                 }
               />

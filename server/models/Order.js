@@ -7,9 +7,14 @@ const Order = sequelize.define("Order", {
     primaryKey: true,
     autoIncrement: true,
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   status: {
-    type: DataTypes.ENUM("pending", "processing", "shipped", "delivered", "cancelled"),
-    defaultValue: "pending",
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'pending',
   },
   shippingAddress: {
     type: DataTypes.JSON,
@@ -24,15 +29,15 @@ const Order = sequelize.define("Order", {
     allowNull: false,
   },
   subtotal: {
-    type: DataTypes.DECIMAL(10, 2),
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
   shipping: {
-    type: DataTypes.DECIMAL(10, 2),
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
   total: {
-    type: DataTypes.DECIMAL(10, 2),
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
 })

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../contexts/AuthContext"
 import axios from "axios"
@@ -26,6 +26,8 @@ const Checkout = () => {
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
+  const [orderId, setOrderId] = useState(null)
 
   // Calculate subtotal
   const subtotal = cart.reduce((total, item) => {
@@ -62,6 +64,8 @@ const Checkout = () => {
     e.preventDefault()
     setLoading(true)
     setError("")
+    setSuccess(false)
+    setOrderId(null)
 
     try {
       // Create order
@@ -86,18 +90,13 @@ const Checkout = () => {
         total,
       }
 
+      console.log('Order data trimis la backend:', orderData)
+
       const response = await axios.post("http://localhost:5000/api/orders", orderData)
 
-      // Clear cart after successful order
+      setSuccess(true)
+      setOrderId(response.data.id)
       await clearCart()
-
-      // Redirect to order confirmation page
-      navigate(`/orders/${response.data.id}`, {
-        state: {
-          orderConfirmation: true,
-          orderId: response.data.id,
-        },
-      })
     } catch (err) {
       console.error("Error creating order:", err)
       setError(err.response?.data?.message || "Failed to place order. Please try again.")
@@ -106,8 +105,13 @@ const Checkout = () => {
     }
   }
 
+  useEffect(() => {
+    if (cart.length === 0) {
+      navigate("/cart")
+    }
+  }, [cart, navigate])
+
   if (cart.length === 0) {
-    navigate("/cart")
     return null
   }
 
@@ -118,6 +122,17 @@ const Checkout = () => {
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
           <span className="block sm:inline">{error}</span>
+        </div>
+      )}
+
+      {success && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+          Comanda a fost finalizată cu succes!
+          {orderId && (
+            <span>
+              Vezi detalii <a href={`/orders/${orderId}`} className="text-blue-600 underline">aici</a>.
+            </span>
+          )}
         </div>
       )}
 

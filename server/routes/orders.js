@@ -28,7 +28,9 @@ router.get("/", authenticate, isClient, async (req, res) => {
     const formattedOrders = orders.map((order) => ({
       id: order.id,
       status: order.status,
-      shippingAddress: order.shippingAddress,
+      shippingAddress: typeof order.shippingAddress === 'string'
+        ? (order.shippingAddress ? JSON.parse(order.shippingAddress) : {})
+        : (order.shippingAddress || {}),
       paymentMethod: order.paymentMethod,
       deliveryMethod: order.deliveryMethod,
       subtotal: Number.parseFloat(order.subtotal),
@@ -134,7 +136,9 @@ router.get("/:id", authenticate, isClient, async (req, res) => {
     const formattedOrder = {
       id: order.id,
       status: order.status,
-      shippingAddress: order.shippingAddress,
+      shippingAddress: typeof order.shippingAddress === 'string'
+        ? (order.shippingAddress ? JSON.parse(order.shippingAddress) : {})
+        : (order.shippingAddress || {}),
       paymentMethod: order.paymentMethod,
       deliveryMethod: order.deliveryMethod,
       subtotal: Number.parseFloat(order.subtotal),
@@ -175,6 +179,7 @@ router.post("/", authenticate, isClient, async (req, res) => {
     }
 
     // Create order
+    console.log('shippingAddress primit la backend:', shippingAddress)
     const order = await Order.create(
       {
         userId: req.user.id,
