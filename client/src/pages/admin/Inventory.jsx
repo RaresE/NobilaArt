@@ -79,19 +79,16 @@ const AdminInventory = () => {
   const handleNewMaterialChange = (e) => {
     const { name, value } = e.target
 
-    // Convert numeric values
-    const numericFields = ["stock", "lowStockThreshold"]
-    const finalValue = numericFields.includes(name) ? Number(value) : value
-
+    // Permite string gol pentru stock și lowStockThreshold
     if (formMode === "add") {
       setNewMaterial((prev) => ({
         ...prev,
-        [name]: finalValue,
+        [name]: name === "stock" || name === "lowStockThreshold" ? value : value,
       }))
     } else {
       setEditingMaterial((prev) => ({
         ...prev,
-        [name]: finalValue,
+        [name]: name === "stock" || name === "lowStockThreshold" ? value : value,
       }))
     }
   }
@@ -102,7 +99,13 @@ const AdminInventory = () => {
     setFormLoading(true)
 
     try {
-      await axios.post("http://localhost:5000/api/admin/materials", newMaterial)
+      // Convertim la număr doar la submit
+      const payload = {
+        ...newMaterial,
+        stock: newMaterial.stock === "" ? 0 : Number(newMaterial.stock),
+        lowStockThreshold: newMaterial.lowStockThreshold === "" ? 0 : Number(newMaterial.lowStockThreshold),
+      }
+      await axios.post("http://localhost:5000/api/admin/materials", payload)
 
       // Reset form and refresh materials
       setNewMaterial({
@@ -128,7 +131,13 @@ const AdminInventory = () => {
     setFormLoading(true)
 
     try {
-      await axios.put(`http://localhost:5000/api/admin/materials/${editingMaterial.id}`, editingMaterial)
+      // Convertim la număr doar la submit
+      const payload = {
+        ...editingMaterial,
+        stock: editingMaterial.stock === "" ? 0 : Number(editingMaterial.stock),
+        lowStockThreshold: editingMaterial.lowStockThreshold === "" ? 0 : Number(editingMaterial.lowStockThreshold),
+      }
+      await axios.put(`http://localhost:5000/api/admin/materials/${editingMaterial.id}`, payload)
 
       // Reset form and refresh materials
       setEditingMaterial(null)

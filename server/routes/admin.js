@@ -4,6 +4,7 @@ const { Op } = require("sequelize")
 const { User, Product, Category, Material, Order, OrderItem } = require("../models")
 const { authenticate, isAdmin } = require("../middleware/auth")
 const sequelize = require("../config/database")
+const materialsRouter = require("./materials")
 
 // Admin dashboard statistics
 router.get("/dashboard/stats", authenticate, isAdmin, async (req, res) => {
@@ -548,5 +549,7 @@ router.get("/products/:id", authenticate, isAdmin, async (req, res) => {
     res.status(500).json({ message: "Server error" })
   }
 })
+
+router.use("/materials", materialsRouter)
 
 module.exports = router

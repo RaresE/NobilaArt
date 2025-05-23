@@ -17,9 +17,18 @@ router.get("/", async (req, res) => {
     }
 
     if (search) {
-      whereConditions.name = {
-        [Op.like]: `%${search}%`,
-      }
+      whereConditions[Op.or] = [
+        {
+          name: {
+            [Op.like]: `%${search}%`,
+          }
+        },
+        {
+          description: {
+            [Op.like]: `%${search}%`,
+          }
+        }
+      ]
     }
 
     if (minPrice) {
