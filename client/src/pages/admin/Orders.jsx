@@ -3,6 +3,14 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 
+const statusOptions = [
+  { value: "pending", label: "Pending" },
+  { value: "processing", label: "Processing" },
+  { value: "shipped", label: "Shipped" },
+  { value: "delivered", label: "Delivered" },
+  { value: "cancelled", label: "Cancelled" },
+]
+
 const AdminOrders = () => {
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
@@ -19,6 +27,9 @@ const AdminOrders = () => {
     total: 0,
     totalPages: 0,
   })
+  const [statusEdit, setStatusEdit] = useState({})
+  const [savingStatus, setSavingStatus] = useState({})
+  const [statusError, setStatusError] = useState({})
 
   useEffect(() => {
     fetchOrders()
@@ -123,6 +134,26 @@ const AdminOrders = () => {
         return "bg-red-100 text-red-800"
       default:
         return "bg-gray-100 text-gray-800"
+    }
+  }
+
+  const handleStatusChange = (orderId, newStatus) => {
+    setStatusEdit((prev) => ({ ...prev, [orderId]: newStatus }))
+  }
+
+  const handleSaveStatus = async (orderId) => {
+    setSavingStatus((prev) => ({ ...prev, [orderId]: true }))
+    setStatusError((prev) => ({ ...prev, [orderId]: null }))
+    try {
+      await axios.put(`http://localhost:5000/api/admin/orders/${orderId}/status`, {
+        status: statusEdit[orderId],
+      })
+      setOrders((prev) => prev.map((order) => order.id === orderId ? { ...order, status: statusEdit[orderId] } : order))
+      setStatusEdit((prev) => ({ ...prev, [orderId]: undefined }))
+    } catch (err) {
+      setStatusError((prev) => ({ ...prev, [orderId]: "Failed to update status" }))
+    } finally {
+      setSavingStatus((prev) => ({ ...prev, [orderId]: false }))
     }
   }
 
@@ -283,6 +314,25 @@ const AdminOrders = () => {
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
                       {order.status ? order.status.charAt(0).toUpperCase() + order.status.slice(1) : "-"}
                     </span>
+                    <div className="mt-2">
+                      <select
+                        value={statusEdit[order.id] !== undefined ? statusEdit[order.id] : order.status}
+                        onChange={e => handleStatusChange(order.id, e.target.value)}
+                        className="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-xs px-2 py-1"
+                      >
+                        {statusOptions.map(opt => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                      <button
+                        onClick={() => handleSaveStatus(order.id)}
+                        disabled={savingStatus[order.id] || statusEdit[order.id] === undefined || statusEdit[order.id] === order.status}
+                        className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded disabled:opacity-50"
+                      >
+                        {savingStatus[order.id] ? "Saving..." : "Save"}
+                      </button>
+                      {statusError[order.id] && <div className="text-xs text-red-600 mt-1">{statusError[order.id]}</div>}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{/* Actions here, e.g. View/Edit */}</td>
                 </tr>
