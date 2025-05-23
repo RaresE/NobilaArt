@@ -71,6 +71,7 @@ router.get("/", async (req, res) => {
       specifications: product.specifications,
       category: product.Category ? product.Category.name : null,
       categoryId: product.categoryId,
+      availableMaterials: product.availableMaterials,
     }))
 
     res.json({
@@ -133,6 +134,22 @@ router.get("/:id", async (req, res) => {
     }
 
     // Format response
+    let availableMaterials = product.availableMaterials;
+    if (typeof availableMaterials === 'string') {
+      try {
+        availableMaterials = JSON.parse(availableMaterials);
+      } catch {
+        availableMaterials = [];
+      }
+    }
+    let availableColors = product.availableColors;
+    if (typeof availableColors === 'string') {
+      try {
+        availableColors = JSON.parse(availableColors);
+      } catch {
+        availableColors = [];
+      }
+    }
     const formattedProduct = {
       id: product.id,
       name: product.name,
@@ -143,10 +160,11 @@ router.get("/:id", async (req, res) => {
       dimensions: product.dimensions,
       weight: product.weight,
       featured: product.featured,
-      availableColors: product.availableColors,
+      availableColors,
       specifications: product.specifications,
       category: product.Category ? product.Category.name : null,
       categoryId: product.categoryId,
+      availableMaterials,
     }
 
     res.json(formattedProduct)
@@ -159,7 +177,8 @@ router.get("/:id", async (req, res) => {
 // Create a new product (admin only)
 router.post("/", authenticate, isAdmin, async (req, res) => {
   try {
-    const {
+    console.log('CREATE PRODUCT req.body:', req.body);
+    let {
       name,
       description,
       price,
@@ -171,7 +190,16 @@ router.post("/", authenticate, isAdmin, async (req, res) => {
       featured,
       availableColors,
       specifications,
+      availableMaterials,
     } = req.body
+
+    // Normalizez availableMaterials la array de id-uri
+    if (!Array.isArray(availableMaterials)) {
+      availableMaterials = [];
+    } else if (typeof availableMaterials[0] === 'object' && availableMaterials[0] !== null) {
+      availableMaterials = availableMaterials.map(m => m.value)
+    }
+    console.log('CREATE PRODUCT availableMaterials to save:', availableMaterials);
 
     // Create product
     const product = await Product.create({
@@ -186,6 +214,7 @@ router.post("/", authenticate, isAdmin, async (req, res) => {
       featured: featured || false,
       availableColors,
       specifications,
+      availableMaterials,
     })
 
     res.status(201).json(product)
@@ -198,13 +227,14 @@ router.post("/", authenticate, isAdmin, async (req, res) => {
 // Update a product (admin only)
 router.put("/:id", authenticate, isAdmin, async (req, res) => {
   try {
+    console.log('UPDATE PRODUCT req.body:', req.body);
     const product = await Product.findByPk(req.params.id)
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" })
     }
 
-    const {
+    let {
       name,
       description,
       price,
@@ -216,7 +246,16 @@ router.put("/:id", authenticate, isAdmin, async (req, res) => {
       featured,
       availableColors,
       specifications,
+      availableMaterials,
     } = req.body
+
+    // Normalizez availableMaterials la array de id-uri
+    if (!Array.isArray(availableMaterials)) {
+      availableMaterials = [];
+    } else if (typeof availableMaterials[0] === 'object' && availableMaterials[0] !== null) {
+      availableMaterials = availableMaterials.map(m => m.value)
+    }
+    console.log('UPDATE PRODUCT availableMaterials to save:', availableMaterials);
 
     // Update product
     await product.update({
@@ -231,6 +270,7 @@ router.put("/:id", authenticate, isAdmin, async (req, res) => {
       featured: featured !== undefined ? featured : product.featured,
       availableColors: availableColors || product.availableColors,
       specifications: specifications || product.specifications,
+      availableMaterials: availableMaterials || product.availableMaterials,
     })
 
     res.json(product)

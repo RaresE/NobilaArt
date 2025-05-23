@@ -44,6 +44,10 @@ const Product = sequelize.define("Product", {
     type: DataTypes.JSON,
     allowNull: true,
   },
+  availableMaterials: {
+    type: DataTypes.JSON,
+    allowNull: true,
+  },
   specifications: {
     type: DataTypes.JSON,
     allowNull: true,
@@ -55,7 +59,7 @@ const Product = sequelize.define("Product", {
       model: 'Categories',
       key: 'id'
     }
-  }
+  },
 })
 
 module.exports = Product

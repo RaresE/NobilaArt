@@ -58,12 +58,12 @@ const Home = () => {
         <div className="relative z-10 text-center max-w-2xl mx-auto px-4 py-24">
           <h1 className="text-5xl font-extrabold tracking-tight mb-4 drop-shadow-lg">MobiLux Furniture</h1>
           <p className="text-xl mb-8 drop-shadow">Elegance and quality for your home. Discover our collection of handcrafted furniture.</p>
-          <Link
-            to={user ? "/products" : "/register"}
+            <Link
+              to={user ? "/products" : "/register"}
             className="inline-block bg-white text-blue-700 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-100 transition"
-          >
-            {user ? "Browse Products" : "Get Started"}
-          </Link>
+            >
+              {user ? "Browse Products" : "Get Started"}
+            </Link>
         </div>
       </div>
 

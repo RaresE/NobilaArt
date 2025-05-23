@@ -21,6 +21,7 @@ const ProductDetail = () => {
   })
   const [addingToCart, setAddingToCart] = useState(false)
   const [notification, setNotification] = useState({ show: false, message: "", type: "" })
+  const [material, setMaterial] = useState(null)
 
   useEffect(() => {
     const fetchProductAndMaterials = async () => {
@@ -29,6 +30,7 @@ const ProductDetail = () => {
         // Fetch product details
         const productResponse = await axios.get(`http://localhost:5000/api/products/${id}`)
         setProduct(productResponse.data)
+        console.log('Produs detaliu:', productResponse.data)
 
         // Set default customizations
         if (productResponse.data.availableColors && productResponse.data.availableColors.length > 0) {
@@ -41,14 +43,17 @@ const ProductDetail = () => {
         // Fetch available materials
         const materialsResponse = await axios.get("http://localhost:5000/api/materials")
         setMaterials(materialsResponse.data)
+        console.log('Materiale din DB:', materialsResponse.data)
 
-        // Set default material if available
-        if (materialsResponse.data.length > 0) {
-          setCustomizations((prev) => ({
-            ...prev,
-            material: materialsResponse.data[0].id,
-          }))
-        }
+        // Fetch material asociat produsului
+        // if (productResponse.data.materialId) {
+        //   const materialResponse = await axios.get(`http://localhost:5000/api/materials/${productResponse.data.materialId}`);
+        //   setMaterial(materialResponse.data);
+        //   setCustomizations((prev) => ({
+        //     ...prev,
+        //     material: productResponse.data.materialId,
+        //   }));
+        // }
       } catch (error) {
         console.error("Error fetching product details:", error)
         setError("Failed to load product details. Please try again.")
@@ -135,6 +140,21 @@ const ProductDetail = () => {
       setAddingToCart(false)
     }
   }
+
+  // Fallback pentru availableMaterials: accept și array de obiecte {value, label}
+  let availableMaterialIds = [];
+  if (Array.isArray(product?.availableMaterials)) {
+    if (typeof product.availableMaterials[0] === 'object' && product.availableMaterials[0] !== null) {
+      availableMaterialIds = product.availableMaterials.map(m => m.value);
+    } else {
+      availableMaterialIds = product.availableMaterials;
+    }
+  }
+  console.log('Material IDs for filtrare:', availableMaterialIds)
+  const filteredMaterials = Array.isArray(availableMaterialIds)
+    ? materials.filter(mat => availableMaterialIds.includes(String(mat.id)) || availableMaterialIds.includes(Number(mat.id)))
+    : [];
+  console.log('Materiale filtrate pentru dropdown:', filteredMaterials)
 
   if (loading) {
     return (
@@ -224,10 +244,10 @@ const ProductDetail = () => {
                 }
                 return specs && typeof specs === 'object' && !Array.isArray(specs)
                   ? Object.entries(specs).map(([key, value]) => (
-                      <div key={key}>
-                        <p className="text-sm font-medium text-gray-500">{key}</p>
-                        <p className="text-gray-900">{value}</p>
-                      </div>
+                  <div key={key}>
+                    <p className="text-sm font-medium text-gray-500">{key}</p>
+                    <p className="text-gray-900">{value}</p>
+                  </div>
                     ))
                   : null;
               })()}
@@ -238,49 +258,51 @@ const ProductDetail = () => {
           <div className="mt-6">
             <h2 className="text-lg font-medium text-gray-900">Customize Your Product</h2>
 
-            {/* Color Selection */}
-            {(Array.isArray(product.availableColors) && product.availableColors.length > 0) && (
-              <div className="mt-4">
-                <label htmlFor="color" className="block text-sm font-medium text-gray-700">
-                  Color
-                </label>
-                <select
-                  id="color"
-                  name="color"
-                  value={customizations.color}
-                  onChange={handleCustomizationChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                >
-                  {product.availableColors.map((color) => (
+            {/* Color Selection - always show */}
+            <div className="mt-4">
+              <label htmlFor="color" className="block text-sm font-medium text-gray-700">
+                Color
+              </label>
+              <select
+                id="color"
+                name="color"
+                value={customizations.color}
+                onChange={handleCustomizationChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              >
+                {Array.isArray(product.availableColors) && product.availableColors.length > 0 ? (
+                  product.availableColors.map((color) => (
                     <option key={color} value={color}>
                       {color}
                     </option>
-                  ))}
-                </select>
-              </div>
-            )}
+                  ))
+                ) : (
+                  <option value="" disabled>No options available</option>
+                )}
+              </select>
+            </div>
 
-            {/* Material Selection */}
-            {materials.length > 0 && (
-              <div className="mt-4">
-                <label htmlFor="material" className="block text-sm font-medium text-gray-700">
-                  Material
-                </label>
-                <select
-                  id="material"
-                  name="material"
-                  value={customizations.material}
-                  onChange={handleCustomizationChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                >
-                  {materials.map((material) => (
-                    <option key={material.id} value={material.id}>
-                      {material.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+            {/* Material Selection - always show */}
+            <div className="mt-4">
+              <label htmlFor="material" className="block text-sm font-medium text-gray-700">
+                Material
+              </label>
+              <select
+                id="material"
+                name="material"
+                value={customizations.material}
+                onChange={handleCustomizationChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              >
+                {filteredMaterials.length > 0 ? (
+                  filteredMaterials.map((material) => (
+                    <option key={material.id} value={material.id}>{material.name}</option>
+                  ))
+                ) : (
+                  <option value="" disabled>No options available</option>
+                )}
+              </select>
+            </div>
           </div>
 
           {/* Quantity */}

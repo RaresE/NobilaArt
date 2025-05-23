@@ -1,55 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
 
-const EditProduct = () => {
-  const { id } = useParams();
+const AddProduct = () => {
   const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState({
+    name: "",
+    price: "",
+    stock: "",
+    categoryId: "",
+    description: "",
+    dimensions: "",
+    weight: "",
+    imageUrl: "",
+    availableMaterials: [],
+  });
   const [categories, setCategories] = useState([]);
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [colorsInput, setColorsInput] = useState("");
+  const [specifications, setSpecifications] = useState([{ key: '', value: '' }]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCategories = async () => {
       setLoading(true);
       try {
-        const [prodRes, catRes, matRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/admin/products/${id}`),
+        const [catRes, matRes] = await Promise.all([
           axios.get("http://localhost:5000/api/categories"),
           axios.get("http://localhost:5000/api/admin/materials"),
         ]);
-        const allMaterialOptions = matRes.data.map(m => ({ value: String(m.id), label: m.name }));
-        const selectedIds = Array.isArray(prodRes.data.availableMaterials)
-          ? prodRes.data.availableMaterials.map(String)
-          : [];
-        const selectedOptions = selectedIds.map(id => {
-          const found = allMaterialOptions.find(opt => opt.value === id);
-          return found || { value: id, label: `Missing (id: ${id})` };
-        });
-        setProduct({
-          ...prodRes.data,
-          availableMaterials: selectedOptions,
-        });
         setCategories(catRes.data);
         setMaterials(matRes.data);
-        if (prodRes.data.availableColors && Array.isArray(prodRes.data.availableColors)) {
-          setColorsInput(prodRes.data.availableColors.join(", "));
-        } else {
-          setColorsInput("");
-        }
       } catch (err) {
-        setError("Failed to load product or categories");
+        setError("Failed to load categories or materials");
       } finally {
         setLoading(false);
       }
     };
-    fetchData();
-  }, [id]);
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -71,33 +63,52 @@ const EditProduct = () => {
     setColorsInput(e.target.value);
   };
 
+  const handleSpecificationChange = (index, field, val) => {
+    setSpecifications((prev) => prev.map((spec, i) => i === index ? { ...spec, [field]: val } : spec));
+  };
+
+  const handleAddSpecification = () => {
+    setSpecifications((prev) => [...prev, { key: '', value: '' }]);
+  };
+
+  const handleRemoveSpecification = (index) => {
+    setSpecifications((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
     setError("");
+    let specificationsObj = {};
+    for (const spec of specifications) {
+      if (spec.key.trim() !== '') {
+        specificationsObj[spec.key] = spec.value;
+      }
+    }
     try {
       const payload = {
         ...product,
+        price: product.price === "" ? 0 : Number(product.price),
+        stock: product.stock === "" ? 0 : Number(product.stock),
+        weight: product.weight === "" ? 0 : Number(product.weight),
         availableMaterials: (product.availableMaterials || []).map(opt => opt.value),
         availableColors: colorsInput.split(",").map(c => c.trim()).filter(Boolean),
+        specifications: Object.keys(specificationsObj).length > 0 ? specificationsObj : undefined,
       };
-      console.log("Submitting product:", payload);
-      await axios.put(`http://localhost:5000/api/admin/products/${id}`, payload);
+      await axios.post("http://localhost:5000/api/admin/products", payload);
       navigate("/admin/products");
     } catch (err) {
-      setError("Failed to update product. Please try again.");
+      setError("Failed to add product. Please try again.");
     } finally {
       setSaving(false);
     }
   };
 
   if (loading) return <div className="p-8">Loading...</div>;
-  if (error) return <div className="p-8 text-red-600">{error}</div>;
-  if (!product) return null;
 
   return (
     <div className="max-w-xl mx-auto bg-white p-8 rounded shadow mt-8">
-      <h1 className="text-2xl font-bold mb-4">Edit Product</h1>
+      <h1 className="text-2xl font-bold mb-4">Add New Product</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1">Name</label>
@@ -156,7 +167,7 @@ const EditProduct = () => {
           <label className="block text-sm font-medium mb-1">Description</label>
           <textarea
             name="description"
-            value={product.description || ""}
+            value={product.description}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
             rows={3}
@@ -167,7 +178,7 @@ const EditProduct = () => {
           <input
             type="text"
             name="dimensions"
-            value={product.dimensions || ""}
+            value={product.dimensions}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
             placeholder="ex: 200x80x40 cm"
@@ -178,7 +189,7 @@ const EditProduct = () => {
           <input
             type="number"
             name="weight"
-            value={product.weight || 0}
+            value={product.weight}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
             min={0}
@@ -190,7 +201,7 @@ const EditProduct = () => {
           <input
             type="text"
             name="imageUrl"
-            value={product.imageUrl || ""}
+            value={product.imageUrl}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
             placeholder="https://..."
@@ -198,19 +209,15 @@ const EditProduct = () => {
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Available Materials</label>
-          {materials.length === 0 ? (
-            <div className="text-red-500">No materials found in database!</div>
-          ) : (
-            <Select
-              isMulti
-              name="availableMaterials"
-              value={product.availableMaterials}
-              onChange={handleMaterialsChange}
-              options={materials.map((mat) => ({ value: String(mat.id), label: mat.name }))}
-              className="basic-multi-select"
-              classNamePrefix="select"
-            />
-          )}
+          <Select
+            isMulti
+            name="availableMaterials"
+            value={product.availableMaterials}
+            onChange={handleMaterialsChange}
+            options={materials.map((mat) => ({ value: String(mat.id), label: mat.name }))}
+            className="basic-multi-select"
+            classNamePrefix="select"
+          />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Available Colors</label>
@@ -223,6 +230,30 @@ const EditProduct = () => {
             placeholder="ex: alb, negru, stejar"
           />
           <p className="text-xs text-gray-500">Separă culorile cu virgulă</p>
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Specifications</label>
+          {specifications.map((spec, idx) => (
+            <div key={idx} className="flex gap-2 mb-2">
+              <input
+                type="text"
+                placeholder="Key (ex: seats)"
+                value={spec.key}
+                onChange={e => handleSpecificationChange(idx, 'key', e.target.value)}
+                className="border rounded px-2 py-1 flex-1"
+              />
+              <input
+                type="text"
+                placeholder="Value (ex: 3)"
+                value={spec.value}
+                onChange={e => handleSpecificationChange(idx, 'value', e.target.value)}
+                className="border rounded px-2 py-1 flex-1"
+              />
+              <button type="button" onClick={() => handleRemoveSpecification(idx)} className="px-2 text-red-600 font-bold">&times;</button>
+            </div>
+          ))}
+          <button type="button" onClick={handleAddSpecification} className="text-blue-600 text-sm mt-1">+ Adaugă specificație</button>
+          <p className="text-xs text-gray-500 mt-1">Exemplu: seats = 3, material = Wood</p>
         </div>
         <div className="flex justify-end gap-2">
           <button
@@ -238,7 +269,7 @@ const EditProduct = () => {
             className="px-4 py-2 bg-blue-600 text-white rounded"
             disabled={saving}
           >
-            {saving ? "Saving..." : "Save Changes"}
+            {saving ? "Saving..." : "Add Product"}
           </button>
         </div>
         {error && <div className="text-red-600 mt-2">{error}</div>}
@@ -247,4 +278,4 @@ const EditProduct = () => {
   );
 };
 
-export default EditProduct; 
+export default AddProduct; 
