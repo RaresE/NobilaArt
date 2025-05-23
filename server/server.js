@@ -8,7 +8,8 @@ const path = require("path")
 dotenv.config()
 
 // Import database connection
-const db = require("./config/database")
+const dbConnection = require("./config/database")
+const db = require("./models")
 
 // Import routes
 const authRoutes = require("./routes/auth")
@@ -40,22 +41,20 @@ app.use("/api/orders", orderRoutes)
 app.use("/api/admin", adminRoutes)
 
 // Test database connection
-db.authenticate()
+dbConnection.authenticate()
   .then(() => {
     console.log("Database connection has been established successfully.")
 
     // Sync database models FĂRĂ force:true
-    return db.sync()
+    return dbConnection.sync()
   })
   .then(async () => {
     console.log("Database models synchronized successfully.")
     // SEED LOGIC
-    const { User, Category, Product, Material } = require("./models")
-
     // 1. Admin user
-    const admin = await User.findOne({ where: { email: 'admin@mobilux.com' } });
+    const admin = await db.User.findOne({ where: { email: 'admin@mobilux.com' } });
     if (!admin) {
-      await User.create({
+      await db.User.create({
         name: 'Admin User',
         email: 'admin@mobilux.com',
         password: '$2a$10$mLK.rrdlvx9DCFb6Eck1t.TlltnGulepXnov3bBp5T2TloO1MYj52', // hash pentru 'password123'
@@ -74,7 +73,7 @@ db.authenticate()
       { name: 'Kitchen', description: 'Functional kitchen furniture', imageUrl: 'https://via.placeholder.com/300x300?text=Kitchen' }
     ];
     for (const cat of categories) {
-      await Category.findOrCreate({ where: { name: cat.name }, defaults: cat });
+      await db.Category.findOrCreate({ where: { name: cat.name }, defaults: cat });
     }
 
     // 3. Materiale
@@ -91,13 +90,13 @@ db.authenticate()
       { name: 'Foam Padding', description: 'Comfortable foam padding', stock: 100, unit: 'kg', lowStockThreshold: 20 }
     ];
     for (const mat of materials) {
-      await Material.findOrCreate({ where: { name: mat.name }, defaults: mat });
+      await db.Material.findOrCreate({ where: { name: mat.name }, defaults: mat });
     }
 
     // 4. Produse (exemplu pentru Living Room)
-    const livingRoom = await Category.findOne({ where: { name: 'Living Room' } });
+    const livingRoom = await db.Category.findOne({ where: { name: 'Living Room' } });
     if (livingRoom) {
-      await Product.findOrCreate({
+      await db.Product.findOrCreate({
         where: { name: 'Modern Sofa' },
         defaults: {
           description: 'A comfortable modern sofa for your living room',
@@ -112,7 +111,7 @@ db.authenticate()
           categoryId: livingRoom.id
         }
       });
-      await Product.findOrCreate({
+      await db.Product.findOrCreate({
         where: { name: 'Leather Armchair' },
         defaults: {
           description: 'Elegant leather armchair',
@@ -129,6 +128,17 @@ db.authenticate()
       });
     }
     // Poți adăuga și alte produse pentru celelalte categorii după același model
+
+    // 5. Echipe (teams)
+    const teams = [
+      { name: 'Echipa Slefuire', description: 'Echipa specializată în șlefuirea lemnului și pregătirea suprafețelor.' },
+      { name: 'Echipa Montaj', description: 'Echipa responsabilă cu montajul mobilierului la client.' },
+      { name: 'Echipa Vopsire', description: 'Echipa care se ocupă de vopsirea și finisarea pieselor de mobilier.' },
+      { name: 'Echipa Transport', description: 'Echipa care asigură transportul produselor către clienți.' },
+    ];
+    for (const team of teams) {
+      await db.Team.findOrCreate({ where: { name: team.name }, defaults: team });
+    }
   })
   .catch((err) => {
     console.error("Unable to connect to the database:", err)

@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { Op } = require("sequelize")
-const { User, Product, Category, Material, Order, OrderItem } = require("../models")
+const { User, Product, Category, Material, Order, OrderItem, Team } = require("../models")
 const { authenticate, isAdmin } = require("../middleware/auth")
 const sequelize = require("../config/database")
 const materialsRouter = require("./materials")
@@ -546,6 +546,66 @@ router.get("/products/:id", authenticate, isAdmin, async (req, res) => {
     res.json(product)
   } catch (err) {
     console.error("Get admin product by id error:", err)
+    res.status(500).json({ message: "Server error" })
+  }
+})
+
+// CRUD Teams
+router.get("/teams", authenticate, isAdmin, async (req, res) => {
+  try {
+    const teams = await Team.findAll()
+    res.json(teams)
+  } catch (err) {
+    res.status(500).json({ message: "Server error" })
+  }
+})
+
+router.post("/teams", authenticate, isAdmin, async (req, res) => {
+  try {
+    const { name, description } = req.body
+    const team = await Team.create({ name, description })
+    res.status(201).json(team)
+  } catch (err) {
+    res.status(500).json({ message: "Server error" })
+  }
+})
+
+router.put("/teams/:id", authenticate, isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params
+    const { name, description } = req.body
+    const team = await Team.findByPk(id)
+    if (!team) return res.status(404).json({ message: "Team not found" })
+    await team.update({ name, description })
+    res.json(team)
+  } catch (err) {
+    res.status(500).json({ message: "Server error" })
+  }
+})
+
+router.delete("/teams/:id", authenticate, isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params
+    const team = await Team.findByPk(id)
+    if (!team) return res.status(404).json({ message: "Team not found" })
+    await team.destroy()
+    res.json({ message: "Team deleted" })
+  } catch (err) {
+    res.status(500).json({ message: "Server error" })
+  }
+})
+
+// Assign team to order
+router.put("/orders/:id/assign-team", authenticate, isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params
+    const { teamId } = req.body
+    const order = await Order.findByPk(id)
+    if (!order) return res.status(404).json({ message: "Order not found" })
+    order.teamId = teamId
+    await order.save()
+    res.json({ message: "Team assigned to order" })
+  } catch (err) {
     res.status(500).json({ message: "Server error" })
   }
 })

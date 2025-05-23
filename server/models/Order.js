@@ -40,6 +40,18 @@ const Order = sequelize.define("Order", {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+  teamId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: "Teams",
+      key: "id",
+    },
+  },
 })
+
+Order.associate = (models) => {
+  Order.belongsTo(models.Team, { foreignKey: "teamId", as: "team" })
+}
 
 module.exports = Order

@@ -30,9 +30,14 @@ const AdminOrders = () => {
   const [statusEdit, setStatusEdit] = useState({})
   const [savingStatus, setSavingStatus] = useState({})
   const [statusError, setStatusError] = useState({})
+  const [teams, setTeams] = useState([])
+  const [assignTeam, setAssignTeam] = useState({})
+  const [savingTeam, setSavingTeam] = useState({})
+  const [teamError, setTeamError] = useState({})
 
   useEffect(() => {
     fetchOrders()
+    fetchTeams()
   }, [filters, pagination.page, pagination.limit])
 
   const fetchOrders = async () => {
@@ -73,6 +78,15 @@ const AdminOrders = () => {
       setError("Failed to load orders. Please try again.")
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchTeams = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/admin/teams")
+      setTeams(res.data)
+    } catch {
+      setTeams([])
     }
   }
 
@@ -154,6 +168,26 @@ const AdminOrders = () => {
       setStatusError((prev) => ({ ...prev, [orderId]: "Failed to update status" }))
     } finally {
       setSavingStatus((prev) => ({ ...prev, [orderId]: false }))
+    }
+  }
+
+  const handleTeamChange = (orderId, teamId) => {
+    setAssignTeam((prev) => ({ ...prev, [orderId]: teamId }))
+  }
+
+  const handleSaveTeam = async (orderId) => {
+    setSavingTeam((prev) => ({ ...prev, [orderId]: true }))
+    setTeamError((prev) => ({ ...prev, [orderId]: null }))
+    try {
+      await axios.put(`http://localhost:5000/api/admin/orders/${orderId}/assign-team`, {
+        teamId: assignTeam[orderId],
+      })
+      setOrders((prev) => prev.map((order) => order.id === orderId ? { ...order, teamId: assignTeam[orderId] } : order))
+      setAssignTeam((prev) => ({ ...prev, [orderId]: undefined }))
+    } catch (err) {
+      setTeamError((prev) => ({ ...prev, [orderId]: "Failed to assign team" }))
+    } finally {
+      setSavingTeam((prev) => ({ ...prev, [orderId]: false }))
     }
   }
 
@@ -299,6 +333,12 @@ const AdminOrders = () => {
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
+                  Team
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Actions
                 </th>
               </tr>
@@ -332,6 +372,26 @@ const AdminOrders = () => {
                         {savingStatus[order.id] ? "Saving..." : "Save"}
                       </button>
                       {statusError[order.id] && <div className="text-xs text-red-600 mt-1">{statusError[order.id]}</div>}
+                    </div>
+                    <div className="mt-2">
+                      <select
+                        value={assignTeam[order.id] !== undefined ? assignTeam[order.id] : order.teamId || ""}
+                        onChange={e => handleTeamChange(order.id, e.target.value)}
+                        className="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-xs px-2 py-1"
+                      >
+                        <option value="">No team</option>
+                        {teams.map(team => (
+                          <option key={team.id} value={team.id}>{team.name}</option>
+                        ))}
+                      </select>
+                      <button
+                        onClick={() => handleSaveTeam(order.id)}
+                        disabled={savingTeam[order.id] || assignTeam[order.id] === undefined || assignTeam[order.id] === order.teamId}
+                        className="ml-2 px-2 py-1 text-xs bg-green-600 text-white rounded disabled:opacity-50"
+                      >
+                        {savingTeam[order.id] ? "Saving..." : "Assign"}
+                      </button>
+                      {teamError[order.id] && <div className="text-xs text-red-600 mt-1">{teamError[order.id]}</div>}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{/* Actions here, e.g. View/Edit */}</td>

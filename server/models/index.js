@@ -5,6 +5,7 @@ const Material = require("./Material")
 const Cart = require("./Cart")
 const Order = require("./Order")
 const OrderItem = require("./OrderItem")
+const Team = require("./Team")
 
 // Define relationships
 Category.hasMany(Product, { foreignKey: 'categoryId' })
@@ -26,7 +27,7 @@ Product.hasMany(OrderItem, { foreignKey: 'productId' })
 OrderItem.belongsTo(Product, { foreignKey: 'productId' })
 
 // Export models
-module.exports = {
+const db = {
   User,
   Category,
   Product,
@@ -34,4 +35,13 @@ module.exports = {
   Cart,
   Order,
   OrderItem,
+  Team,
 }
+
+Object.values(db).forEach((model) => {
+  if (model.associate) {
+    model.associate(db)
+  }
+})
+
+module.exports = db
