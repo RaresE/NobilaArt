@@ -22,6 +22,7 @@ import AdminProducts from "./pages/admin/Products"
 import AdminInventory from "./pages/admin/Inventory"
 import EditProduct from "./pages/admin/EditProduct"
 import AddProduct from "./pages/admin/AddProduct"
+import Teams from "./pages/admin/Teams"
 
 // Components
 import Navbar from "./components/client/Navbar"
@@ -99,6 +100,7 @@ function App() {
                 <Route path="/admin/*" element={<Navigate to="/admin/dashboard" />} />
                 <Route path="/admin/products/:id/edit" element={<EditProduct />} />
                 <Route path="/admin/products/new" element={<AddProduct />} />
+                <Route path="/admin/teams" element={<Teams />} />
               </Routes>
             </main>
           </div>

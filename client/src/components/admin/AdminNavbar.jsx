@@ -1,6 +1,7 @@
 "use client"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../contexts/AuthContext"
+import { Link } from "react-router-dom"
 
 const AdminNavbar = () => {
   const { user, logout } = useAuth()
