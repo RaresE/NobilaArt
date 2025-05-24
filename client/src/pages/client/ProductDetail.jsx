@@ -214,22 +214,22 @@ const ProductDetail = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
           <p className="mt-2 text-sm text-gray-500">{product.category}</p>
-          <p className="mt-4 text-2xl font-bold text-gray-900">${product.price.toFixed(2)}</p>
+          <p className="mt-4 text-2xl font-bold text-gray-900">{product.price.toFixed(2).replace('.', ',')} lei</p>
 
           <div className="mt-6">
-            <h2 className="text-lg font-medium text-gray-900">Description</h2>
+            <h2 className="text-lg font-medium text-gray-900">Descriere</h2>
             <p className="mt-2 text-gray-600">{product.description}</p>
           </div>
 
           <div className="mt-6">
-            <h2 className="text-lg font-medium text-gray-900">Specifications</h2>
+            <h2 className="text-lg font-medium text-gray-900">Specificații</h2>
             <div className="mt-2 grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm font-medium text-gray-500">Dimensions</p>
+                <p className="text-sm font-medium text-gray-500">Dimensiuni</p>
                 <p className="text-gray-900">{product.dimensions}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Weight</p>
+                <p className="text-sm font-medium text-gray-500">Greutate</p>
                 <p className="text-gray-900">{product.weight} kg</p>
               </div>
               {/* Safe specifications rendering */}
@@ -256,12 +256,12 @@ const ProductDetail = () => {
 
           {/* Customizations */}
           <div className="mt-6">
-            <h2 className="text-lg font-medium text-gray-900">Customize Your Product</h2>
+            <h2 className="text-lg font-medium text-gray-900">Personalizează produsul</h2>
 
             {/* Color Selection - always show */}
             <div className="mt-4">
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">
-                Color
+                Culoare
               </label>
               <select
                 id="color"
@@ -308,7 +308,7 @@ const ProductDetail = () => {
           {/* Quantity */}
           <div className="mt-6">
             <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
-              Quantity
+              Cantitate
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
               <input
@@ -333,7 +333,7 @@ const ProductDetail = () => {
                 addingToCart ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
             >
-              {addingToCart ? "Adding..." : "Add to Cart"}
+              {addingToCart ? "Se adaugă..." : "Adaugă în coș"}
             </button>
             <button
               type="button"
@@ -343,7 +343,7 @@ const ProductDetail = () => {
                 addingToCart ? "bg-green-400" : "bg-green-600 hover:bg-green-700"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
             >
-              Buy Now
+              Cumpără acum
             </button>
           </div>
         </div>

@@ -13,7 +13,7 @@ const AdminSidebar = () => {
 
   const menuItems = [
     {
-      name: "Dashboard",
+      name: "Panou",
       path: "/admin/dashboard",
       icon: (
         <svg
@@ -33,7 +33,7 @@ const AdminSidebar = () => {
       ),
     },
     {
-      name: "Orders",
+      name: "Comenzi",
       path: "/admin/orders",
       icon: (
         <svg
@@ -53,7 +53,7 @@ const AdminSidebar = () => {
       ),
     },
     {
-      name: "Products",
+      name: "Produse",
       path: "/admin/products",
       icon: (
         <svg
@@ -73,7 +73,7 @@ const AdminSidebar = () => {
       ),
     },
     {
-      name: "Inventory",
+      name: "Inventar",
       path: "/admin/inventory",
       icon: (
         <svg
@@ -106,7 +106,7 @@ const AdminSidebar = () => {
   return (
     <div className={`bg-gray-800 text-white ${collapsed ? "w-16" : "w-64"} flex flex-col transition-all duration-300`}>
       <div className="flex items-center justify-between h-16 px-4 border-b border-gray-700">
-        {!collapsed && <span className="text-xl font-bold">Admin Panel</span>}
+        {!collapsed && <span className="text-xl font-bold">Panou administrare</span>}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="p-1 rounded-md text-gray-400 hover:text-white focus:outline-none"

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { Link } from "react-router-dom"
 
 const AdminInventory = () => {
   const [materials, setMaterials] = useState([])
@@ -199,17 +200,9 @@ const AdminInventory = () => {
 
   return (
     <div>
-      <div className="mb-6 flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Inventory Management</h1>
-          <p className="mt-1 text-sm text-gray-500">Manage materials and stock levels</p>
-        </div>
-        <button
-          onClick={startAddMaterial}
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          Add New Material
-        </button>
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900">Gestionare stoc</h1>
+        <p className="mt-1 text-sm text-gray-500">Gestionează stocul și inventarul produselor</p>
       </div>
 
       {/* Material Form */}
@@ -332,11 +325,11 @@ const AdminInventory = () => {
       )}
 
       {/* Filters */}
-      <div className="bg-white p-4 rounded-lg shadow mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6 mb-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
           <div>
             <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
-              Search
+              Caută
             </label>
             <input
               type="text"
@@ -344,69 +337,44 @@ const AdminInventory = () => {
               name="search"
               value={filters.search}
               onChange={handleFilterChange}
-              placeholder="Material Name"
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="Nume produs"
+              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
             />
           </div>
-
           <div>
             <label htmlFor="stockStatus" className="block text-sm font-medium text-gray-700 mb-1">
-              Stock Status
+              Status stoc
             </label>
             <select
               id="stockStatus"
               name="stockStatus"
               value={filters.stockStatus}
               onChange={handleFilterChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
             >
-              <option value="">All</option>
-              <option value="low">Low Stock</option>
-              <option value="out">Out of Stock</option>
+              <option value="">Toate</option>
+              <option value="low">Stoc redus</option>
+              <option value="out">Stoc epuizat</option>
+              <option value="in">În stoc</option>
             </select>
           </div>
-
           <div>
             <label htmlFor="sortBy" className="block text-sm font-medium text-gray-700 mb-1">
-              Sort By
+              Sortează după
             </label>
             <select
               id="sortBy"
               name="sortBy"
               value={filters.sortBy}
               onChange={handleFilterChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
             >
-              <option value="name">Name</option>
-              <option value="stock">Stock</option>
-              <option value="createdAt">Created Date</option>
+              <option value="name">Nume</option>
+              <option value="stock">Stoc</option>
+              <option value="price">Preț</option>
+              <option value="updatedAt">Ultima actualizare</option>
             </select>
           </div>
-
-          <div>
-            <label htmlFor="sortOrder" className="block text-sm font-medium text-gray-700 mb-1">
-              Order
-            </label>
-            <select
-              id="sortOrder"
-              name="sortOrder"
-              value={filters.sortOrder}
-              onChange={handleFilterChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            >
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="mt-4 flex justify-end">
-          <button
-            onClick={clearFilters}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            Clear Filters
-          </button>
         </div>
       </div>
 
@@ -438,7 +406,7 @@ const AdminInventory = () => {
           </div>
         </div>
       ) : (
-        <div className="bg-white shadow overflow-hidden sm:rounded-md">
+        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
@@ -452,25 +420,25 @@ const AdminInventory = () => {
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Description
+                  Descriere
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Stock
+                  Stoc
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Unit
+                  Unitate
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Actions
+                  Acțiuni
                 </th>
               </tr>
             </thead>

@@ -68,11 +68,11 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create your account</h2>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Creează un cont nou</h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{" "}
+            Sau {" "}
             <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
-              sign in to your existing account
+              autentifică-te în contul existent
             </Link>
           </p>
         </div>
@@ -87,7 +87,7 @@ const Register = () => {
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="name" className="sr-only">
-                Full Name
+                Nume complet
               </label>
               <input
                 id="name"
@@ -96,14 +96,14 @@ const Register = () => {
                 autoComplete="name"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Full Name"
+                placeholder="Nume complet"
                 value={formData.name}
                 onChange={handleChange}
               />
             </div>
             <div>
               <label htmlFor="email-address" className="sr-only">
-                Email address
+                Email
               </label>
               <input
                 id="email-address"
@@ -112,14 +112,14 @@ const Register = () => {
                 autoComplete="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
               />
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
-                Password
+                Parolă
               </label>
               <input
                 id="password"
@@ -128,14 +128,14 @@ const Register = () => {
                 autoComplete="new-password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                placeholder="Parolă"
                 value={formData.password}
                 onChange={handleChange}
               />
             </div>
             <div>
               <label htmlFor="confirmPassword" className="sr-only">
-                Confirm Password
+                Confirmă parola
               </label>
               <input
                 id="confirmPassword"
@@ -144,14 +144,14 @@ const Register = () => {
                 autoComplete="new-password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Confirm Password"
+                placeholder="Confirmă parola"
                 value={formData.confirmPassword}
                 onChange={handleChange}
               />
             </div>
             <div>
               <label htmlFor="address" className="sr-only">
-                Address
+                Adresă
               </label>
               <input
                 id="address"
@@ -160,14 +160,14 @@ const Register = () => {
                 autoComplete="street-address"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Address"
+                placeholder="Adresă"
                 value={formData.address}
                 onChange={handleChange}
               />
             </div>
             <div>
               <label htmlFor="phone" className="sr-only">
-                Phone Number
+                Telefon
               </label>
               <input
                 id="phone"
@@ -176,7 +176,7 @@ const Register = () => {
                 autoComplete="tel"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Phone Number"
+                placeholder="Telefon"
                 value={formData.phone}
                 onChange={handleChange}
               />
@@ -191,7 +191,7 @@ const Register = () => {
                 loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
             >
-              {loading ? "Creating Account..." : "Create Account"}
+              {loading ? "Se creează contul..." : "Creează cont"}
             </button>
           </div>
         </form>

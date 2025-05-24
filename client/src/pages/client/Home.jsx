@@ -56,20 +56,20 @@ const Home = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 to-blue-400/40"></div>
         </div>
         <div className="relative z-10 text-center max-w-2xl mx-auto px-4 py-24">
-          <h1 className="text-5xl font-extrabold tracking-tight mb-4 drop-shadow-lg">MobiLux Furniture</h1>
-          <p className="text-xl mb-8 drop-shadow">Elegance and quality for your home. Discover our collection of handcrafted furniture.</p>
+          <h1 className="text-5xl font-extrabold tracking-tight mb-4 drop-shadow-lg">MobiLux Mobilier</h1>
+          <p className="text-xl mb-8 drop-shadow">Eleganță și calitate pentru casa ta. Descoperă colecția noastră de mobilier lucrat manual.</p>
             <Link
               to={user ? "/products" : "/register"}
             className="inline-block bg-white text-blue-700 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-100 transition"
             >
-              {user ? "Browse Products" : "Get Started"}
+              {user ? "Vezi produsele" : "Înregistrează-te"}
             </Link>
         </div>
       </div>
 
       {/* Categories Section */}
       <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">Browse by Room</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">Caută după cameră</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((category) => (
             <Link key={category.id} to={`/products?category=${category.id}`} className="group">
@@ -81,7 +81,12 @@ const Home = () => {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition duration-300"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <h3 className="text-xl font-bold text-white">{category.name}</h3>
+                  <h3 className="text-xl font-bold text-white">{category.name === 'Living Room' ? 'Living' :
+                   category.name === 'Bedroom' ? 'Dormitor' :
+                   category.name === 'Dining Room' ? 'Sufragerie' :
+                   category.name === 'Office' ? 'Birou' :
+                   category.name === 'Kitchen' ? 'Bucătărie' :
+                   category.name}</h3>
                 </div>
               </div>
             </Link>
@@ -92,7 +97,7 @@ const Home = () => {
       {/* Featured Products Section */}
       <div className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Featured Products</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">Produse recomandate</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredProducts.map((product) => (
               <Link key={product.id} to={`/products/${product.id}`} className="group">
@@ -107,7 +112,7 @@ const Home = () => {
                   <div className="p-4">
                     <h3 className="text-lg font-medium text-gray-900">{product.name}</h3>
                     <p className="mt-1 text-sm text-gray-500">{product.category}</p>
-                    <p className="mt-2 text-lg font-bold text-gray-900">${product.price.toFixed(2)}</p>
+                    <p className="mt-2 text-lg font-bold text-gray-900">{product.price.toFixed(2).replace('.', ',')} lei</p>
                   </div>
                 </div>
               </Link>
@@ -118,7 +123,7 @@ const Home = () => {
               to="/products"
               className="inline-block bg-blue-600 hover:bg-blue-700 py-3 px-8 rounded-md text-white font-medium transition duration-300"
             >
-              View All Products
+              Vezi toate produsele
             </Link>
           </div>
         </div>
@@ -144,9 +149,9 @@ const Home = () => {
                 />
               </svg>
             </div>
-            <h3 className="mt-4 text-lg font-medium text-gray-900">Quality Materials</h3>
+            <h3 className="mt-4 text-lg font-medium text-gray-900">Materiale de calitate</h3>
             <p className="mt-2 text-base text-gray-500">
-              We use only the finest materials to ensure durability and comfort.
+              Folosim doar materiale de cea mai bună calitate pentru durabilitate și confort.
             </p>
           </div>
           <div className="text-center">
@@ -166,8 +171,8 @@ const Home = () => {
                 />
               </svg>
             </div>
-            <h3 className="mt-4 text-lg font-medium text-gray-900">Customizable Designs</h3>
-            <p className="mt-2 text-base text-gray-500">Personalize your furniture with custom colors and materials.</p>
+            <h3 className="mt-4 text-lg font-medium text-gray-900">Design personalizabil</h3>
+            <p className="mt-2 text-base text-gray-500">Personalizează-ți mobilierul cu culori și materiale la alegere.</p>
           </div>
           <div className="text-center">
             <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-md bg-blue-500 text-white">
@@ -186,8 +191,8 @@ const Home = () => {
                 />
               </svg>
             </div>
-            <h3 className="mt-4 text-lg font-medium text-gray-900">Fast Delivery</h3>
-            <p className="mt-2 text-base text-gray-500">We ensure your furniture arrives safely and on time.</p>
+            <h3 className="mt-4 text-lg font-medium text-gray-900">Livrare rapidă</h3>
+            <p className="mt-2 text-base text-gray-500">Asigurăm livrarea mobilierului în siguranță și la timp.</p>
           </div>
         </div>
       </div>

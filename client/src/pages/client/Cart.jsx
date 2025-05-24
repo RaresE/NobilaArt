@@ -86,14 +86,14 @@ const Cart = () => {
   if (cart.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Your Cart</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-6">Coșul tău</h1>
         <div className="bg-white p-6 rounded-lg shadow-md text-center">
-          <p className="text-lg text-gray-600 mb-4">Your cart is empty</p>
+          <p className="text-lg text-gray-600 mb-4">Coșul tău este gol</p>
           <Link
             to="/products"
             className="inline-block bg-blue-600 hover:bg-blue-700 py-2 px-6 rounded-md text-white font-medium transition duration-300"
           >
-            Continue Shopping
+            Continuă cumpărăturile
           </Link>
         </div>
       </div>
@@ -102,7 +102,7 @@ const Cart = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Your Cart</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">Coșul tău</h1>
 
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -141,13 +141,13 @@ const Cart = () => {
                           {/* Customizations */}
                           {item.customizations && (
                             <div className="mt-2 text-sm text-gray-700">
-                              {item.customizations.color && <p>Color: {item.customizations.color}</p>}
+                              {item.customizations.color && <p>Culoare: {item.customizations.color}</p>}
                               {item.customizations.material && <p>Material: {item.customizations.materialName}</p>}
                             </div>
                           )}
                         </div>
                         <p className="text-lg font-medium text-gray-900">
-                          ${(item.product.price * item.quantity).toFixed(2)}
+                          {(item.product.price * item.quantity).toFixed(2).replace('.', ',')} lei
                         </p>
                       </div>
 
@@ -201,7 +201,7 @@ const Cart = () => {
                           onClick={() => handleRemoveItem(item.id)}
                           className="text-sm font-medium text-red-600 hover:text-red-500"
                         >
-                          Remove
+                          Șterge
                         </button>
                       </div>
                     </div>
@@ -217,7 +217,7 @@ const Cart = () => {
                 disabled={loading}
                 className="text-sm font-medium text-red-600 hover:text-red-500"
               >
-                Clear Cart
+                Golește coșul
               </button>
             </div>
           </div>
@@ -226,22 +226,22 @@ const Cart = () => {
         {/* Order Summary */}
         <div className="md:col-span-1">
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Sumar comandă</h2>
 
             <div className="space-y-4">
               <div className="flex justify-between">
                 <p className="text-gray-600">Subtotal</p>
-                <p className="text-gray-900 font-medium">${subtotal.toFixed(2)}</p>
+                <p className="text-gray-900 font-medium">{(subtotal.toFixed(2).replace('.', ',')).replace('.', ',')} lei</p>
               </div>
 
               <div className="flex justify-between">
-                <p className="text-gray-600">Shipping</p>
-                <p className="text-gray-900 font-medium">${shipping.toFixed(2)}</p>
+                <p className="text-gray-600">Transport</p>
+                <p className="text-gray-900 font-medium">{(shipping.toFixed(2).replace('.', ',')).replace('.', ',')} lei</p>
               </div>
 
               <div className="border-t border-gray-200 pt-4 flex justify-between">
                 <p className="text-lg font-medium text-gray-900">Total</p>
-                <p className="text-lg font-bold text-gray-900">${total.toFixed(2)}</p>
+                <p className="text-lg font-bold text-gray-900">{(total.toFixed(2).replace('.', ',')).replace('.', ',')} lei</p>
               </div>
             </div>
 
@@ -254,13 +254,13 @@ const Cart = () => {
                   loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
               >
-                Proceed to Checkout
+                Mergi la finalizare comandă
               </button>
             </div>
 
             <div className="mt-4">
               <Link to="/products" className="text-sm font-medium text-blue-600 hover:text-blue-500">
-                Continue Shopping
+                Continuă cumpărăturile
               </Link>
             </div>
           </div>

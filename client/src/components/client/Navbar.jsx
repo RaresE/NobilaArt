@@ -32,13 +32,13 @@ const Navbar = () => {
                 to="/"
                 className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
               >
-                Home
+                Acasă
               </Link>
               <Link
                 to="/products"
                 className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
               >
-                Products
+                Produse
               </Link>
               {user && (
                 <>
@@ -46,13 +46,13 @@ const Navbar = () => {
                     to="/dashboard"
                     className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                   >
-                    Dashboard
+                    Panou
                   </Link>
                   <Link
                     to="/orders"
                     className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                   >
-                    My Orders
+                    Comenzile mele
                   </Link>
                 </>
               )}
@@ -93,7 +93,7 @@ const Navbar = () => {
                       onClick={handleLogout}
                       className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     >
-                      Logout
+                      Deconectare
                     </button>
                   </div>
                 </div>
@@ -104,13 +104,13 @@ const Navbar = () => {
                   to="/login"
                   className="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                  Sign in
+                  Autentificare
                 </Link>
                 <Link
                   to="/register"
                   className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                  Sign up
+                  Înregistrare
                 </Link>
               </div>
             )}
@@ -158,14 +158,14 @@ const Navbar = () => {
               className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Home
+              Acasă
             </Link>
             <Link
               to="/products"
               className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Products
+              Produse
             </Link>
             {user && (
               <>
@@ -174,21 +174,21 @@ const Navbar = () => {
                   className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Dashboard
+                  Panou
                 </Link>
                 <Link
                   to="/orders"
                   className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  My Orders
+                  Comenzile mele
                 </Link>
                 <Link
                   to="/cart"
                   className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Cart ({cartItemCount})
+                  Coș ({cartItemCount})
                 </Link>
               </>
             )}
@@ -207,7 +207,7 @@ const Navbar = () => {
                   }}
                   className="block w-full text-left pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                 >
-                  Logout
+                  Deconectare
                 </button>
               </div>
             ) : (
@@ -217,14 +217,14 @@ const Navbar = () => {
                   className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Sign in
+                  Autentificare
                 </Link>
                 <Link
                   to="/register"
                   className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Sign up
+                  Înregistrare
                 </Link>
               </div>
             )}

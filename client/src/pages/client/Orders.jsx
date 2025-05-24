@@ -69,16 +69,16 @@ const Orders = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">My Orders</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">Comenzile mele</h1>
 
       {orders.length === 0 ? (
         <div className="bg-white p-6 rounded-lg shadow-md text-center">
-          <p className="text-lg text-gray-600 mb-4">You haven't placed any orders yet</p>
+          <p className="text-lg text-gray-600 mb-4">Nu ai plasat nicio comandă încă</p>
           <Link
             to="/products"
             className="inline-block bg-blue-600 hover:bg-blue-700 py-2 px-6 rounded-md text-white font-medium transition duration-300"
           >
-            Start Shopping
+            Începe cumpărăturile
           </Link>
         </div>
       ) : (
@@ -90,9 +90,9 @@ const Orders = () => {
                   <div className="px-4 py-4 sm:px-6">
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col sm:flex-row sm:items-center">
-                        <p className="text-sm font-medium text-blue-600 truncate">Order #{order.id}</p>
+                        <p className="text-sm font-medium text-blue-600 truncate">Comanda #{order.id}</p>
                         <p className="sm:ml-2 flex-shrink-0 font-normal text-gray-500 sm:mt-0 mt-1">
-                          Placed on {formatDate(order.createdAt)}
+                          Plasată pe {formatDate(order.createdAt)}
                         </p>
                       </div>
                       <div className="ml-2 flex-shrink-0 flex">
@@ -106,12 +106,12 @@ const Orders = () => {
                     <div className="mt-2 sm:flex sm:justify-between">
                       <div className="sm:flex">
                         <p className="flex items-center text-sm text-gray-500">
-                          {order.items.length} {order.items.length === 1 ? "item" : "items"}
+                          {order.items.length} {order.items.length === 1 ? "produs" : "produse"}
                         </p>
                       </div>
                       <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
                         <p>
-                          Total: <span className="font-medium text-gray-900">${order.total.toFixed(2)}</span>
+                          Total: <span className="font-medium text-gray-900">{order.total.toFixed(2).replace('.', ',')} lei</span>
                         </p>
                       </div>
                     </div>

@@ -84,8 +84,8 @@ const AdminDashboard = () => {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="mt-1 text-sm text-gray-500">Welcome back, {user?.name}</p>
+        <h1 className="text-3xl font-bold text-gray-900">Panou administrare</h1>
+        <p className="mt-1 text-sm text-gray-500">Bine ai revenit, {user?.name}</p>
       </div>
 
       {/* Stats Cards */}
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">Total Orders</dt>
+              <dt className="text-sm font-medium text-gray-500 truncate">Comenzi totale</dt>
               <dd className="mt-1 text-3xl font-semibold text-gray-900">{stats.totalOrders}</dd>
             </dl>
           </div>
@@ -102,8 +102,8 @@ const AdminDashboard = () => {
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">Total Revenue</dt>
-              <dd className="mt-1 text-3xl font-semibold text-green-600">${stats.totalRevenue.toFixed(2)}</dd>
+              <dt className="text-sm font-medium text-gray-500 truncate">Venit total</dt>
+              <dd className="mt-1 text-3xl font-semibold text-green-600">{stats.totalRevenue.toFixed(2).replace('.', ',')} lei</dd>
             </dl>
           </div>
         </div>
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">Pending Orders</dt>
+              <dt className="text-sm font-medium text-gray-500 truncate">Comenzi în așteptare</dt>
               <dd className="mt-1 text-3xl font-semibold text-yellow-600">{stats.pendingOrders}</dd>
             </dl>
           </div>
@@ -120,7 +120,7 @@ const AdminDashboard = () => {
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">Low Stock Items</dt>
+              <dt className="text-sm font-medium text-gray-500 truncate">Produse cu stoc redus</dt>
               <dd className="mt-1 text-3xl font-semibold text-red-600">{stats.lowStockItems}</dd>
             </dl>
           </div>
@@ -129,7 +129,7 @@ const AdminDashboard = () => {
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">Total Products</dt>
+              <dt className="text-sm font-medium text-gray-500 truncate">Total produse</dt>
               <dd className="mt-1 text-3xl font-semibold text-blue-600">{stats.totalProducts}</dd>
             </dl>
           </div>
@@ -139,15 +139,15 @@ const AdminDashboard = () => {
       {/* Recent Orders */}
       <div className="bg-white shadow overflow-hidden sm:rounded-md mb-8">
         <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
-          <h2 className="text-lg leading-6 font-medium text-gray-900">Recent Orders</h2>
+          <h2 className="text-lg leading-6 font-medium text-gray-900">Comenzi recente</h2>
           <Link to="/admin/orders" className="text-sm font-medium text-blue-600 hover:text-blue-500">
-            View all
+            Vezi toate
           </Link>
         </div>
 
         {recentOrders.length === 0 ? (
           <div className="px-4 py-5 sm:p-6 text-center">
-            <p className="text-gray-500">No orders found.</p>
+            <p className="text-gray-500">Nu s-au găsit comenzi.</p>
           </div>
         ) : (
           <ul className="divide-y divide-gray-200">
@@ -157,9 +157,9 @@ const AdminDashboard = () => {
                   <div className="px-4 py-4 sm:px-6">
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col sm:flex-row sm:items-center">
-                        <p className="text-sm font-medium text-blue-600 truncate">Order #{order.id}</p>
+                        <p className="text-sm font-medium text-blue-600 truncate">Comanda #{order.id}</p>
                         <p className="sm:ml-2 flex-shrink-0 font-normal text-gray-500 sm:mt-0 mt-1">
-                          Placed on {formatDate(order.createdAt)}
+                          Plasată pe {formatDate(order.createdAt)}
                         </p>
                       </div>
                       <div className="ml-2 flex-shrink-0 flex">
@@ -172,11 +172,11 @@ const AdminDashboard = () => {
                     </div>
                     <div className="mt-2 sm:flex sm:justify-between">
                       <div className="sm:flex">
-                        <p className="flex items-center text-sm text-gray-500">Customer: {order.user.name}</p>
+                        <p className="flex items-center text-sm text-gray-500">Client: {order.user.name}</p>
                       </div>
                       <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
                         <p>
-                          Total: <span className="font-medium text-gray-900">${order.total.toFixed(2)}</span>
+                          Total: <span className="font-medium text-gray-900">{order.total.toFixed(2).replace('.', ',')} lei</span>
                         </p>
                       </div>
                     </div>
@@ -191,26 +191,26 @@ const AdminDashboard = () => {
       {/* Quick Actions */}
       <div className="bg-white shadow overflow-hidden sm:rounded-md">
         <div className="px-4 py-5 sm:px-6">
-          <h2 className="text-lg leading-6 font-medium text-gray-900">Quick Actions</h2>
+          <h2 className="text-lg leading-6 font-medium text-gray-900">Acțiuni rapide</h2>
         </div>
         <div className="px-4 py-5 sm:p-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Link
             to="/admin/products/new"
             className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Add New Product
+            Adaugă produs nou
           </Link>
           <Link
             to="/admin/inventory"
             className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
-            Manage Inventory
+            Gestionează stocul
           </Link>
           <Link
             to="/admin/orders?status=pending"
             className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
           >
-            View Pending Orders
+            Vezi comenzi în așteptare
           </Link>
         </div>
       </div>

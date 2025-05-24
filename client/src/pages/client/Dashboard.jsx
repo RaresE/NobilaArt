@@ -85,14 +85,14 @@ const Dashboard = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="md:flex md:items-center md:justify-between mb-6">
         <div className="flex-1 min-w-0">
-          <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user?.name}</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Bine ai revenit, {user?.name}</h1>
         </div>
         <div className="mt-4 flex md:mt-0 md:ml-4">
           <Link
             to="/products"
             className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Browse Products
+            Vezi produsele
           </Link>
         </div>
       </div>
@@ -102,7 +102,7 @@ const Dashboard = () => {
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">Total Orders</dt>
+              <dt className="text-sm font-medium text-gray-500 truncate">Comenzi totale</dt>
               <dd className="mt-1 text-3xl font-semibold text-gray-900">{orderStats.total}</dd>
             </dl>
           </div>
@@ -111,7 +111,7 @@ const Dashboard = () => {
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">Pending</dt>
+              <dt className="text-sm font-medium text-gray-500 truncate">În așteptare</dt>
               <dd className="mt-1 text-3xl font-semibold text-yellow-600">{orderStats.pending}</dd>
             </dl>
           </div>
@@ -120,7 +120,7 @@ const Dashboard = () => {
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">Processing</dt>
+              <dt className="text-sm font-medium text-gray-500 truncate">În procesare</dt>
               <dd className="mt-1 text-3xl font-semibold text-blue-600">{orderStats.processing}</dd>
             </dl>
           </div>
@@ -129,7 +129,7 @@ const Dashboard = () => {
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">Shipped</dt>
+              <dt className="text-sm font-medium text-gray-500 truncate">Expediate</dt>
               <dd className="mt-1 text-3xl font-semibold text-purple-600">{orderStats.shipped}</dd>
             </dl>
           </div>
@@ -138,7 +138,7 @@ const Dashboard = () => {
         <div className="bg-white overflow-hidden shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">Delivered</dt>
+              <dt className="text-sm font-medium text-gray-500 truncate">Livrate</dt>
               <dd className="mt-1 text-3xl font-semibold text-green-600">{orderStats.delivered}</dd>
             </dl>
           </div>

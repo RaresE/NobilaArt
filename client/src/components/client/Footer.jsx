@@ -10,7 +10,7 @@ const Footer = () => {
               MobiLux
             </Link>
             <p className="mt-2 text-sm text-gray-300">
-              Quality furniture for your home. Handcrafted with care and attention to detail.
+              Mobilier de calitate pentru casa ta. Realizat cu grijă și atenție la detalii.
             </p>
             <div className="mt-4 flex space-x-6">
               <a href="#" className="text-gray-400 hover:text-white">
@@ -42,60 +42,58 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Products</h3>
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">PRODUSE</h3>
             <ul className="mt-4 space-y-4">
               <li>
                 <Link to="/products?category=living-room" className="text-base text-gray-300 hover:text-white">
-                  Living Room
+                  Living
                 </Link>
               </li>
               <li>
                 <Link to="/products?category=bedroom" className="text-base text-gray-300 hover:text-white">
-                  Bedroom
+                  Dormitor
                 </Link>
               </li>
               <li>
                 <Link to="/products?category=dining-room" className="text-base text-gray-300 hover:text-white">
-                  Dining Room
+                  Sufragerie
                 </Link>
               </li>
               <li>
                 <Link to="/products?category=office" className="text-base text-gray-300 hover:text-white">
-                  Office
+                  Birou
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Company</h3>
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">COMPANIE</h3>
             <ul className="mt-4 space-y-4">
               <li>
-                <a href="#" className="text-base text-gray-300 hover:text-white">
-                  About
-                </a>
+                <Link to="/about" className="text-base text-gray-300 hover:text-white">
+                  Despre
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-base text-gray-300 hover:text-white">
+                <Link to="/blog" className="text-base text-gray-300 hover:text-white">
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-base text-gray-300 hover:text-white">
+                <Link to="/contact" className="text-base text-gray-300 hover:text-white">
                   Contact
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-base text-gray-300 hover:text-white">
-                  Careers
-                </a>
+                <Link to="/careers" className="text-base text-gray-300 hover:text-white">
+                  Cariere
+                </Link>
               </li>
             </ul>
           </div>
         </div>
         <div className="mt-12 border-t border-gray-700 pt-8">
-          <p className="text-base text-gray-400 text-center">
-            &copy; {new Date().getFullYear()} MobiLux. All rights reserved.
-          </p>
+          <span className="block text-sm text-gray-400">© 2025 MobiLux. Toate drepturile rezervate.</span>
         </div>
       </div>
     </footer>

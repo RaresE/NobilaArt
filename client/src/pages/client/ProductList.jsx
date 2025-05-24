@@ -129,14 +129,14 @@ const ProductList = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Our Products</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">Produsele noastre</h1>
 
       {/* Filters */}
       <div className="bg-white p-4 rounded-lg shadow-lg mb-6 border-2 border-blue-400/60">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
           <div>
             <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
-              Search Products
+              Caută produse
             </label>
             <input
               type="text"
@@ -145,13 +145,13 @@ const ProductList = () => {
               value={filters.search}
               onChange={handleFilterChange}
               className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition placeholder:text-gray-400 bg-blue-50/40"
-              placeholder="Enter product name..."
+              placeholder="Introdu numele produsului..."
             />
           </div>
 
           <div>
             <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-              Room
+              Cameră
             </label>
             <select
               id="category"
@@ -160,18 +160,16 @@ const ProductList = () => {
               onChange={handleFilterChange}
               className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition bg-blue-50/40"
             >
-              <option value="">All Rooms</option>
+              <option value="">Toate camerele</option>
               {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
+                <option key={category.id} value={category.id}>{category.name}</option>
               ))}
             </select>
           </div>
 
           <div>
             <label htmlFor="minPrice" className="block text-sm font-medium text-gray-700 mb-1">
-              Min Price
+              Preț minim
             </label>
             <input
               type="number"
@@ -180,13 +178,13 @@ const ProductList = () => {
               value={filters.minPrice}
               onChange={handleFilterChange}
               className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition placeholder:text-gray-400 bg-blue-50/40"
-              placeholder="Min Price"
+              placeholder="Preț minim"
             />
           </div>
 
           <div>
             <label htmlFor="maxPrice" className="block text-sm font-medium text-gray-700 mb-1">
-              Max Price
+              Preț maxim
             </label>
             <input
               type="number"
@@ -195,13 +193,13 @@ const ProductList = () => {
               value={filters.maxPrice}
               onChange={handleFilterChange}
               className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition placeholder:text-gray-400 bg-blue-50/40"
-              placeholder="Max Price"
+              placeholder="Preț maxim"
             />
           </div>
 
           <div>
             <label htmlFor="sortBy" className="block text-sm font-medium text-gray-700 mb-1">
-              Sort By
+              Sortează după
             </label>
             <select
               id="sortBy"
@@ -210,15 +208,15 @@ const ProductList = () => {
               onChange={handleFilterChange}
               className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition bg-blue-50/40"
             >
-              <option value="name">Name</option>
-              <option value="price">Price</option>
-              <option value="createdAt">Newest</option>
+              <option value="name">Nume</option>
+              <option value="price">Preț</option>
+              <option value="createdAt">Cele mai noi</option>
             </select>
           </div>
 
           <div>
             <label htmlFor="sortOrder" className="block text-sm font-medium text-gray-700 mb-1">
-              Order
+              Ordine
             </label>
             <select
               id="sortOrder"
@@ -227,8 +225,8 @@ const ProductList = () => {
               onChange={handleFilterChange}
               className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition bg-blue-50/40"
             >
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
+              <option value="asc">Crescător</option>
+              <option value="desc">Descrescător</option>
             </select>
           </div>
         </div>
@@ -236,9 +234,9 @@ const ProductList = () => {
         <div className="mt-4 flex justify-end">
           <button
             onClick={clearFilters}
-            className="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 border border-blue-300 rounded-md shadow-sm hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition"
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            Clear Filters
+            Resetează filtrele
           </button>
         </div>
       </div>
@@ -269,7 +267,7 @@ const ProductList = () => {
                   <div className="p-4">
                     <h3 className="text-lg font-semibold text-gray-900">{product.name}</h3>
                     <p className="mt-1 text-sm text-gray-500">{product.category}</p>
-                    <p className="mt-2 text-lg font-bold text-gray-900">${product.price.toFixed(2)}</p>
+                    <p className="mt-2 text-lg font-bold text-gray-900">{product.price.toFixed(2).replace('.', ',')} lei</p>
                   </div>
                 </div>
               </Link>

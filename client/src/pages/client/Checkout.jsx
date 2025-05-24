@@ -271,7 +271,7 @@ const Checkout = () => {
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 />
                 <label htmlFor="delivery-standard" className="ml-3 block text-sm font-medium text-gray-700">
-                  Standard Shipping (3-5 business days) - $10.00
+                  Livrare standard (3-5 zile lucrătoare) - 50 lei
                 </label>
               </div>
 
@@ -286,7 +286,7 @@ const Checkout = () => {
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 />
                 <label htmlFor="delivery-express" className="ml-3 block text-sm font-medium text-gray-700">
-                  Express Shipping (2-3 business days) - $20.00
+                  Livrare expres (2-3 zile lucrătoare) - 100 lei
                 </label>
               </div>
 
@@ -301,7 +301,7 @@ const Checkout = () => {
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 />
                 <label htmlFor="delivery-next-day" className="ml-3 block text-sm font-medium text-gray-700">
-                  Next Day Delivery (1 business day) - $30.00
+                  Livrare în următoarea zi (1 zi lucrătoare) - 150 lei
                 </label>
               </div>
             </div>
@@ -434,7 +434,7 @@ const Checkout = () => {
                       <div className="flex justify-between">
                         <h3 className="text-sm font-medium text-gray-900">{item.product.name}</h3>
                         <p className="text-sm font-medium text-gray-900">
-                          ${(item.product.price * item.quantity).toFixed(2)}
+                          ${(item.product.price * item.quantity).toFixed(2).replace('.', ',')} lei
                         </p>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">Qty: {item.quantity}</p>
@@ -455,17 +455,17 @@ const Checkout = () => {
             <div className="space-y-4">
               <div className="flex justify-between">
                 <p className="text-gray-600">Subtotal</p>
-                <p className="text-gray-900 font-medium">${subtotal.toFixed(2)}</p>
+                <p className="text-gray-900 font-medium">{subtotal.toFixed(2).replace('.', ',')} lei</p>
               </div>
 
               <div className="flex justify-between">
-                <p className="text-gray-600">Shipping</p>
-                <p className="text-gray-900 font-medium">${shipping.toFixed(2)}</p>
+                <p className="text-gray-600">Transport</p>
+                <p className="text-gray-900 font-medium">{shipping.toFixed(2).replace('.', ',')} lei</p>
               </div>
 
               <div className="border-t border-gray-200 pt-4 flex justify-between">
                 <p className="text-lg font-medium text-gray-900">Total</p>
-                <p className="text-lg font-bold text-gray-900">${total.toFixed(2)}</p>
+                <p className="text-lg font-bold text-gray-900">{total.toFixed(2).replace('.', ',')} lei</p>
               </div>
             </div>
 

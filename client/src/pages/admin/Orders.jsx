@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { Link } from "react-router-dom"
 
 const statusOptions = [
-  { value: "pending", label: "Pending" },
-  { value: "processing", label: "Processing" },
-  { value: "shipped", label: "Shipped" },
-  { value: "delivered", label: "Delivered" },
-  { value: "cancelled", label: "Cancelled" },
+  { value: "pending", label: "În așteptare" },
+  { value: "processing", label: "În procesare" },
+  { value: "shipped", label: "Expediată" },
+  { value: "delivered", label: "Livrată" },
+  { value: "cancelled", label: "Anulată" },
 ]
 
 const AdminOrders = () => {
@@ -194,13 +195,13 @@ const AdminOrders = () => {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Manage Orders</h1>
-        <p className="mt-1 text-sm text-gray-500">View and manage all customer orders</p>
+        <h1 className="text-3xl font-bold text-gray-900">Gestionare comenzi</h1>
+        <p className="mt-1 text-sm text-gray-500">Vezi și gestionează toate comenzile</p>
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-4 rounded-lg shadow mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6 mb-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
           <div>
             <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
               Status
@@ -210,48 +211,45 @@ const AdminOrders = () => {
               name="status"
               value={filters.status}
               onChange={handleFilterChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
             >
-              <option value="">All Statuses</option>
-              <option value="pending">Pending</option>
-              <option value="processing">Processing</option>
-              <option value="shipped">Shipped</option>
-              <option value="delivered">Delivered</option>
-              <option value="cancelled">Cancelled</option>
+              <option value="">Toate</option>
+              <option value="pending">În așteptare</option>
+              <option value="processing">În procesare</option>
+              <option value="shipped">Expediată</option>
+              <option value="delivered">Livrată</option>
+              <option value="cancelled">Anulată</option>
             </select>
           </div>
-
           <div>
-            <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-1">
-              Start Date
+            <label htmlFor="dateFrom" className="block text-sm font-medium text-gray-700 mb-1">
+              Data de la
             </label>
             <input
               type="date"
-              id="startDate"
-              name="startDate"
-              value={filters.startDate}
+              id="dateFrom"
+              name="dateFrom"
+              value={filters.dateFrom}
               onChange={handleFilterChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
             />
           </div>
-
           <div>
-            <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-1">
-              End Date
+            <label htmlFor="dateTo" className="block text-sm font-medium text-gray-700 mb-1">
+              Data până la
             </label>
             <input
               type="date"
-              id="endDate"
-              name="endDate"
-              value={filters.endDate}
+              id="dateTo"
+              name="dateTo"
+              value={filters.dateTo}
               onChange={handleFilterChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
             />
           </div>
-
           <div>
             <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
-              Search
+              Caută
             </label>
             <input
               type="text"
@@ -259,19 +257,10 @@ const AdminOrders = () => {
               name="search"
               value={filters.search}
               onChange={handleFilterChange}
-              placeholder="Order ID or Customer Name"
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              placeholder="ID comandă sau nume client"
+              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
             />
           </div>
-        </div>
-
-        <div className="mt-4 flex justify-end">
-          <button
-            onClick={clearFilters}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            Clear Filters
-          </button>
         </div>
       </div>
 
@@ -295,55 +284,39 @@ const AdminOrders = () => {
           </button>
         </div>
       ) : (
-        <div className="bg-white shadow overflow-hidden sm:rounded-md">
+        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Order ID
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ID Comandă
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Customer
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Client
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Date
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Data
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Total
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Team
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Acțiuni
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {orders.map((order) => (
                 <tr key={order.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+                    #{order.id}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.user ? order.user.name : order.User ? order.User.name : "N/A"}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(order.createdAt)}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.total ? `$${order.total.toFixed(2)}` : "-"}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(order.createdAt)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.total ? `${order.total.toFixed(2).replace('.', ',')} lei` : "-"}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
                       {order.status ? order.status.charAt(0).toUpperCase() + order.status.slice(1) : "-"}
@@ -368,27 +341,13 @@ const AdminOrders = () => {
                       {statusError[order.id] && <div className="text-xs text-red-600 mt-1">{statusError[order.id]}</div>}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center space-x-2">
-                      <select
-                        value={assignTeam[order.id] !== undefined ? assignTeam[order.id] : order.teamId || ""}
-                        onChange={e => handleTeamChange(order.id, e.target.value)}
-                        className="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-xs px-2 py-1"
-                      >
-                        <option value="">Select Team</option>
-                        {teams.map(team => (
-                          <option key={team.id} value={team.id}>{team.name}</option>
-                        ))}
-                      </select>
-                      <button
-                        onClick={() => handleSaveTeam(order.id)}
-                        disabled={savingTeam[order.id] || assignTeam[order.id] === undefined || assignTeam[order.id] === order.teamId}
-                        className="px-2 py-1 text-xs bg-blue-600 text-white rounded disabled:opacity-50"
-                      >
-                        {savingTeam[order.id] ? "Saving..." : "Save"}
-                      </button>
-                      {teamError[order.id] && <div className="text-xs text-red-600 mt-1">{teamError[order.id]}</div>}
-                    </div>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <Link
+                      to={`/admin/orders/${order.id}`}
+                      className="text-blue-600 hover:text-blue-900"
+                    >
+                      Vezi detalii
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -399,54 +358,49 @@ const AdminOrders = () => {
 
       {/* Pagination */}
       {orders.length > 0 && (
-        <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-          <div className="flex flex-1 justify-between sm:hidden">
+        <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 mt-4">
+          <div className="flex-1 flex justify-between sm:hidden">
             <button
               onClick={() => handlePageChange(pagination.page - 1)}
               disabled={pagination.page === 1}
-              className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
-              Previous
+              Anterior
             </button>
             <button
               onClick={() => handlePageChange(pagination.page + 1)}
               disabled={pagination.page === pagination.totalPages}
-              className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
-              Next
+              Următor
             </button>
           </div>
-          <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
               <p className="text-sm text-gray-700">
-                Showing <span className="font-medium">{(pagination.page - 1) * pagination.limit + 1}</span> to{" "}
-                <span className="font-medium">{Math.min(pagination.page * pagination.limit, pagination.total)}</span> of{" "}
-                <span className="font-medium">{pagination.total}</span> results
+                Afișare <span className="font-medium">{pagination.page * pagination.limit - pagination.limit + 1}</span> până la{" "}
+                <span className="font-medium">{Math.min(pagination.page * pagination.limit, pagination.total)}</span> din{" "}
+                <span className="font-medium">{pagination.total}</span> rezultate
               </p>
             </div>
             <div>
-              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                 <button
                   onClick={() => handlePageChange(pagination.page - 1)}
                   disabled={pagination.page === 1}
-                  className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  <span className="sr-only">Previous</span>
-                  <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path
-                      fillRule="evenodd"
-                      d="M12.79 5.21a.75.75 0 01-.02 1.06L8.832 10l3.938 3.73a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  Anterior
                 </button>
-                {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 hover:bg-gray-50 focus:outline-offset-0" */}
                 {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
                   <button
                     key={page}
                     onClick={() => handlePageChange(page)}
-                    aria-current={pagination.page === page ? "page" : undefined}
-                    className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${pagination.page === page ? "z-10 bg-blue-600 text-white" : ""}`}
+                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                      pagination.page === page
+                        ? "z-10 bg-blue-50 border-blue-500 text-blue-600"
+                        : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+                    }`}
                   >
                     {page}
                   </button>
@@ -454,16 +408,9 @@ const AdminOrders = () => {
                 <button
                   onClick={() => handlePageChange(pagination.page + 1)}
                   disabled={pagination.page === pagination.totalPages}
-                  className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  <span className="sr-only">Next</span>
-                  <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path
-                      fillRule="evenodd"
-                      d="M7.21 14.79a.75.75 0 01.02-1.06L11.168 10 7.23 6.27a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  Următor
                 </button>
               </nav>
             </div>
