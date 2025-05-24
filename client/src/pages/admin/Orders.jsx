@@ -329,6 +329,12 @@ const AdminOrders = () => {
                 >
                   Status
                 </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Team
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -360,6 +366,28 @@ const AdminOrders = () => {
                         {savingStatus[order.id] ? "Saving..." : "Save"}
                       </button>
                       {statusError[order.id] && <div className="text-xs text-red-600 mt-1">{statusError[order.id]}</div>}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center space-x-2">
+                      <select
+                        value={assignTeam[order.id] !== undefined ? assignTeam[order.id] : order.teamId || ""}
+                        onChange={e => handleTeamChange(order.id, e.target.value)}
+                        className="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-xs px-2 py-1"
+                      >
+                        <option value="">Select Team</option>
+                        {teams.map(team => (
+                          <option key={team.id} value={team.id}>{team.name}</option>
+                        ))}
+                      </select>
+                      <button
+                        onClick={() => handleSaveTeam(order.id)}
+                        disabled={savingTeam[order.id] || assignTeam[order.id] === undefined || assignTeam[order.id] === order.teamId}
+                        className="px-2 py-1 text-xs bg-blue-600 text-white rounded disabled:opacity-50"
+                      >
+                        {savingTeam[order.id] ? "Saving..." : "Save"}
+                      </button>
+                      {teamError[order.id] && <div className="text-xs text-red-600 mt-1">{teamError[order.id]}</div>}
                     </div>
                   </td>
                 </tr>

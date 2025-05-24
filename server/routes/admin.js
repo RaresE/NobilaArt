@@ -126,6 +126,11 @@ router.get("/orders", authenticate, isAdmin, async (req, res) => {
             },
           ],
         },
+        {
+          model: Team,
+          as: "team",
+          attributes: ["id", "name"],
+        },
       ],
       order: [["createdAt", "DESC"]],
       limit: Number.parseInt(limit),
@@ -144,6 +149,11 @@ router.get("/orders", authenticate, isAdmin, async (req, res) => {
         name: order.User.name,
         email: order.User.email,
       },
+      teamId: order.team ? order.team.id : null,
+      team: order.team ? {
+        id: order.team.id,
+        name: order.team.name,
+      } : null,
       subtotal: Number.parseFloat(order.subtotal),
       shipping: Number.parseFloat(order.shipping),
       total: Number.parseFloat(order.total),
