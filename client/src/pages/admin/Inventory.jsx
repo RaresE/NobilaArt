@@ -205,6 +205,69 @@ const AdminInventory = () => {
         <p className="mt-1 text-sm text-gray-500">Gestionează stocul și inventarul produselor</p>
       </div>
 
+      {/* Filters */}
+      <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6 mb-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+          <div>
+            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+              Caută
+            </label>
+            <input
+              type="text"
+              id="search"
+              name="search"
+              value={filters.search}
+              onChange={handleFilterChange}
+              placeholder="Nume produs"
+              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
+            />
+          </div>
+          <div>
+            <label htmlFor="stockStatus" className="block text-sm font-medium text-gray-700 mb-1">
+              Status stoc
+            </label>
+            <select
+              id="stockStatus"
+              name="stockStatus"
+              value={filters.stockStatus}
+              onChange={handleFilterChange}
+              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
+            >
+              <option value="">Toate</option>
+              <option value="low">Stoc redus</option>
+              <option value="out">Stoc epuizat</option>
+              <option value="in">În stoc</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="sortBy" className="block text-sm font-medium text-gray-700 mb-1">
+              Sortează după
+            </label>
+            <select
+              id="sortBy"
+              name="sortBy"
+              value={filters.sortBy}
+              onChange={handleFilterChange}
+              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
+            >
+              <option value="name">Nume</option>
+              <option value="stock">Stoc</option>
+              <option value="price">Preț</option>
+              <option value="updatedAt">Ultima actualizare</option>
+            </select>
+          </div>
+        </div>
+        {/* Add Stock Button - left aligned under filters */}
+        <div className="mt-4 flex justify-start">
+          <button
+            onClick={startAddMaterial}
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Adaugă stoc nou
+          </button>
+        </div>
+      </div>
+
       {/* Material Form */}
       {formVisible && (
         <div className="bg-white p-6 rounded-lg shadow mb-6">
@@ -323,60 +386,6 @@ const AdminInventory = () => {
           </form>
         </div>
       )}
-
-      {/* Filters */}
-      <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6 mb-6">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-          <div>
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
-              Caută
-            </label>
-            <input
-              type="text"
-              id="search"
-              name="search"
-              value={filters.search}
-              onChange={handleFilterChange}
-              placeholder="Nume produs"
-              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
-            />
-          </div>
-          <div>
-            <label htmlFor="stockStatus" className="block text-sm font-medium text-gray-700 mb-1">
-              Status stoc
-            </label>
-            <select
-              id="stockStatus"
-              name="stockStatus"
-              value={filters.stockStatus}
-              onChange={handleFilterChange}
-              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
-            >
-              <option value="">Toate</option>
-              <option value="low">Stoc redus</option>
-              <option value="out">Stoc epuizat</option>
-              <option value="in">În stoc</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="sortBy" className="block text-sm font-medium text-gray-700 mb-1">
-              Sortează după
-            </label>
-            <select
-              id="sortBy"
-              name="sortBy"
-              value={filters.sortBy}
-              onChange={handleFilterChange}
-              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
-            >
-              <option value="name">Nume</option>
-              <option value="stock">Stoc</option>
-              <option value="price">Preț</option>
-              <option value="updatedAt">Ultima actualizare</option>
-            </select>
-          </div>
-        </div>
-      </div>
 
       {/* Materials Table */}
       {loading ? (
