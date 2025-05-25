@@ -123,18 +123,21 @@ INSERT INTO Categories (name, description, imageUrl) VALUES
 ('Kitchen', 'Functional kitchen furniture', 'https://via.placeholder.com/300x300?text=Kitchen');
 
 -- Materiale
-INSERT INTO Materials (name, description, stock, unit, lowStockThreshold) VALUES
-('Oak Wood', 'High quality oak wood', 100, 'sqm', 20),
-('Pine Wood', 'Affordable pine wood', 150, 'sqm', 30),
-('Walnut Wood', 'Elegant walnut wood', 80, 'sqm', 15),
-('Leather', 'Premium quality leather', 50, 'sqm', 10),
-('Cotton Fabric', 'Soft cotton fabric', 200, 'sqm', 40),
-('Velvet Fabric', 'Luxurious velvet fabric', 60, 'sqm', 15),
-('Metal Frame', 'Durable metal frames', 120, 'pcs', 25),
-('Glass', 'Tempered glass', 90, 'sqm', 20),
-('Marble', 'Elegant marble tops', 30, 'sqm', 8),
-('Foam Padding', 'Comfortable foam padding', 100, 'kg', 20),
-('Piatra naturala', 'Piatră naturală de înaltă calitate pentru mobilier', 50, 'sqm', 10);
+INSERT INTO `materials` (`id`, `name`, `description`, `stock`, `unit`, `lowStockThreshold`, `createdAt`, `updatedAt`) VALUES
+(1, 'Stejar', 'Lemn de stejar de calitate', 100, 'sqm', 20, '2025-05-15 17:04:39', '2025-05-25 17:26:50'),
+(2, 'Pin', 'Lemn de pin accesibil', 150, 'sqm', 30, '2025-05-15 17:04:39', '2025-05-25 17:26:50'),
+(3, 'Nuc', 'Lemn de nuc elegant', 80, 'sqm', 15, '2025-05-15 17:04:39', '2025-05-25 17:26:50'),
+(4, 'Piele', 'Piele de calitate premium', 50, 'sqm', 10, '2025-05-15 17:04:39', '2025-05-25 17:26:50'),
+(5, 'Bumbac', 'Țesătură moale din bumbac', 204, 'm', 40, '2025-05-15 17:04:39', '2025-05-25 17:26:50'),
+(6, 'Catifea', 'Țesătură luxoasă din catifea', 60, 'sqm', 15, '2025-05-15 17:04:39', '2025-05-25 17:26:50'),
+(7, 'Cadru metalic', 'Cadre metalice durabile', 120, 'pcs', 25, '2025-05-15 17:04:39', '2025-05-25 17:26:50'),
+(8, 'Sticlă', 'Sticlă securizată', 90, 'sqm', 20, '2025-05-15 17:04:39', '2025-05-25 17:26:50'),
+(9, 'Marmură', 'Blaturi elegante din marmură', 30, 'sqm', 8, '2025-05-15 17:04:39', '2025-05-25 17:26:50'),
+(10, 'Spumă', 'Umplutură confortabilă din spumă', 100, 'kg', 20, '2025-05-15 17:04:39', '2025-05-25 17:26:50'),
+(11, 'Stofă', 'Stofă perfectă pentru canapea', 100, 'm', 10, '2025-05-23 17:11:36', '2025-05-25 17:26:50'),
+(12, 'Burete', 'Burete', 100, 'l', 10, '2025-05-23 19:23:22', '2025-05-25 17:26:50'),
+(13, 'Burete Premium', 'Burete premium', 100, 'pcs', 10, '2025-05-23 20:27:27', '2025-05-25 17:26:50'),
+(14, 'Textil', 'Material textil pentru tapițerie', 50, 'm', 10, '2025-05-25 17:53:30', '2025-05-25 17:53:40');
 
 -- Produse
 INSERT INTO Products (name, description, price, stock, imageUrl, dimensions, weight, featured, availableColors, specifications, categoryId) VALUES
