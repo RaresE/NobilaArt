@@ -10,7 +10,9 @@ router.get("/", async (req, res) => {
     const { category, search, minPrice, maxPrice, sortBy = "name", sortOrder = "asc", page = 1, limit = 12 } = req.query
 
     // Build filter conditions
-    const whereConditions = {}
+    const whereConditions = {
+      isVisible: true
+    }
 
     if (category) {
       whereConditions.categoryId = category
@@ -99,7 +101,7 @@ router.get("/", async (req, res) => {
 router.get("/featured", async (req, res) => {
   try {
     const featuredProducts = await Product.findAll({
-      where: { featured: true },
+      where: { featured: true, isVisible: true },
       include: [
         {
           model: Category,
@@ -129,7 +131,11 @@ router.get("/featured", async (req, res) => {
 // Get product by ID
 router.get("/:id", async (req, res) => {
   try {
-    const product = await Product.findByPk(req.params.id, {
+    const product = await Product.findOne({
+      where: {
+        id: req.params.id,
+        isVisible: true
+      },
       include: [
         {
           model: Category,
@@ -303,6 +309,29 @@ router.delete("/:id", authenticate, isAdmin, async (req, res) => {
     res.json({ message: "Product deleted successfully" })
   } catch (err) {
     console.error("Delete product error:", err)
+    res.status(500).json({ message: "Server error" })
+  }
+})
+
+// Toggle product visibility (admin only)
+router.put("/:id/visibility", authenticate, isAdmin, async (req, res) => {
+  try {
+    const product = await Product.findByPk(req.params.id)
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" })
+    }
+
+    await product.update({
+      isVisible: !product.isVisible
+    })
+
+    res.json({
+      message: `Product ${product.isVisible ? 'made visible' : 'hidden'} successfully`,
+      product
+    })
+  } catch (err) {
+    console.error("Toggle product visibility error:", err)
     res.status(500).json({ message: "Server error" })
   }
 })

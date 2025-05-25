@@ -40,6 +40,11 @@ const Product = sequelize.define("Product", {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  isVisible: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
   availableColors: {
     type: DataTypes.JSON,
     allowNull: true,
