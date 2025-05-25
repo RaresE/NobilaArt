@@ -133,7 +133,8 @@ INSERT INTO Materials (name, description, stock, unit, lowStockThreshold) VALUES
 ('Metal Frame', 'Durable metal frames', 120, 'pcs', 25),
 ('Glass', 'Tempered glass', 90, 'sqm', 20),
 ('Marble', 'Elegant marble tops', 30, 'sqm', 8),
-('Foam Padding', 'Comfortable foam padding', 100, 'kg', 20);
+('Foam Padding', 'Comfortable foam padding', 100, 'kg', 20),
+('Piatra naturala', 'Piatră naturală de înaltă calitate pentru mobilier', 50, 'sqm', 10);
 
 -- Produse
 INSERT INTO Products (name, description, price, stock, imageUrl, dimensions, weight, featured, availableColors, specifications, categoryId) VALUES

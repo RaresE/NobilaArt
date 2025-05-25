@@ -65,33 +65,33 @@ dbConnection.authenticate()
     }
 
     // 2. Categorii
-    const categories = [
-      { name: 'Living Room', description: 'Furniture for your living room', imageUrl: 'https://via.placeholder.com/300x300?text=Living+Room' },
-      { name: 'Bedroom', description: 'Comfortable bedroom furniture', imageUrl: 'https://via.placeholder.com/300x300?text=Bedroom' },
-      { name: 'Dining Room', description: 'Elegant dining room sets', imageUrl: 'https://via.placeholder.com/300x300?text=Dining+Room' },
-      { name: 'Office', description: 'Professional office furniture', imageUrl: 'https://via.placeholder.com/300x300?text=Office' },
-      { name: 'Kitchen', description: 'Functional kitchen furniture', imageUrl: 'https://via.placeholder.com/300x300?text=Kitchen' }
-    ];
-    for (const cat of categories) {
-      await db.Category.findOrCreate({ where: { name: cat.name }, defaults: cat });
-    }
+    // const categories = [
+    //   { name: 'Living Room', description: 'Furniture for your living room', imageUrl: 'https://via.placeholder.com/300x300?text=Living+Room' },
+    //   { name: 'Bedroom', description: 'Comfortable bedroom furniture', imageUrl: 'https://via.placeholder.com/300x300?text=Bedroom' },
+    //   { name: 'Dining Room', description: 'Elegant dining room sets', imageUrl: 'https://via.placeholder.com/300x300?text=Dining+Room' },
+    //   { name: 'Office', description: 'Professional office furniture', imageUrl: 'https://via.placeholder.com/300x300?text=Office' },
+    //   { name: 'Kitchen', description: 'Functional kitchen furniture', imageUrl: 'https://via.placeholder.com/300x300?text=Kitchen' }
+    // ];
+    // for (const cat of categories) {
+    //   await db.Category.findOrCreate({ where: { name: cat.name }, defaults: cat });
+    // }
 
     // 3. Materiale
-    const materials = [
-      { name: 'Oak Wood', description: 'High quality oak wood', stock: 100, unit: 'sqm', lowStockThreshold: 20 },
-      { name: 'Pine Wood', description: 'Affordable pine wood', stock: 150, unit: 'sqm', lowStockThreshold: 30 },
-      { name: 'Walnut Wood', description: 'Elegant walnut wood', stock: 80, unit: 'sqm', lowStockThreshold: 15 },
-      { name: 'Leather', description: 'Premium quality leather', stock: 50, unit: 'sqm', lowStockThreshold: 10 },
-      { name: 'Cotton Fabric', description: 'Soft cotton fabric', stock: 200, unit: 'sqm', lowStockThreshold: 40 },
-      { name: 'Velvet Fabric', description: 'Luxurious velvet fabric', stock: 60, unit: 'sqm', lowStockThreshold: 15 },
-      { name: 'Metal Frame', description: 'Durable metal frames', stock: 120, unit: 'pcs', lowStockThreshold: 25 },
-      { name: 'Glass', description: 'Tempered glass', stock: 90, unit: 'sqm', lowStockThreshold: 20 },
-      { name: 'Marble', description: 'Elegant marble tops', stock: 30, unit: 'sqm', lowStockThreshold: 8 },
-      { name: 'Foam Padding', description: 'Comfortable foam padding', stock: 100, unit: 'kg', lowStockThreshold: 20 }
-    ];
-    for (const mat of materials) {
-      await db.Material.findOrCreate({ where: { name: mat.name }, defaults: mat });
-    }
+    // const materials = [
+    //   { name: 'Oak Wood', description: 'High quality oak wood', stock: 100, unit: 'sqm', lowStockThreshold: 20 },
+    //   { name: 'Pine Wood', description: 'Affordable pine wood', stock: 150, unit: 'sqm', lowStockThreshold: 30 },
+    //   { name: 'Walnut Wood', description: 'Elegant walnut wood', stock: 80, unit: 'sqm', lowStockThreshold: 15 },
+    //   { name: 'Leather', description: 'Premium quality leather', stock: 50, unit: 'sqm', lowStockThreshold: 10 },
+    //   { name: 'Cotton Fabric', description: 'Soft cotton fabric', stock: 200, unit: 'sqm', lowStockThreshold: 40 },
+    //   { name: 'Velvet Fabric', description: 'Luxurious velvet fabric', stock: 60, unit: 'sqm', lowStockThreshold: 15 },
+    //   { name: 'Metal Frame', description: 'Durable metal frames', stock: 120, unit: 'pcs', lowStockThreshold: 25 },
+    //   { name: 'Glass', description: 'Tempered glass', stock: 90, unit: 'sqm', lowStockThreshold: 20 },
+    //   { name: 'Marble', description: 'Elegant marble tops', stock: 30, unit: 'sqm', lowStockThreshold: 8 },
+    //   { name: 'Foam Padding', description: 'Comfortable foam padding', stock: 100, unit: 'kg', lowStockThreshold: 20 }
+    // ];
+    // for (const mat of materials) {
+    //   await db.Material.findOrCreate({ where: { name: mat.name }, defaults: mat });
+    // }
 
     // 4. Produse (exemplu pentru Living Room)
     const livingRoom = await db.Category.findOne({ where: { name: 'Living Room' } });
