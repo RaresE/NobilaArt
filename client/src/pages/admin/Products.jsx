@@ -366,12 +366,12 @@ const AdminProducts = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.stock}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                    product.stock > 10 ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                    product.stock === 0 ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"
                   } cursor-pointer`}
                     title="Click to edit stock"
                     onClick={() => handleStockClick(product)}
                   >
-                    {product.stock > 10 ? "În stoc" : "Epuizat"}
+                    {product.stock === 0 ? "Epuizat" : "În stoc"}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
