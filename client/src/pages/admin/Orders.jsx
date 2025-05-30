@@ -152,6 +152,24 @@ const AdminOrders = () => {
     }
   }
 
+  // Helper function to get status label in Romanian
+  const getStatusLabel = (status) => {
+    switch (status) {
+      case "pending":
+        return "În așteptare"
+      case "processing":
+        return "În procesare"
+      case "shipped":
+        return "Expediată"
+      case "delivered":
+        return "Livrată"
+      case "cancelled":
+        return "Anulată"
+      default:
+        return status
+    }
+  }
+
   const handleStatusChange = (orderId, newStatus) => {
     setStatusEdit((prev) => ({ ...prev, [orderId]: newStatus }))
   }
@@ -319,7 +337,7 @@ const AdminOrders = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.total ? `${order.total.toFixed(2).replace('.', ',')} lei` : "-"}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                      {order.status ? order.status.charAt(0).toUpperCase() + order.status.slice(1) : "-"}
+                      {order.status ? getStatusLabel(order.status) : "-"}
                     </span>
                     <div className="mt-2">
                       <select

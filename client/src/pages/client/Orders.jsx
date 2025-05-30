@@ -49,6 +49,24 @@ const Orders = () => {
     }
   }
 
+  // Helper function to get status label in Romanian
+  const getStatusLabel = (status) => {
+    switch (status) {
+      case "pending":
+        return "În așteptare"
+      case "processing":
+        return "În procesare"
+      case "shipped":
+        return "Expediată"
+      case "delivered":
+        return "Livrată"
+      case "cancelled":
+        return "Anulată"
+      default:
+        return status
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -99,7 +117,7 @@ const Orders = () => {
                         <p
                           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}
                         >
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                          {getStatusLabel(order.status)}
                         </p>
                       </div>
                     </div>
