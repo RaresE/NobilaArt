@@ -198,6 +198,18 @@ const AdminInventory = () => {
     }
   }
 
+  // Funcție pentru traducerea unității în română
+  const translateUnit = (unit) => {
+    switch (unit) {
+      case 'pcs': return 'Bucăți';
+      case 'm': return 'Metri';
+      case 'kg': return 'Kilograme';
+      case 'l': return 'Litri';
+      case 'sqm': return 'Metri Pătrați';
+      default: return unit;
+    }
+  }
+
   return (
     <div>
       <div className="mb-6">
@@ -468,7 +480,7 @@ const AdminInventory = () => {
                         material.lowStockThreshold,
                       )}`}
                     >
-                      {material.stock} {material.unit}
+                      {material.stock} {translateUnit(material.unit)}
                     </span>
                     {material.stock <= material.lowStockThreshold && (
                       <p className="text-xs text-red-600 mt-1">
@@ -477,7 +489,7 @@ const AdminInventory = () => {
                     )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{material.unit}</div>
+                    <div className="text-sm text-gray-900">{translateUnit(material.unit)}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">
