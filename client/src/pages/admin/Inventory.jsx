@@ -272,7 +272,7 @@ const AdminInventory = () => {
       {formVisible && (
         <div className="bg-white p-6 rounded-lg shadow mb-6">
           <h2 className="text-lg font-medium text-gray-900 mb-4">
-            {formMode === "add" ? "Add New Material" : "Edit Material"}
+            {formMode === "add" ? "Adaugă Material Nou" : "Editează Material"}
           </h2>
 
           {formError && (
@@ -283,9 +283,9 @@ const AdminInventory = () => {
 
           <form onSubmit={formMode === "add" ? handleAddMaterial : handleUpdateMaterial}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div>
+              <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                  Material Name
+                  Nume Material
                 </label>
                 <input
                   type="text"
@@ -298,9 +298,9 @@ const AdminInventory = () => {
                 />
               </div>
 
-              <div>
+              <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
                 <label htmlFor="stock" className="block text-sm font-medium text-gray-700">
-                  Stock Quantity
+                  Cantitate în Stoc
                 </label>
                 <input
                   type="number"
@@ -314,9 +314,9 @@ const AdminInventory = () => {
                 />
               </div>
 
-              <div>
+              <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
                 <label htmlFor="unit" className="block text-sm font-medium text-gray-700">
-                  Unit
+                  Unitate de Măsură
                 </label>
                 <select
                   name="unit"
@@ -326,17 +326,17 @@ const AdminInventory = () => {
                   onChange={handleNewMaterialChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 >
-                  <option value="pcs">Pieces</option>
-                  <option value="m">Meters</option>
-                  <option value="kg">Kilograms</option>
-                  <option value="l">Liters</option>
-                  <option value="sqm">Square Meters</option>
+                  <option value="pcs">Bucăți</option>
+                  <option value="m">Metri</option>
+                  <option value="kg">Kilograme</option>
+                  <option value="l">Litri</option>
+                  <option value="sqm">Metri Pătrați</option>
                 </select>
               </div>
 
-              <div>
+              <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
                 <label htmlFor="lowStockThreshold" className="block text-sm font-medium text-gray-700">
-                  Low Stock Threshold
+                  Prag Stoc Minim
                 </label>
                 <input
                   type="number"
@@ -350,9 +350,9 @@ const AdminInventory = () => {
                 />
               </div>
 
-              <div className="sm:col-span-2">
+              <div className="sm:col-span-2 border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                  Description
+                  Descriere
                 </label>
                 <textarea
                   name="description"
@@ -371,7 +371,7 @@ const AdminInventory = () => {
                 onClick={cancelForm}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                Cancel
+                Anulează
               </button>
               <button
                 type="submit"
@@ -380,7 +380,7 @@ const AdminInventory = () => {
                   formLoading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
               >
-                {formLoading ? "Saving..." : formMode === "add" ? "Add Material" : "Update Material"}
+                {formLoading ? "Se salvează..." : formMode === "add" ? "Adaugă Material" : "Actualizează Material"}
               </button>
             </div>
           </form>

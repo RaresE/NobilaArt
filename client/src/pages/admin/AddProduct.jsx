@@ -108,10 +108,10 @@ const AddProduct = () => {
 
   return (
     <div className="max-w-xl mx-auto bg-white p-8 rounded shadow mt-8">
-      <h1 className="text-2xl font-bold mb-4">Add New Product</h1>
+      <h1 className="text-2xl font-bold mb-4">Adaugă Produs Nou</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Name</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">Nume</label>
           <input
             type="text"
             name="name"
@@ -121,8 +121,8 @@ const AddProduct = () => {
             required
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Price</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">Preț</label>
           <input
             type="number"
             name="price"
@@ -134,8 +134,8 @@ const AddProduct = () => {
             required
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Stock</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">Stoc</label>
           <input
             type="number"
             name="stock"
@@ -146,8 +146,8 @@ const AddProduct = () => {
             required
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Category</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">Categorie</label>
           <select
             name="categoryId"
             value={product.categoryId}
@@ -155,7 +155,7 @@ const AddProduct = () => {
             className="w-full border rounded px-3 py-2"
             required
           >
-            <option value="">Select category</option>
+            <option value="">Selectează categoria</option>
             {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.name}
@@ -163,8 +163,8 @@ const AddProduct = () => {
             ))}
           </select>
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Description</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">Descriere</label>
           <textarea
             name="description"
             value={product.description}
@@ -173,8 +173,8 @@ const AddProduct = () => {
             rows={3}
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Dimensions</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">Dimensiuni</label>
           <input
             type="text"
             name="dimensions"
@@ -184,8 +184,8 @@ const AddProduct = () => {
             placeholder="ex: 200x80x40 cm"
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Weight (kg)</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">Greutate (kg)</label>
           <input
             type="number"
             name="weight"
@@ -196,8 +196,8 @@ const AddProduct = () => {
             step={0.01}
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Image URL</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">URL Imagine</label>
           <input
             type="text"
             name="imageUrl"
@@ -207,8 +207,8 @@ const AddProduct = () => {
             placeholder="https://..."
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Available Materials</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">Materiale Disponibile</label>
           <Select
             isMulti
             name="availableMaterials"
@@ -219,8 +219,8 @@ const AddProduct = () => {
             classNamePrefix="select"
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Available Colors</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">Culori Disponibile</label>
           <input
             type="text"
             name="availableColors"
@@ -231,20 +231,20 @@ const AddProduct = () => {
           />
           <p className="text-xs text-gray-500">Separă culorile cu virgulă</p>
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Specifications</label>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="block text-sm font-medium mb-1">Specificații</label>
           {specifications.map((spec, idx) => (
             <div key={idx} className="flex gap-2 mb-2">
               <input
                 type="text"
-                placeholder="Key (ex: seats)"
+                placeholder="Cheie (ex: locuri)"
                 value={spec.key}
                 onChange={e => handleSpecificationChange(idx, 'key', e.target.value)}
                 className="border rounded px-2 py-1 flex-1"
               />
               <input
                 type="text"
-                placeholder="Value (ex: 3)"
+                placeholder="Valoare (ex: 3)"
                 value={spec.value}
                 onChange={e => handleSpecificationChange(idx, 'value', e.target.value)}
                 className="border rounded px-2 py-1 flex-1"
@@ -253,7 +253,7 @@ const AddProduct = () => {
             </div>
           ))}
           <button type="button" onClick={handleAddSpecification} className="text-blue-600 text-sm mt-1">+ Adaugă specificație</button>
-          <p className="text-xs text-gray-500 mt-1">Exemplu: seats = 3, material = Wood</p>
+          <p className="text-xs text-gray-500 mt-1">Exemplu: locuri = 3, material = Lemn</p>
         </div>
         <div className="flex justify-end gap-2">
           <button
@@ -262,14 +262,14 @@ const AddProduct = () => {
             onClick={() => navigate("/admin/products")}
             disabled={saving}
           >
-            Cancel
+            Anulează
           </button>
           <button
             type="submit"
             className="px-4 py-2 bg-blue-600 text-white rounded"
             disabled={saving}
           >
-            {saving ? "Saving..." : "Add Product"}
+            {saving ? "Se salvează..." : "Adaugă Produs"}
           </button>
         </div>
         {error && <div className="text-red-600 mt-2">{error}</div>}
