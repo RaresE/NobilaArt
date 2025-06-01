@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { useAuth } from "../../contexts/AuthContext"
+import Select from "react-select"
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -22,6 +23,26 @@ const ProductDetail = () => {
   const [addingToCart, setAddingToCart] = useState(false)
   const [notification, setNotification] = useState({ show: false, message: "", type: "" })
   const [material, setMaterial] = useState(null)
+
+  // Mapare nume culoare -> cod HEX
+  const colorSamples = {
+    crem: "#FFFDD0",
+    alb: "#FFFFFF",
+    gri: "#BEBEBE",
+    bej: "#C8AD7F",
+    negru: "#000000",
+    rosu: "#ff0000",
+    verde: "#00ff00",
+    albastru: "#0000ff",
+    maro: "#8B4513",
+    galben: "#FFFF00",
+    auriu: "#FFD700",
+    "verde măsliniu": "#808000",
+    "gri deschis": "#D3D3D3",
+    "gri închis": "#808080",
+    "maro deschis": "#8B4513",
+    "maro închis": "#5F3A00",
+  };
 
   useEffect(() => {
     const fetchProductAndMaterials = async () => {
@@ -263,23 +284,33 @@ const ProductDetail = () => {
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">
                 Culoare
               </label>
-              <select
+              <Select
                 id="color"
                 name="color"
-                value={customizations.color}
-                onChange={handleCustomizationChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-              >
-                {Array.isArray(product.availableColors) && product.availableColors.length > 0 ? (
-                  product.availableColors.map((color) => (
-                    <option key={color} value={color}>
-                      {color}
-                    </option>
-                  ))
-                ) : (
-                  <option value="" disabled>No options available</option>
+                value={product.availableColors && product.availableColors.length > 0 ?
+                  product.availableColors.map(c => ({ value: c, label: c.charAt(0).toUpperCase() + c.slice(1), color: colorSamples[c.toLowerCase()] || "#cccccc" })).find(opt => opt.value === customizations.color) : null}
+                onChange={opt => setCustomizations(prev => ({ ...prev, color: opt.value }))}
+                options={Array.isArray(product.availableColors) ? product.availableColors.map(c => ({ value: c, label: c.charAt(0).toUpperCase() + c.slice(1), color: colorSamples[c.toLowerCase()] || "#cccccc" })) : []}
+                formatOptionLabel={({ label, color }) => (
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <span style={{
+                      display: "inline-block",
+                      width: 16,
+                      height: 16,
+                      backgroundColor: color,
+                      border: "1px solid #ccc",
+                      borderRadius: 3,
+                      marginRight: 8,
+                    }} />
+                    {label}
+                  </div>
                 )}
-              </select>
+                className="mt-1"
+                classNamePrefix="select"
+                isSearchable={false}
+                placeholder="Alege culoarea..."
+                noOptionsMessage={() => "Nu există opțiuni"}
+              />
             </div>
 
             {/* Material Selection - always show */}
