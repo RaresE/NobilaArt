@@ -13,7 +13,7 @@ const Footer = () => {
               Mobilier de calitate pentru casa ta. Realizat cu grijă și atenție la detalii.
             </p>
             <div className="mt-4 flex space-x-6">
-              <a href="#" className="text-gray-400 hover:text-white">
+              <a href="https://www.facebook.com/share/1KwA6Ftwea/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
                 <span className="sr-only">Facebook</span>
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path
@@ -23,7 +23,7 @@ const Footer = () => {
                   />
                 </svg>
               </a>
-              <a href="#" className="text-gray-400 hover:text-white">
+              <a href="https://www.instagram.com/nobila.art?igsh=NXQ0MmJkc3RlbmE0" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
                 <span className="sr-only">Instagram</span>
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path
@@ -70,24 +70,14 @@ const Footer = () => {
             <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">COMPANIE</h3>
             <ul className="mt-4 space-y-4">
               <li>
-                <Link to="/about" className="text-base text-gray-300 hover:text-white">
+                <a href="https://nobila-art.ro/" target="_blank" rel="noopener noreferrer" className="text-base text-gray-300 hover:text-white">
                   Despre
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/blog" className="text-base text-gray-300 hover:text-white">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-base text-gray-300 hover:text-white">
+                <a href="https://nobila-art.ro/contact/" target="_blank" rel="noopener noreferrer" className="text-base text-gray-300 hover:text-white">
                   Contact
-                </Link>
-              </li>
-              <li>
-                <Link to="/careers" className="text-base text-gray-300 hover:text-white">
-                  Cariere
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
