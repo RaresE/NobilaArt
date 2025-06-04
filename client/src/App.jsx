@@ -23,6 +23,7 @@ import AdminInventory from "./pages/admin/Inventory"
 import EditProduct from "./pages/admin/EditProduct"
 import AddProduct from "./pages/admin/AddProduct"
 import Teams from "./pages/admin/Teams"
+import AdminOrderDetail from "./pages/admin/AdminOrderDetail"
 
 // Components
 import Navbar from "./components/client/Navbar"
@@ -101,6 +102,14 @@ function App() {
                 <Route path="/admin/products/:id/edit" element={<EditProduct />} />
                 <Route path="/admin/products/new" element={<AddProduct />} />
                 <Route path="/admin/teams" element={<Teams />} />
+                <Route
+                  path="/admin/orders/:id"
+                  element={
+                    <AdminRoute>
+                      <AdminOrderDetail />
+                    </AdminRoute>
+                  }
+                />
               </Routes>
             </main>
           </div>
