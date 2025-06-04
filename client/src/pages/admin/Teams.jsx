@@ -109,9 +109,11 @@ const Teams = () => {
                 <tr key={team.id} className="border-b hover:bg-gray-50">
                   <td className="p-2">{team.name}</td>
                   <td className="p-2">{team.description || "Fără descriere"}</td>
-                  <td className="p-2 flex gap-2">
-                    <button className="text-blue-600" onClick={() => handleEdit(team)}>Editează</button>
-                    <button className="text-red-600" onClick={() => handleDelete(team.id)}>Șterge</button>
+                  <td className="p-2 text-sm font-medium">
+                    <div className="flex space-x-2">
+                      <button className="text-blue-600 hover:text-blue-900" onClick={() => handleEdit(team)}>Editează</button>
+                      <button className="text-red-600 hover:text-red-900" onClick={() => handleDelete(team.id)}>Șterge</button>
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -374,19 +374,21 @@ const AdminProducts = () => {
                     {product.stock === 0 ? "Epuizat" : "În stoc"}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <Link
-                    to={`/admin/products/${product.id}/edit`}
-                    className="text-blue-600 hover:text-blue-900 mr-4"
-                  >
-                    Editează
-                  </Link>
-                  <button
-                    onClick={() => handleDeleteProduct(product.id)}
-                    className="text-red-600 hover:text-red-900"
-                  >
-                    Șterge
-                  </button>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div className="flex space-x-2">
+                    <Link
+                      to={`/admin/products/${product.id}/edit`}
+                      className="text-blue-600 hover:text-blue-900"
+                    >
+                      Editează
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteProduct(product.id)}
+                      className="text-red-600 hover:text-red-900"
+                    >
+                      Șterge
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
