@@ -102,6 +102,12 @@ export const AuthProvider = ({ children }) => {
         customizations,
       })
       console.log('Cart response:', response.data);
+      if (response.data.success && response.data.message) {
+        if (response.data.cart) {
+          setCart(response.data.cart)
+        }
+        return { success: true, message: response.data.message }
+      }
       setCart(response.data)
       return { success: true }
     } catch (error) {

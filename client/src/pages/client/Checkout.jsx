@@ -95,7 +95,10 @@ const Checkout = () => {
       const response = await axios.post("http://localhost:5000/api/orders", orderData)
 
       setSuccess(true)
-      setOrderId(response.data.id)
+      setOrderId(response.data.order?.id)
+      if (response.data.message) {
+        alert(response.data.message)
+      }
       await clearCart()
     } catch (err) {
       console.error("Error creating order:", err)

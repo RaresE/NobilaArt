@@ -10,35 +10,42 @@ const Order = sequelize.define("Order", {
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'Users',
+      key: 'id'
+    }
   },
   status: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: 'pending',
+    type: DataTypes.ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled'),
+    defaultValue: 'pending'
   },
   shippingAddress: {
     type: DataTypes.JSON,
-    allowNull: false,
+    allowNull: false
   },
   paymentMethod: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: false
   },
   deliveryMethod: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: false
   },
   subtotal: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false
   },
   shipping: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false
   },
   total: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false
+  },
+  needsManufacturing: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   },
   teamId: {
     type: DataTypes.INTEGER,

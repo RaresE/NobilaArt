@@ -107,11 +107,19 @@ const ProductDetail = () => {
       const result = await addToCart(product.id, quantity, customizations)
 
       if (result.success) {
-        setNotification({
-          show: true,
-          message: "Product added to cart successfully!",
-          type: "success",
-        })
+        if (result.message) {
+          setNotification({
+            show: true,
+            message: result.message,
+            type: "info",
+          });
+        } else {
+          setNotification({
+            show: true,
+            message: "Product added to cart successfully!",
+            type: "success",
+          })
+        }
 
         // Hide notification after 3 seconds
         setTimeout(() => {
@@ -142,7 +150,19 @@ const ProductDetail = () => {
       const result = await addToCart(product.id, quantity, customizations)
 
       if (result.success) {
-        navigate("/cart")
+        if (result.message) {
+          setNotification({
+            show: true,
+            message: result.message,
+            type: "info",
+          });
+          // Nu naviga automat la coș dacă e made to order, doar anunță
+          setTimeout(() => {
+            setNotification({ show: false, message: "", type: "" })
+          }, 3000)
+        } else {
+          navigate("/cart")
+        }
       } else {
         setNotification({
           show: true,

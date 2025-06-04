@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS Products;
 DROP TABLE IF EXISTS Categories;
 DROP TABLE IF EXISTS Materials;
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS ProductMaterials;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- Crearea tabelelor
@@ -86,6 +87,7 @@ CREATE TABLE Orders (
   subtotal DECIMAL(10, 2) NOT NULL,
   shipping DECIMAL(10, 2) NOT NULL,
   total DECIMAL(10, 2) NOT NULL,
+  needsManufacturing BOOLEAN DEFAULT FALSE,
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE
@@ -102,6 +104,18 @@ CREATE TABLE OrderItems (
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (orderId) REFERENCES Orders(id) ON DELETE CASCADE,
   FOREIGN KEY (productId) REFERENCES Products(id) ON DELETE CASCADE
+);
+
+CREATE TABLE ProductMaterials (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  productId INT NOT NULL,
+  materialId INT NOT NULL,
+  quantityNeeded INT NOT NULL DEFAULT 1,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (productId) REFERENCES Products(id) ON DELETE CASCADE,
+  FOREIGN KEY (materialId) REFERENCES Materials(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_product_material (productId, materialId)
 );
 
 -- Popularea tabelelor cu date de exemplu
@@ -137,7 +151,8 @@ INSERT INTO `materials` (`id`, `name`, `description`, `stock`, `unit`, `lowStock
 (11, 'Stofă', 'Stofă perfectă pentru canapea', 100, 'm', 10, '2025-05-23 17:11:36', '2025-05-25 17:26:50'),
 (12, 'Burete', 'Burete', 100, 'l', 10, '2025-05-23 19:23:22', '2025-05-25 17:26:50'),
 (13, 'Burete Premium', 'Burete premium', 100, 'pcs', 10, '2025-05-23 20:27:27', '2025-05-25 17:26:50'),
-(14, 'Textil', 'Material textil pentru tapițerie', 50, 'm', 10, '2025-05-25 17:53:30', '2025-05-25 17:53:40');
+(14, 'Textil', 'Material textil pentru tapițerie', 50, 'm', 10, '2025-05-25 17:53:30', '2025-05-25 17:53:40'),
+(15, 'Piatra naturala', 'Piatră naturală de înaltă calitate pentru mobilier', 50, 'sqm', 10, '2025-05-25 17:53:30', '2025-05-25 17:53:40');
 
 -- Produse
 INSERT INTO Products (name, description, price, stock, imageUrl, dimensions, weight, featured, availableColors, specifications, categoryId) VALUES

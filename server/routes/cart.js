@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { Cart, Product, Material } = require("../models")
+const { Cart, Product, Material, ProductMaterial } = require("../models")
 const { authenticate, isClient } = require("../middleware/auth")
 
 // Get user's cart
@@ -66,7 +66,22 @@ router.post("/", authenticate, isClient, async (req, res) => {
 
     // Check if product is in stock
     if (product.stock < quantity) {
-      return res.status(400).json({ message: "Not enough stock available" })
+      // Verifică dacă produsul poate fi făcut din materiale
+      const productMaterials = await ProductMaterial.findAll({ where: { productId: product.id } });
+      let canMake = true;
+      for (const pm of productMaterials) {
+        const material = await Material.findByPk(pm.materialId);
+        if (!material || material.stock < pm.quantityNeeded * quantity) {
+          canMake = false;
+          break;
+        }
+      }
+      if (!canMake) {
+        return res.status(400).json({ message: "Not enough stock available and not enough materials to make the product." });
+      }
+      // Dacă există materiale suficiente, continuă execuția pentru a adăuga produsul în coș ca de obicei, dar setează mesajul informativ
+      req.addToCartMessage = "Produsul nu este pe stoc, dar poate fi realizat la comandă. Va dura mai mult pentru livrare.";
+      // nu returna, lasă să continue codul de adăugare în coș
     }
 
     // Check if material exists if specified
@@ -142,6 +157,13 @@ router.post("/", authenticate, isClient, async (req, res) => {
       }),
     )
 
+    if (req.addToCartMessage) {
+      return res.json({
+        success: true,
+        message: req.addToCartMessage,
+        cart: formattedCartItems
+      });
+    }
     res.json(formattedCartItems)
   } catch (err) {
     console.error("Add to cart error:", err)

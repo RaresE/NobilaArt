@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { Op } = require("sequelize")
-const { Order, OrderItem, Product, Cart, Material, User } = require("../models")
+const { Order, OrderItem, Product, Cart, Material, User, ProductMaterial } = require("../models")
 const { authenticate, isClient } = require("../middleware/auth")
 const sequelize = require("../config/database")
 
@@ -170,45 +170,102 @@ router.post("/", authenticate, isClient, async (req, res) => {
   const transaction = await sequelize.transaction()
 
   try {
-    const { items, shippingAddress, paymentMethod, deliveryMethod, subtotal, shipping, total } = req.body
+    const { items, shippingAddress, paymentMethod, deliveryMethod } = req.body
 
-    // Check if cart is empty
-    if (!items || items.length === 0) {
-      await transaction.rollback()
-      return res.status(400).json({ message: "Cart is empty" })
-    }
+    // Calculate totals
+    let subtotal = 0
+    let shipping = 0
+    let orderStatus = 'pending'
+    let needsManufacturing = false
 
-    // Create order
-    console.log('shippingAddress primit la backend:', shippingAddress)
-    const order = await Order.create(
-      {
-        userId: req.user.id,
-        shippingAddress,
-        paymentMethod,
-        deliveryMethod,
-        subtotal,
-        shipping,
-        total,
-        status: "pending",
-      },
-      { transaction },
-    )
-
-    // Create order items
+    // Check products and calculate subtotal
     for (const item of items) {
-      // Get product
-      const product = await Product.findByPk(item.productId, { transaction })
+      const product = await Product.findByPk(item.productId, {
+        include: [{
+          model: Material,
+          through: ProductMaterial
+        }],
+        transaction
+      })
 
       if (!product) {
         await transaction.rollback()
         return res.status(404).json({ message: `Product with ID ${item.productId} not found` })
       }
 
-      // Check if product is in stock
+      // Check if product is in stock or can be made from materials
       if (product.stock < item.quantity) {
-        await transaction.rollback()
-        return res.status(400).json({ message: `Not enough stock for product: ${product.name}` })
+        // Check if we have enough materials to make the product
+        const canMakeFromMaterials = await Promise.all(
+          product.Materials.map(async (material) => {
+            const productMaterial = await ProductMaterial.findOne({
+              where: {
+                productId: product.id,
+                materialId: material.id
+              },
+              transaction
+            })
+            const requiredQuantity = productMaterial.quantityNeeded * item.quantity
+            return material.stock >= requiredQuantity
+          })
+        )
+
+        if (canMakeFromMaterials.some(canMake => !canMake)) {
+          await transaction.rollback()
+          return res.status(400).json({ 
+            message: `Not enough materials to make product: ${product.name}. Please try again later.` 
+          })
+        }
+
+        orderStatus = 'processing'
+        needsManufacturing = true
       }
+
+      subtotal += product.price * item.quantity
+    }
+
+    // Calculate shipping based on delivery method
+    switch (deliveryMethod) {
+      case "standard":
+        shipping = 10
+        break
+      case "express":
+        shipping = 20
+        break
+      case "next_day":
+        shipping = 30
+        break
+      default:
+        shipping = 10
+    }
+
+    const total = subtotal + shipping
+
+    // Create order
+    const order = await Order.create(
+      {
+        userId: req.user.id,
+        status: orderStatus,
+        shippingAddress,
+        paymentMethod,
+        deliveryMethod,
+        subtotal,
+        shipping,
+        total,
+        needsManufacturing
+      },
+      { transaction },
+    )
+
+    // Create order items and update stock
+    for (const item of items) {
+      const product = await Product.findByPk(item.productId, {
+        include: [{
+          model: Material,
+          through: ProductMaterial
+        }],
+        transaction
+      })
 
       // Create order item
       await OrderItem.create(
@@ -222,13 +279,32 @@ router.post("/", authenticate, isClient, async (req, res) => {
         { transaction },
       )
 
-      // Update product stock
-      await product.update(
-        {
-          stock: product.stock - item.quantity,
-        },
-        { transaction },
-      )
+      if (product.stock >= item.quantity) {
+        // Update product stock if available
+        await product.update(
+          {
+            stock: product.stock - item.quantity,
+          },
+          { transaction },
+        )
+      } else {
+        // Deduct materials if product needs to be made
+        const productMaterials = await ProductMaterial.findAll({
+          where: { productId: product.id },
+          transaction
+        });
+        for (const pm of productMaterials) {
+          const material = await Material.findByPk(pm.materialId, { transaction });
+          if (material) {
+            await material.update(
+              {
+                stock: material.stock - pm.quantityNeeded * item.quantity,
+              },
+              { transaction }
+            );
+          }
+        }
+      }
     }
 
     // Clear user's cart
@@ -241,7 +317,11 @@ router.post("/", authenticate, isClient, async (req, res) => {
 
     await transaction.commit()
 
-    res.status(201).json(order)
+    let message = "Comanda a fost plasată cu succes!";
+    if (order.needsManufacturing) {
+      message = "Produsul nu este pe stoc, va fi realizat la comandă. Timpul de livrare va fi mai mare.";
+    }
+    res.status(201).json({ order, message });
   } catch (err) {
     await transaction.rollback()
     console.error("Create order error:", err)
