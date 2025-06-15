@@ -336,27 +336,52 @@ const AdminOrders = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(order.createdAt)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.total ? `${order.total.toFixed(2).replace('.', ',')} lei` : "-"}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                      {order.status ? getStatusLabel(order.status) : "-"}
-                    </span>
-                    <div className="mt-2">
+                    {/* Status Section */}
+                    <div className="pb-2 mb-2 border-b border-gray-200">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
+                        {order.status ? getStatusLabel(order.status) : "-"}
+                      </span>
+                      <div className="mt-2">
+                        <select
+                          value={statusEdit[order.id] !== undefined ? statusEdit[order.id] : order.status}
+                          onChange={e => handleStatusChange(order.id, e.target.value)}
+                          className="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-xs px-2 py-1"
+                        >
+                          {statusOptions.map(opt => (
+                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                          ))}
+                        </select>
+                        <button
+                          onClick={() => handleSaveStatus(order.id)}
+                          disabled={savingStatus[order.id] || statusEdit[order.id] === undefined || statusEdit[order.id] === order.status}
+                          className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded disabled:opacity-50"
+                        >
+                          {savingStatus[order.id] ? "Saving..." : "Save"}
+                        </button>
+                        {statusError[order.id] && <div className="text-xs text-red-600 mt-1">{statusError[order.id]}</div>}
+                      </div>
+                    </div>
+                    {/* Team Assignment Section */}
+                    <div className="pt-2">
+                      <label className="block text-xs text-gray-500 mb-1">Echipă</label>
                       <select
-                        value={statusEdit[order.id] !== undefined ? statusEdit[order.id] : order.status}
-                        onChange={e => handleStatusChange(order.id, e.target.value)}
+                        value={assignTeam[order.id] !== undefined ? assignTeam[order.id] : order.teamId || ""}
+                        onChange={e => handleTeamChange(order.id, e.target.value)}
                         className="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-xs px-2 py-1"
                       >
-                        {statusOptions.map(opt => (
-                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        <option value="">Fără echipă</option>
+                        {teams.map(team => (
+                          <option key={team.id} value={team.id}>{team.name}</option>
                         ))}
                       </select>
                       <button
-                        onClick={() => handleSaveStatus(order.id)}
-                        disabled={savingStatus[order.id] || statusEdit[order.id] === undefined || statusEdit[order.id] === order.status}
+                        onClick={() => handleSaveTeam(order.id)}
+                        disabled={savingTeam[order.id] || assignTeam[order.id] === undefined || assignTeam[order.id] === order.teamId}
                         className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded disabled:opacity-50"
                       >
-                        {savingStatus[order.id] ? "Saving..." : "Save"}
+                        {savingTeam[order.id] ? "Saving..." : "Save"}
                       </button>
-                      {statusError[order.id] && <div className="text-xs text-red-600 mt-1">{statusError[order.id]}</div>}
+                      {teamError[order.id] && <div className="text-xs text-red-600 mt-1">{teamError[order.id]}</div>}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
