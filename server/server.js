@@ -11,7 +11,6 @@ dotenv.config()
 const dbConnection = require("./config/database")
 const db = require("./models")
 
-// Import routes
 const authRoutes = require("./routes/auth")
 const productRoutes = require("./routes/products")
 const categoryRoutes = require("./routes/categories")
@@ -20,18 +19,14 @@ const cartRoutes = require("./routes/cart")
 const orderRoutes = require("./routes/orders")
 const adminRoutes = require("./routes/admin")
 
-// Initialize Express app
 const app = express()
 
-// Middleware
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-// Serve static files from the 'public' directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 
-// API Routes
 app.use("/api/auth", authRoutes)
 app.use("/api/products", productRoutes)
 app.use("/api/categories", categoryRoutes)

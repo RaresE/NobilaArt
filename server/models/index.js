@@ -8,7 +8,6 @@ const OrderItem = require("./OrderItem")
 const Team = require("./Team")
 const ProductMaterial = require("./ProductMaterial")
 
-// Define relationships
 Category.hasMany(Product, { foreignKey: 'categoryId' })
 Product.belongsTo(Category, { foreignKey: 'categoryId' })
 

@@ -1,10 +1,8 @@
 const { Sequelize } = require("sequelize")
 const dotenv = require("dotenv")
 
-// Load environment variables
 dotenv.config()
 
-// Create Sequelize instance
 const sequelize = new Sequelize(
   process.env.DB_NAME || "mobilux",
   process.env.DB_USER || "root",

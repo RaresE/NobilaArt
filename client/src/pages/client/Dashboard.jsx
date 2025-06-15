@@ -211,7 +211,7 @@ const Dashboard = () => {
                       </div>
                       <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
                         <p>
-                          Total: <span className="font-medium text-gray-900">${order.total.toFixed(2)}</span>
+                          Total: <span className="font-medium text-gray-900">{order.total.toFixed(2).replace('.', ',')} lei</span>
                         </p>
                       </div>
                     </div>

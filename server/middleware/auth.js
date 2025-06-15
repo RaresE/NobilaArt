@@ -1,27 +1,22 @@
 const jwt = require("jsonwebtoken")
 const { User } = require("../models")
 
-// Middleware to authenticate user
 const authenticate = async (req, res, next) => {
   try {
-    // Get token from header
     const token = req.header("Authorization")?.replace("Bearer ", "")
 
     if (!token) {
       return res.status(401).json({ message: "No token, authorization denied" })
     }
 
-    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "your_jwt_secret")
 
-    // Find user
     const user = await User.findByPk(decoded.id)
 
     if (!user) {
       return res.status(401).json({ message: "User not found" })
     }
 
-    // Add user to request
     req.user = user
     next()
   } catch (err) {
@@ -30,7 +25,6 @@ const authenticate = async (req, res, next) => {
   }
 }
 
-// Middleware to check if user is admin
 const isAdmin = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next()
@@ -39,7 +33,6 @@ const isAdmin = (req, res, next) => {
   }
 }
 
-// Middleware to check if user is client
 const isClient = (req, res, next) => {
   if (req.user && req.user.role === "client") {
     next()
