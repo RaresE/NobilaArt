@@ -78,6 +78,7 @@ const EditProduct = () => {
     try {
       const payload = {
         ...product,
+        isVisible: product.isVisible ? 1 : 0,
         availableMaterials: (product.availableMaterials || []).map(opt => opt.value),
         availableColors: colorsInput.split(",").map(c => c.trim()).filter(Boolean),
       };
@@ -223,6 +224,18 @@ const EditProduct = () => {
             placeholder="ex: alb, negru, stejar"
           />
           <p className="text-xs text-gray-500">Separă culorile cu virgulă</p>
+        </div>
+        <div>
+          <label className="inline-flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="isVisible"
+              checked={!!product.isVisible}
+              onChange={e => setProduct(prev => ({ ...prev, isVisible: e.target.checked }))}
+              className="form-checkbox h-4 w-4 text-blue-600"
+            />
+            Produs vizibil pe site
+          </label>
         </div>
         <div className="flex justify-end gap-2">
           <button

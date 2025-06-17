@@ -15,6 +15,7 @@ const AddProduct = () => {
     weight: "",
     imageUrl: "",
     availableMaterials: [],
+    isVisible: true,
   });
   const [categories, setCategories] = useState([]);
   const [materials, setMaterials] = useState([]);
@@ -94,6 +95,7 @@ const AddProduct = () => {
         availableMaterials: (product.availableMaterials || []).map(opt => opt.value),
         availableColors: colorsInput.split(",").map(c => c.trim()).filter(Boolean),
         specifications: Object.keys(specificationsObj).length > 0 ? specificationsObj : undefined,
+        isVisible: product.isVisible ? 1 : 0,
       };
       await axios.post("http://localhost:5000/api/admin/products", payload);
       navigate("/admin/products");
@@ -254,6 +256,18 @@ const AddProduct = () => {
           ))}
           <button type="button" onClick={handleAddSpecification} className="text-blue-600 text-sm mt-1">+ Adaugă specificație</button>
           <p className="text-xs text-gray-500 mt-1">Exemplu: locuri = 3, material = Lemn</p>
+        </div>
+        <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+          <label className="inline-flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="isVisible"
+              checked={!!product.isVisible}
+              onChange={e => setProduct(prev => ({ ...prev, isVisible: e.target.checked }))}
+              className="form-checkbox h-4 w-4 text-blue-600"
+            />
+            Produs vizibil pe site
+          </label>
         </div>
         <div className="flex justify-end gap-2">
           <button
