@@ -42,25 +42,21 @@ const Home = () => {
   return (
     <div>
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-700 via-blue-500 to-blue-300 text-white min-h-[400px] flex items-center justify-center">
+      <div className="relative bg-gradient-to-br from-blue-700 via-blue-500 to-blue-300 text-white min-h-[300px] flex items-center justify-center">
         <div className="absolute inset-0 overflow-hidden">
           <img
             src="/images/hero-furniture.jpg"
             alt="Modern furniture"
             className="w-full h-full object-cover opacity-30 blur-sm"
-            onError={(e) => {
-              e.target.onerror = null
-              e.target.src = "https://via.placeholder.com/1200x600?text=MobiLux+Furniture"
-            }}
           />
           <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 to-blue-400/40"></div>
         </div>
-        <div className="relative z-10 text-center max-w-2xl mx-auto px-4 py-24">
-          <h1 className="text-5xl font-extrabold tracking-tight mb-4 drop-shadow-lg">MobiLux</h1>
-          <p className="text-xl mb-8 drop-shadow">Eleganță și calitate pentru casa ta. Descoperă colecția noastră de mobilier lucrat manual.</p>
+        <div className="relative z-10 text-center max-w-2xl mx-auto px-4 py-1" style={{ marginTop: '-32px', marginBottom: '-32px' }}>
+          <h1 className="text-5xl font-extrabold tracking-tight mb-1 drop-shadow-lg">MobiLux</h1>
+          <p className="text-xl mb-2 drop-shadow">Eleganță și calitate pentru casa ta. Descoperă colecția noastră de mobilier lucrat manual.</p>
             <Link
               to={user ? "/products" : "/register"}
-            className="inline-block bg-white text-blue-700 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-100 transition"
+              className="inline-block bg-white text-blue-700 font-bold py-1.5 px-5 rounded-full shadow-lg hover:bg-blue-100 transition text-base mt-1"
             >
               {user ? "Vezi produsele" : "Înregistrează-te"}
             </Link>
@@ -68,7 +64,7 @@ const Home = () => {
       </div>
 
       {/* Categories Section */}
-      <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-8">Caută după cameră</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((category) => (
