@@ -111,7 +111,7 @@ const AddProduct = () => {
       <h1 className="text-2xl font-bold mb-4">Adaugă Produs Nou</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
-          <label className="block text-sm font-medium mb-1">Nume</label>
+          <label className="block text-sm font-medium mb-1">Denumire</label>
           <input
             type="text"
             name="name"
