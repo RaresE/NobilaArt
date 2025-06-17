@@ -56,7 +56,7 @@ const Home = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 to-blue-400/40"></div>
         </div>
         <div className="relative z-10 text-center max-w-2xl mx-auto px-4 py-24">
-          <h1 className="text-5xl font-extrabold tracking-tight mb-4 drop-shadow-lg">MobiLux Mobilier</h1>
+          <h1 className="text-5xl font-extrabold tracking-tight mb-4 drop-shadow-lg">MobiLux</h1>
           <p className="text-xl mb-8 drop-shadow">Eleganță și calitate pentru casa ta. Descoperă colecția noastră de mobilier lucrat manual.</p>
             <Link
               to={user ? "/products" : "/register"}
