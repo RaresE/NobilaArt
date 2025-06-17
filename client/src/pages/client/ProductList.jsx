@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useLocation, Link } from "react-router-dom"
 import axios from "axios"
+import Chatbot from '../../components/client/Chatbot'
 
 const ProductList = () => {
   const [products, setProducts] = useState([])
@@ -369,6 +370,7 @@ const ProductList = () => {
           </div>
         </>
       )}
+      <Chatbot />
     </div>
   )
 }

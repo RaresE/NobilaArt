@@ -18,6 +18,7 @@ const materialRoutes = require("./routes/materials")
 const cartRoutes = require("./routes/cart")
 const orderRoutes = require("./routes/orders")
 const adminRoutes = require("./routes/admin")
+const chatbotRoutes = require("./routes/chatbot")
 
 const app = express()
 
@@ -34,6 +35,7 @@ app.use("/api/materials", materialRoutes)
 app.use("/api/cart", cartRoutes)
 app.use("/api/orders", orderRoutes)
 app.use("/api/admin", adminRoutes)
+app.use("/api/chatbot", chatbotRoutes)
 
 // Test database connection
 dbConnection.authenticate()
