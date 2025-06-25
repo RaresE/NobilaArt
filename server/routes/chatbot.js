@@ -7,11 +7,9 @@ require('dotenv').config();
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// POST /api/chatbot/suggest-product
 router.post('/suggest-product', async (req, res) => {
   const { message } = req.body;
 
-  // Prompt îmbunătățit pentru extragere dimensiuni
   const extractPrompt = `
 Extrage dimensiunile (lungime, latime, inaltime) din urmatorul mesaj, daca exista, si raspunde DOAR cu un JSON de forma {"lungime":..., "latime":..., "inaltime":...}. 
 Daca nu exista, raspunde DOAR cu null, fara niciun alt text sau explicatie.
@@ -35,7 +33,6 @@ Mesaj: "${message}"
     return res.json({ reply: "Te rog să specifici dimensiunile spațiului (lungime, lățime, înălțime)." });
   }
 
-  // 2. Caută produsele potrivite
   const products = await Product.findAll({ 
     where: { 
       stock: { [Op.gt]: 0 },
@@ -56,7 +53,6 @@ Mesaj: "${message}"
     return res.json({ reply: 'Nu am găsit produse pe stoc care să se potrivească acestor dimensiuni.' });
   }
 
-  // 3. Cere AI-ului să formuleze un răspuns conversațional cu lista de produse
   const productList = suggestions.map(p => `- ${p.name} (${p.dimensions})`).join("\n");
   const suggestPrompt = `Clientul are un spațiu de ${dims.lungime}x${dims.latime}x${dims.inaltime} cm. Iată produsele disponibile care se potrivesc:\n${productList}\nFormulează un răspuns prietenos și scurt pentru client, recomandând unul sau mai multe produse din listă.`;
 

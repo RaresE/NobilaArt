@@ -29,6 +29,17 @@ const OrderDetail = () => {
   if (error) return <div className="p-8 text-red-600">{error}</div>;
   if (!order) return <div className="p-8">Order not found!</div>;
 
+  // Dicționar pentru traducerea statusului
+  const statusMap = {
+    pending: "În așteptare",
+    completed: "Finalizată",
+    cancelled: "Anulată",
+    processing: "În procesare",
+    shipped: "Expediată",
+    delivered: "Livrată",
+  };
+  const statusRo = statusMap[String(order.status).toLowerCase()] || order.status;
+
   const address = order.shippingAddress
     ? [order.shippingAddress.address, order.shippingAddress.city, order.shippingAddress.state, order.shippingAddress.zipCode, order.shippingAddress.phone]
         .filter(Boolean)
@@ -40,7 +51,7 @@ const OrderDetail = () => {
       <h1 className="text-2xl font-bold mb-6">Detalii comandă <span className="text-blue-600">#{order.id}</span></h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
         <div>
-          <p className="mb-2"><span className="font-semibold">Status:</span> <span className="capitalize">{order.status}</span></p>
+          <p className="mb-2"><span className="font-semibold">Status:</span> <span className="capitalize">{statusRo}</span></p>
           <p className="mb-2"><span className="font-semibold">Total:</span> <span className="text-green-700 font-bold">{order.total} lei</span></p>
           <p className="mb-2"><span className="font-semibold">Metodă plată:</span> {order.paymentMethod}</p>
           <p className="mb-2"><span className="font-semibold">Livrare:</span> {order.deliveryMethod}</p>

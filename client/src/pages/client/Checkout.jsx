@@ -120,7 +120,7 @@ const Checkout = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Checkout</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">Finalizare comandă</h1>
 
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -144,12 +144,12 @@ const Checkout = () => {
         <div>
           {/* Shipping Information */}
           <div className="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Shipping Information</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Informații de livrare</h2>
 
             <div className="grid grid-cols-1 gap-4">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                  Full Name
+                  Nume complet
                 </label>
                 <input
                   type="text"
@@ -164,7 +164,7 @@ const Checkout = () => {
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email Address
+                  Adresă email
                 </label>
                 <input
                   type="email"
@@ -179,7 +179,7 @@ const Checkout = () => {
 
               <div>
                 <label htmlFor="address" className="block text-sm font-medium text-gray-700">
-                  Street Address
+                  Adresă stradă
                 </label>
                 <input
                   type="text"
@@ -195,7 +195,7 @@ const Checkout = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-                    City
+                    Oraș
                   </label>
                   <input
                     type="text"
@@ -210,7 +210,7 @@ const Checkout = () => {
 
                 <div>
                   <label htmlFor="state" className="block text-sm font-medium text-gray-700">
-                    State / Province
+                    Județ / Provincie
                   </label>
                   <input
                     type="text"
@@ -227,7 +227,7 @@ const Checkout = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
-                    ZIP / Postal Code
+                    Cod poștal
                   </label>
                   <input
                     type="text"
@@ -242,7 +242,7 @@ const Checkout = () => {
 
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                    Phone Number
+                    Număr de telefon
                   </label>
                   <input
                     type="tel"
@@ -260,7 +260,7 @@ const Checkout = () => {
 
           {/* Delivery Method */}
           <div className="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Delivery Method</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Metodă de livrare</h2>
 
             <div className="space-y-4">
               <div className="flex items-center">
@@ -312,7 +312,7 @@ const Checkout = () => {
 
           {/* Payment Method */}
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Payment Method</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Metodă de plată</h2>
 
             <div className="space-y-4">
               <div className="flex items-center">
@@ -326,7 +326,7 @@ const Checkout = () => {
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 />
                 <label htmlFor="payment-credit-card" className="ml-3 block text-sm font-medium text-gray-700">
-                  Credit Card
+                  Card bancar
                 </label>
               </div>
 
@@ -356,7 +356,7 @@ const Checkout = () => {
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 />
                 <label htmlFor="payment-bank-transfer" className="ml-3 block text-sm font-medium text-gray-700">
-                  Bank Transfer
+                  Transfer bancar
                 </label>
               </div>
             </div>
@@ -365,7 +365,7 @@ const Checkout = () => {
               <div className="mt-4 space-y-4">
                 <div>
                   <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700">
-                    Card Number
+                    Număr card
                   </label>
                   <input
                     type="text"
@@ -382,7 +382,7 @@ const Checkout = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="cardExpiry" className="block text-sm font-medium text-gray-700">
-                      Expiration Date
+                      Dată expirare
                     </label>
                     <input
                       type="text"
@@ -420,7 +420,7 @@ const Checkout = () => {
         {/* Order Summary */}
         <div>
           <div className="bg-white rounded-lg shadow p-6 sticky top-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Sumar comandă</h2>
 
             <div className="max-h-96 overflow-y-auto mb-4">
               <ul className="divide-y divide-gray-200">
@@ -440,12 +440,12 @@ const Checkout = () => {
                           ${(item.product.price * item.quantity).toFixed(2).replace('.', ',')} lei
                         </p>
                       </div>
-                      <p className="mt-1 text-sm text-gray-500">Qty: {item.quantity}</p>
+                      <p className="mt-1 text-sm text-gray-500">Cantitate: {item.quantity}</p>
 
                       {/* Customizations */}
                       {item.customizations && (
                         <div className="mt-1 text-xs text-gray-500">
-                          {item.customizations.color && <p>Color: {item.customizations.color}</p>}
+                          {item.customizations.color && <p>Culoare: {item.customizations.color}</p>}
                           {item.customizations.material && <p>Material: {item.customizations.materialName}</p>}
                         </div>
                       )}
@@ -480,7 +480,7 @@ const Checkout = () => {
                   loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
               >
-                {loading ? "Processing..." : "Place Order"}
+                {loading ? "Se procesează..." : "Plasează comanda"}
               </button>
             </div>
           </div>
