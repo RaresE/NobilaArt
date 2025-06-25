@@ -97,16 +97,17 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredProducts.map((product) => (
               <Link key={product.id} to={`/products/${product.id}`} className="group">
-                <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300">
-                  <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden">
+                <div className="bg-white rounded-xl border-2 border-blue-100 shadow-md group-hover:shadow-xl group-hover:border-blue-400 transition duration-200 overflow-hidden flex flex-col" style={{ width: 300, height: 360 }}>
+                  <div style={{ width: '100%', height: 180, overflow: 'hidden' }}>
                     <img
                       src={product.imageUrl || `https://via.placeholder.com/300x300?text=${product.name}`}
                       alt={product.name}
-                      className="w-full h-48 object-cover group-hover:opacity-75 transition duration-300"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      className="transition duration-300 group-hover:opacity-80"
                     />
                   </div>
-                  <div className="p-4">
-                    <h3 className="text-lg font-medium text-gray-900">{product.name}</h3>
+                  <div className="flex-1 flex flex-col p-4 justify-center">
+                    <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 min-h-[48px]">{product.name}</h3>
                     <p className="mt-1 text-sm text-gray-500">{product.category}</p>
                     <p className="mt-2 text-lg font-bold text-gray-900">{product.price.toFixed(2).replace('.', ',')} lei</p>
                   </div>
