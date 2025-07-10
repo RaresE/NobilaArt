@@ -3,7 +3,6 @@ const router = express.Router()
 const { Cart, Product, Material, ProductMaterial } = require("../models")
 const { authenticate, isClient } = require("../middleware/auth")
 
-// Get user's cart
 router.get("/", authenticate, isClient, async (req, res) => {
   try {
     const cartItems = await Cart.findAll({
@@ -16,12 +15,10 @@ router.get("/", authenticate, isClient, async (req, res) => {
       ],
     })
 
-    // Format cart items
     const formattedCartItems = await Promise.all(
       cartItems.map(async (item) => {
         let materialName = null
 
-        // If item has material customization, get material name
         if (item.customizations && item.customizations.material) {
           const material = await Material.findByPk(item.customizations.material)
           if (material) {
@@ -53,20 +50,16 @@ router.get("/", authenticate, isClient, async (req, res) => {
   }
 })
 
-// Add item to cart
 router.post("/", authenticate, isClient, async (req, res) => {
   try {
     const { productId, quantity, customizations } = req.body
 
-    // Check if product exists
     const product = await Product.findByPk(productId)
     if (!product) {
       return res.status(404).json({ message: "Product not found" })
     }
 
-    // Check if product is in stock
     if (product.stock < quantity) {
-      // Verifică dacă produsul poate fi făcut din materiale
       const productMaterials = await ProductMaterial.findAll({ where: { productId: product.id } });
       let canMake = true;
       for (const pm of productMaterials) {
@@ -79,12 +72,9 @@ router.post("/", authenticate, isClient, async (req, res) => {
       if (!canMake) {
         return res.status(400).json({ message: "Not enough stock available and not enough materials to make the product." });
       }
-      // Dacă există materiale suficiente, continuă execuția pentru a adăuga produsul în coș ca de obicei, dar setează mesajul informativ
       req.addToCartMessage = "Produsul nu este pe stoc, dar poate fi realizat la comandă. Va dura mai mult pentru livrare.";
-      // nu returna, lasă să continue codul de adăugare în coș
     }
 
-    // Check if material exists if specified
     if (customizations && customizations.material) {
       const material = await Material.findByPk(customizations.material)
       if (!material) {
@@ -92,7 +82,6 @@ router.post("/", authenticate, isClient, async (req, res) => {
       }
     }
 
-    // Check if item already exists in cart
     let cartItem = await Cart.findOne({
       where: {
         userId: req.user.id,
@@ -101,13 +90,11 @@ router.post("/", authenticate, isClient, async (req, res) => {
     })
 
     if (cartItem) {
-      // Update quantity
       await cartItem.update({
         quantity: cartItem.quantity + quantity,
         customizations: customizations || cartItem.customizations,
       })
     } else {
-      // Create new cart item
       cartItem = await Cart.create({
         userId: req.user.id,
         productId,
@@ -116,7 +103,6 @@ router.post("/", authenticate, isClient, async (req, res) => {
       })
     }
 
-    // Get updated cart
     const cartItems = await Cart.findAll({
       where: { userId: req.user.id },
       include: [
@@ -127,12 +113,10 @@ router.post("/", authenticate, isClient, async (req, res) => {
       ],
     })
 
-    // Format cart items
     const formattedCartItems = await Promise.all(
       cartItems.map(async (item) => {
         let materialName = null
 
-        // If item has material customization, get material name
         if (item.customizations && item.customizations.material) {
           const material = await Material.findByPk(item.customizations.material)
           if (material) {
@@ -171,12 +155,10 @@ router.post("/", authenticate, isClient, async (req, res) => {
   }
 })
 
-// Update cart item
 router.put("/:id", authenticate, isClient, async (req, res) => {
   try {
     const { quantity } = req.body
 
-    // Find cart item
     const cartItem = await Cart.findOne({
       where: {
         id: req.params.id,
@@ -194,15 +176,12 @@ router.put("/:id", authenticate, isClient, async (req, res) => {
       return res.status(404).json({ message: "Cart item not found" })
     }
 
-    // Check if product is in stock
     if (cartItem.Product.stock < quantity) {
       return res.status(400).json({ message: "Not enough stock available" })
     }
 
-    // Update quantity
     await cartItem.update({ quantity })
 
-    // Get updated cart
     const cartItems = await Cart.findAll({
       where: { userId: req.user.id },
       include: [
@@ -213,12 +192,10 @@ router.put("/:id", authenticate, isClient, async (req, res) => {
       ],
     })
 
-    // Format cart items
     const formattedCartItems = await Promise.all(
       cartItems.map(async (item) => {
         let materialName = null
 
-        // If item has material customization, get material name
         if (item.customizations && item.customizations.material) {
           const material = await Material.findByPk(item.customizations.material)
           if (material) {
@@ -250,10 +227,8 @@ router.put("/:id", authenticate, isClient, async (req, res) => {
   }
 })
 
-// Remove item from cart
 router.delete("/:id", authenticate, isClient, async (req, res) => {
   try {
-    // Find cart item
     const cartItem = await Cart.findOne({
       where: {
         id: req.params.id,
@@ -265,10 +240,8 @@ router.delete("/:id", authenticate, isClient, async (req, res) => {
       return res.status(404).json({ message: "Cart item not found" })
     }
 
-    // Delete cart item
     await cartItem.destroy()
 
-    // Get updated cart
     const cartItems = await Cart.findAll({
       where: { userId: req.user.id },
       include: [
@@ -279,12 +252,10 @@ router.delete("/:id", authenticate, isClient, async (req, res) => {
       ],
     })
 
-    // Format cart items
     const formattedCartItems = await Promise.all(
       cartItems.map(async (item) => {
         let materialName = null
 
-        // If item has material customization, get material name
         if (item.customizations && item.customizations.material) {
           const material = await Material.findByPk(item.customizations.material)
           if (material) {
@@ -316,10 +287,8 @@ router.delete("/:id", authenticate, isClient, async (req, res) => {
   }
 })
 
-// Clear cart
 router.delete("/", authenticate, isClient, async (req, res) => {
   try {
-    // Delete all cart items for user
     await Cart.destroy({
       where: { userId: req.user.id },
     })

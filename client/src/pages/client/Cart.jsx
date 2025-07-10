@@ -10,15 +10,12 @@ const Cart = () => {
   const [error, setError] = useState("")
   const navigate = useNavigate()
 
-  // Calculate subtotal
   const subtotal = cart.reduce((total, item) => {
     return total + item.product.price * item.quantity
   }, 0)
 
-  // Calculate shipping (example: flat rate of $10)
   const shipping = 10
 
-  // Calculate total
   const total = subtotal + shipping
 
   const handleQuantityChange = async (cartItemId, newQuantity) => {

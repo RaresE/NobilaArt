@@ -6,7 +6,6 @@ const { authenticate, isAdmin } = require("../middleware/auth")
 const sequelize = require("../config/database")
 const materialsRouter = require("./materials")
 
-// Admin dashboard statistics
 router.get("/dashboard/stats", authenticate, isAdmin, async (req, res) => {
   try {
     // Get total orders
@@ -63,7 +62,6 @@ router.get("/dashboard/stats", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Get all orders for admin
 router.get("/orders", authenticate, isAdmin, async (req, res) => {
   try {
     const { status, startDate, endDate, search, page = 1, limit = 10 } = req.query
@@ -182,7 +180,6 @@ router.get("/orders", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Get order by ID for admin
 router.get("/orders/:id", authenticate, isAdmin, async (req, res) => {
   try {
     const order = await Order.findByPk(req.params.id, {
@@ -246,7 +243,6 @@ router.get("/orders/:id", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Update order status
 router.put("/orders/:id/status", authenticate, isAdmin, async (req, res) => {
   try {
     const { status } = req.body
@@ -273,7 +269,6 @@ router.put("/orders/:id/status", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Get all products for admin
 router.get("/products", authenticate, isAdmin, async (req, res) => {
   try {
     const { category, search, minPrice, maxPrice, sortBy = "name", sortOrder = "asc", page = 1, limit = 10 } = req.query
@@ -355,7 +350,6 @@ router.get("/products", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Bulk delete products
 router.post("/products/bulk-delete", authenticate, isAdmin, async (req, res) => {
   try {
     const { productIds } = req.body
@@ -380,7 +374,6 @@ router.post("/products/bulk-delete", authenticate, isAdmin, async (req, res) => 
   }
 })
 
-// Get all materials for admin
 router.get("/materials", authenticate, isAdmin, async (req, res) => {
   try {
     const { search, sortBy = "name", sortOrder = "asc", lowStock, outOfStock } = req.query
@@ -415,7 +408,6 @@ router.get("/materials", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Get users for admin
 router.get("/users", authenticate, isAdmin, async (req, res) => {
   try {
     const { search, role, sortBy = "name", sortOrder = "asc", page = 1, limit = 10 } = req.query
@@ -469,7 +461,6 @@ router.get("/users", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Create admin user
 router.post("/users", authenticate, isAdmin, async (req, res) => {
   try {
     const { name, email, password, role } = req.body
@@ -501,7 +492,6 @@ router.post("/users", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Update product by ID
 router.put("/products/:id", authenticate, isAdmin, async (req, res) => {
   try {
     const { id } = req.params;
@@ -518,7 +508,6 @@ router.put("/products/:id", authenticate, isAdmin, async (req, res) => {
   }
 });
 
-// Update material by ID
 router.put("/materials/:id", authenticate, isAdmin, async (req, res) => {
   try {
     const { id } = req.params;
@@ -535,7 +524,6 @@ router.put("/materials/:id", authenticate, isAdmin, async (req, res) => {
   }
 });
 
-// Add new product
 router.post("/products", authenticate, isAdmin, async (req, res) => {
   try {
     const product = await Product.create(req.body);
@@ -546,7 +534,6 @@ router.post("/products", authenticate, isAdmin, async (req, res) => {
   }
 });
 
-// Get product by ID for admin
 router.get("/products/:id", authenticate, isAdmin, async (req, res) => {
   try {
     const product = await Product.findByPk(req.params.id)
@@ -560,7 +547,6 @@ router.get("/products/:id", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// CRUD Teams
 router.get("/teams", authenticate, isAdmin, async (req, res) => {
   try {
     const teams = await Team.findAll()
@@ -605,7 +591,6 @@ router.delete("/teams/:id", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Assign team to order
 router.put("/orders/:id/assign-team", authenticate, isAdmin, async (req, res) => {
   try {
     const { id } = req.params

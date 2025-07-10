@@ -4,7 +4,6 @@ const { Op } = require("sequelize")
 const { Material } = require("../models")
 const { authenticate, isAdmin } = require("../middleware/auth")
 
-// Get all materials
 router.get("/", async (req, res) => {
   try {
     const materials = await Material.findAll()
@@ -15,7 +14,6 @@ router.get("/", async (req, res) => {
   }
 })
 
-// Get material by ID
 router.get("/:id", async (req, res) => {
   try {
     const material = await Material.findByPk(req.params.id)
@@ -31,7 +29,6 @@ router.get("/:id", async (req, res) => {
   }
 })
 
-// Create a new material (admin only)
 router.post("/", authenticate, isAdmin, async (req, res) => {
   try {
     const { name, description, stock, unit, lowStockThreshold } = req.body
@@ -58,7 +55,6 @@ router.post("/", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Update a material (admin only)
 router.put("/:id", authenticate, isAdmin, async (req, res) => {
   try {
     const material = await Material.findByPk(req.params.id)
@@ -93,7 +89,6 @@ router.put("/:id", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Delete a material (admin only)
 router.delete("/:id", authenticate, isAdmin, async (req, res) => {
   try {
     const material = await Material.findByPk(req.params.id)

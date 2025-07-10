@@ -78,17 +78,17 @@ const Teams = () => {
       {showForm && (
         <form onSubmit={handleSubmit} className="mb-6 space-y-2">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nume echipă</label>
+            <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Denumire echipă</label>
               <input type="text" name="name" id="name" required value={form.name} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
             </div>
-            <div>
+            <div className="border border-gray-300 rounded-md bg-gray-50 p-4 mb-2">
               <label htmlFor="description" className="block text-sm font-medium text-gray-700">Descriere</label>
               <input type="text" name="description" id="description" value={form.description} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
             </div>
           </div>
           <div className="mt-6 flex justify-end space-x-3">
-            <button type="button" onClick={() => { setEditingId(null); setForm({ name: "", description: "" }); setShowForm(false) }} className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Renunță</button>
+            <button type="button" onClick={() => { setEditingId(null); setForm({ name: "", description: "" }); setShowForm(false) }} className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Anulează</button>
             <button type="submit" disabled={saving} className={`px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm ${saving ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>{saving ? "Se salvează..." : "Actualizează echipa"}</button>
           </div>
         </form>
@@ -96,23 +96,28 @@ const Teams = () => {
       {error && <div className="text-red-600 mb-2">{error === "Failed to load teams" ? "Eroare la încărcarea echipelor" : error === "Failed to save team" ? "Eroare la salvare echipă" : error === "Failed to delete team" ? "Eroare la ștergere echipă" : error}</div>}
       {loading ? <div>Se încarcă...</div> : (
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 bg-white shadow rounded-lg mt-4">
+          <table className="min-w-full bg-white shadow-lg rounded-xl border-2 border-solid border-gray-400 mt-4">
             <thead>
-              <tr className="bg-gray-50">
-                <th className="p-2 text-left">Nume echipă</th>
-                <th className="p-2 text-left">Descriere</th>
-                <th className="p-2">Acțiuni</th>
+              <tr className="bg-blue-50">
+                <th className="p-4 text-left font-semibold text-gray-700 rounded-tl-xl border-r-2 border-b-2 border-gray-300">Nume echipă</th>
+                <th className="p-4 text-left font-semibold text-gray-700 border-r-2 border-b-2 border-gray-300">Descriere</th>
+                <th className="p-4 font-semibold text-gray-700 rounded-tr-xl border-b-2 border-gray-300">Acțiuni</th>
               </tr>
             </thead>
             <tbody>
-              {teams.map(team => (
-                <tr key={team.id} className="border-b hover:bg-gray-50">
-                  <td className="p-2">{team.name}</td>
-                  <td className="p-2">{team.description || "Fără descriere"}</td>
-                  <td className="p-2 text-sm font-medium">
+              {teams.map((team, idx) => (
+                <tr
+                  key={team.id}
+                  className={`border-b-2 border-gray-300 transition-all duration-200
+                    ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
+                    ${idx !== 0 ? 'hover:shadow-2xl hover:border-2 hover:border-blue-400 hover:-translate-y-1 hover:bg-blue-50' : 'hover:shadow-2xl hover:-translate-y-1 hover:bg-blue-50'}`}
+                >
+                  <td className="p-4 text-gray-900 text-base border-r-2 border-gray-300">{team.name}</td>
+                  <td className="p-4 text-gray-700 text-base border-r-2 border-gray-300">{team.description || "Fără descriere"}</td>
+                  <td className="p-4 text-sm font-medium">
                     <div className="flex space-x-2">
-                      <button className="text-blue-600 hover:text-blue-900" onClick={() => handleEdit(team)}>Editează</button>
-                      <button className="text-red-600 hover:text-red-900" onClick={() => handleDelete(team.id)}>Șterge</button>
+                      <button className="text-blue-600 hover:text-blue-900 font-semibold" onClick={() => handleEdit(team)}>Editează</button>
+                      <button className="text-red-600 hover:text-red-900 font-semibold" onClick={() => handleDelete(team.id)}>Șterge</button>
                     </div>
                   </td>
                 </tr>

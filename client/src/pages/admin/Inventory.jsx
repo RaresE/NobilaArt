@@ -464,8 +464,12 @@ const AdminInventory = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {materials.map((material) => (
-                <tr key={material.id}>
+              {materials.map((material, idx) => (
+                <tr
+                  key={material.id}
+                  className={`transition-all duration-200 border-b border-gray-100
+                    ${idx !== 0 ? 'hover:shadow-2xl hover:border-2 hover:border-blue-400 hover:-translate-y-1 hover:bg-blue-50' : 'hover:shadow-2xl hover:-translate-y-1 hover:bg-blue-50'}`}
+                >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{material.name}</div>
                     <div className="text-sm text-gray-500">ID: {material.id}</div>

@@ -29,12 +29,10 @@ const Checkout = () => {
   const [success, setSuccess] = useState(false)
   const [orderId, setOrderId] = useState(null)
 
-  // Calculate subtotal
   const subtotal = cart.reduce((total, item) => {
     return total + item.product.price * item.quantity
   }, 0)
 
-  // Calculate shipping based on delivery method
   const getShippingCost = () => {
     switch (formData.deliveryMethod) {
       case "express":
@@ -49,7 +47,6 @@ const Checkout = () => {
 
   const shipping = getShippingCost()
 
-  // Calculate total
   const total = subtotal + shipping
 
   const handleChange = (e) => {
@@ -68,7 +65,6 @@ const Checkout = () => {
     setOrderId(null)
 
     try {
-      // Create order
       const orderData = {
         items: cart.map((item) => ({
           productId: item.product.id,
@@ -146,8 +142,8 @@ const Checkout = () => {
           <div className="bg-white rounded-lg shadow p-6 mb-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Informații de livrare</h2>
 
-            <div className="grid grid-cols-1 gap-4">
-              <div>
+            <div className="grid grid-cols-1 gap-4 divide-y divide-gray-200">
+              <div className="py-2">
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Nume complet
                 </label>
@@ -158,11 +154,10 @@ const Checkout = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 />
               </div>
-
-              <div>
+              <div className="py-2">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                   Adresă email
                 </label>
@@ -173,11 +168,10 @@ const Checkout = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 />
               </div>
-
-              <div>
+              <div className="py-2">
                 <label htmlFor="address" className="block text-sm font-medium text-gray-700">
                   Adresă stradă
                 </label>
@@ -188,11 +182,10 @@ const Checkout = () => {
                   value={formData.address}
                   onChange={handleChange}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 />
               </div>
-
-              <div className="grid grid-cols-2 gap-4">
+              <div className="py-2 grid grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="city" className="block text-sm font-medium text-gray-700">
                     Oraș
@@ -204,10 +197,9 @@ const Checkout = () => {
                     value={formData.city}
                     onChange={handleChange}
                     required
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                   />
                 </div>
-
                 <div>
                   <label htmlFor="state" className="block text-sm font-medium text-gray-700">
                     Județ / Provincie
@@ -219,12 +211,11 @@ const Checkout = () => {
                     value={formData.state}
                     onChange={handleChange}
                     required
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                   />
                 </div>
               </div>
-
-              <div className="grid grid-cols-2 gap-4">
+              <div className="py-2 grid grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
                     Cod poștal
@@ -236,10 +227,9 @@ const Checkout = () => {
                     value={formData.zipCode}
                     onChange={handleChange}
                     required
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                   />
                 </div>
-
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                     Număr de telefon
@@ -251,7 +241,7 @@ const Checkout = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -274,7 +264,7 @@ const Checkout = () => {
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 />
                 <label htmlFor="delivery-standard" className="ml-3 block text-sm font-medium text-gray-700">
-                  Livrare standard (3-5 zile lucrătoare) - 50 lei
+                  Livrare standard (3-5 zile lucrătoare) - 10 lei
                 </label>
               </div>
 
@@ -289,7 +279,7 @@ const Checkout = () => {
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 />
                 <label htmlFor="delivery-express" className="ml-3 block text-sm font-medium text-gray-700">
-                  Livrare expres (2-3 zile lucrătoare) - 100 lei
+                  Livrare expres (2-3 zile lucrătoare) - 20 lei
                 </label>
               </div>
 
@@ -304,7 +294,7 @@ const Checkout = () => {
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                 />
                 <label htmlFor="delivery-next-day" className="ml-3 block text-sm font-medium text-gray-700">
-                  Livrare în următoarea zi (1 zi lucrătoare) - 150 lei
+                  Livrare în următoarea zi (1 zi lucrătoare) - 30 lei
                 </label>
               </div>
             </div>

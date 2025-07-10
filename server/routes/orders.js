@@ -5,7 +5,6 @@ const { Order, OrderItem, Product, Cart, Material, User, ProductMaterial } = req
 const { authenticate, isClient } = require("../middleware/auth")
 const sequelize = require("../config/database")
 
-// Get user's orders
 router.get("/", authenticate, isClient, async (req, res) => {
   try {
     const orders = await Order.findAll({
@@ -24,7 +23,6 @@ router.get("/", authenticate, isClient, async (req, res) => {
       order: [["createdAt", "DESC"]],
     })
 
-    // Format orders
     const formattedOrders = orders.map((order) => ({
       id: order.id,
       status: order.status,
@@ -57,15 +55,12 @@ router.get("/", authenticate, isClient, async (req, res) => {
   }
 })
 
-// Get order statistics
 router.get("/stats", authenticate, isClient, async (req, res) => {
   try {
-    // Get total orders
     const total = await Order.count({
       where: { userId: req.user.id },
     })
 
-    // Get orders by status
     const pending = await Order.count({
       where: {
         userId: req.user.id,
@@ -107,7 +102,6 @@ router.get("/stats", authenticate, isClient, async (req, res) => {
   }
 })
 
-// Get order by ID
 router.get("/:id", authenticate, isClient, async (req, res) => {
   try {
     const order = await Order.findOne({
@@ -132,7 +126,6 @@ router.get("/:id", authenticate, isClient, async (req, res) => {
       return res.status(404).json({ message: "Order not found" })
     }
 
-    // Format order
     const formattedOrder = {
       id: order.id,
       status: order.status,
@@ -165,20 +158,17 @@ router.get("/:id", authenticate, isClient, async (req, res) => {
   }
 })
 
-// Create a new order
 router.post("/", authenticate, isClient, async (req, res) => {
   const transaction = await sequelize.transaction()
 
   try {
     const { items, shippingAddress, paymentMethod, deliveryMethod } = req.body
 
-    // Calculate totals
     let subtotal = 0
     let shipping = 0
     let orderStatus = 'pending'
     let needsManufacturing = false
 
-    // Check products and calculate subtotal
     for (const item of items) {
       const product = await Product.findByPk(item.productId, {
         include: [{
@@ -193,9 +183,7 @@ router.post("/", authenticate, isClient, async (req, res) => {
         return res.status(404).json({ message: `Product with ID ${item.productId} not found` })
       }
 
-      // Check if product is in stock or can be made from materials
       if (product.stock < item.quantity) {
-        // Check if we have enough materials to make the product
         const canMakeFromMaterials = await Promise.all(
           product.Materials.map(async (material) => {
             const productMaterial = await ProductMaterial.findOne({
@@ -224,7 +212,6 @@ router.post("/", authenticate, isClient, async (req, res) => {
       subtotal += product.price * item.quantity
     }
 
-    // Calculate shipping based on delivery method
     switch (deliveryMethod) {
       case "standard":
         shipping = 10
@@ -241,7 +228,6 @@ router.post("/", authenticate, isClient, async (req, res) => {
 
     const total = subtotal + shipping
 
-    // Create order
     const order = await Order.create(
       {
         userId: req.user.id,
@@ -257,7 +243,6 @@ router.post("/", authenticate, isClient, async (req, res) => {
       { transaction },
     )
 
-    // Create order items and update stock
     for (const item of items) {
       const product = await Product.findByPk(item.productId, {
         include: [{
@@ -267,7 +252,6 @@ router.post("/", authenticate, isClient, async (req, res) => {
         transaction
       })
 
-      // Create order item
       await OrderItem.create(
         {
           orderId: order.id,
@@ -280,7 +264,6 @@ router.post("/", authenticate, isClient, async (req, res) => {
       )
 
       if (product.stock >= item.quantity) {
-        // Update product stock if available
         await product.update(
           {
             stock: product.stock - item.quantity,
@@ -288,7 +271,6 @@ router.post("/", authenticate, isClient, async (req, res) => {
           { transaction },
         )
       } else {
-        // Deduct materials if product needs to be made
         const productMaterials = await ProductMaterial.findAll({
           where: { productId: product.id },
           transaction
@@ -307,7 +289,6 @@ router.post("/", authenticate, isClient, async (req, res) => {
       }
     }
 
-    // Clear user's cart
     await Cart.destroy(
       {
         where: { userId: req.user.id },
@@ -329,7 +310,6 @@ router.post("/", authenticate, isClient, async (req, res) => {
   }
 })
 
-// Cancel an order
 router.put("/:id/cancel", authenticate, isClient, async (req, res) => {
   const transaction = await sequelize.transaction()
 
@@ -359,13 +339,11 @@ router.put("/:id/cancel", authenticate, isClient, async (req, res) => {
       return res.status(404).json({ message: "Order not found" })
     }
 
-    // Check if order can be cancelled
     if (order.status !== "pending" && order.status !== "processing") {
       await transaction.rollback()
       return res.status(400).json({ message: "Order cannot be cancelled" })
     }
 
-    // Update order status
     await order.update(
       {
         status: "cancelled",
@@ -373,7 +351,6 @@ router.put("/:id/cancel", authenticate, isClient, async (req, res) => {
       { transaction },
     )
 
-    // Restore product stock
     for (const item of order.OrderItems) {
       await item.Product.update(
         {

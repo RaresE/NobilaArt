@@ -95,13 +95,11 @@ export const AuthProvider = ({ children }) => {
   // Add to cart function
   const addToCart = async (productId, quantity, customizations = {}) => {
     try {
-      console.log('Adding to cart:', { productId, quantity, customizations });
       const response = await axios.post("http://localhost:5000/api/cart", {
         productId,
         quantity,
         customizations,
       })
-      console.log('Cart response:', response.data);
       if (response.data.success && response.data.message) {
         if (response.data.cart) {
           setCart(response.data.cart)
@@ -111,7 +109,6 @@ export const AuthProvider = ({ children }) => {
       setCart(response.data)
       return { success: true }
     } catch (error) {
-      console.error('Add to cart error:', error.response?.data || error);
       return {
         success: false,
         message: error.response?.data?.message || "Failed to add to cart",

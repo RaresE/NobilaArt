@@ -4,7 +4,6 @@ const { Op } = require("sequelize")
 const { Product, Category } = require("../models")
 const { authenticate, isAdmin } = require("../middleware/auth")
 
-// Get all products with filtering and pagination
 router.get("/", async (req, res) => {
   try {
     const { category, search, minPrice, maxPrice, sortBy = "name", sortOrder = "asc", page = 1, limit = 12 } = req.query
@@ -97,7 +96,6 @@ router.get("/", async (req, res) => {
   }
 })
 
-// Get featured products
 router.get("/featured", async (req, res) => {
   try {
     const featuredProducts = await Product.findAll({
@@ -128,7 +126,6 @@ router.get("/featured", async (req, res) => {
   }
 })
 
-// Get product by ID
 router.get("/:id", async (req, res) => {
   try {
     const product = await Product.findOne({
@@ -189,10 +186,8 @@ router.get("/:id", async (req, res) => {
   }
 })
 
-// Create a new product (admin only)
 router.post("/", authenticate, isAdmin, async (req, res) => {
   try {
-    console.log('CREATE PRODUCT req.body:', req.body);
     let {
       name,
       description,
@@ -214,7 +209,6 @@ router.post("/", authenticate, isAdmin, async (req, res) => {
     } else if (typeof availableMaterials[0] === 'object' && availableMaterials[0] !== null) {
       availableMaterials = availableMaterials.map(m => m.value)
     }
-    console.log('CREATE PRODUCT availableMaterials to save:', availableMaterials);
 
     // Create product
     const product = await Product.create({
@@ -239,10 +233,8 @@ router.post("/", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Update a product (admin only)
 router.put("/:id", authenticate, isAdmin, async (req, res) => {
   try {
-    console.log('UPDATE PRODUCT req.body:', req.body);
     const product = await Product.findByPk(req.params.id)
 
     if (!product) {
@@ -270,7 +262,6 @@ router.put("/:id", authenticate, isAdmin, async (req, res) => {
     } else if (typeof availableMaterials[0] === 'object' && availableMaterials[0] !== null) {
       availableMaterials = availableMaterials.map(m => m.value)
     }
-    console.log('UPDATE PRODUCT availableMaterials to save:', availableMaterials);
 
     // Update product
     await product.update({
@@ -295,7 +286,6 @@ router.put("/:id", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Delete a product (admin only)
 router.delete("/:id", authenticate, isAdmin, async (req, res) => {
   try {
     const product = await Product.findByPk(req.params.id)
@@ -313,7 +303,6 @@ router.delete("/:id", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Toggle product visibility (admin only)
 router.put("/:id/visibility", authenticate, isAdmin, async (req, res) => {
   try {
     const product = await Product.findByPk(req.params.id)

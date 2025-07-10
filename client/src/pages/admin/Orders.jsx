@@ -218,7 +218,7 @@ const AdminOrders = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6 mb-6">
+      <div className="bg-blue-50 shadow px-4 py-5 sm:rounded-lg sm:p-6 mb-6 border border-blue-100">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
           <div>
             <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
@@ -302,9 +302,9 @@ const AdminOrders = () => {
           </button>
         </div>
       ) : (
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div className="bg-gray-50 shadow-inner overflow-hidden sm:rounded-lg border border-gray-200">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-100">
               <tr>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   ID Comandă
@@ -327,8 +327,12 @@ const AdminOrders = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {orders.map((order) => (
-                <tr key={order.id}>
+              {orders.map((order, idx) => (
+                <tr
+                  key={order.id}
+                  className={`transition-all duration-200 border-b border-gray-100
+      ${idx !== 0 ? 'hover:shadow-2xl hover:border-2 hover:border-blue-400 hover:-translate-y-1 hover:bg-blue-50' : 'hover:shadow-2xl hover:-translate-y-1 hover:bg-blue-50'}`}
+                >
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
                     #{order.id}
                   </td>

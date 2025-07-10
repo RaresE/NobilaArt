@@ -29,7 +29,6 @@ const OrderDetail = () => {
   if (error) return <div className="p-8 text-red-600">{error}</div>;
   if (!order) return <div className="p-8">Order not found!</div>;
 
-  // Dicționar pentru traducerea statusului
   const statusMap = {
     pending: "În așteptare",
     completed: "Finalizată",

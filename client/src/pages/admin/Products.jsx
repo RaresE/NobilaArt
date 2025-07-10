@@ -45,7 +45,6 @@ const AdminProducts = () => {
   const fetchProducts = async () => {
     setLoading(true)
     try {
-      // Build query string from filters and pagination
       const params = new URLSearchParams()
 
       if (filters.category) {
@@ -92,7 +91,6 @@ const AdminProducts = () => {
       [name]: value,
     }))
 
-    // Reset to first page when filters change
     setPagination((prev) => ({
       ...prev,
       page: 1,
@@ -152,10 +150,8 @@ const AdminProducts = () => {
           productIds: selectedProducts,
         })
 
-        // Refresh products list
         fetchProducts()
 
-        // Clear selection
         setSelectedProducts([])
       } catch (err) {
         console.error("Error deleting products:", err)
@@ -171,7 +167,6 @@ const AdminProducts = () => {
       try {
         await axios.delete(`http://localhost:5000/api/admin/products/${productId}`)
 
-        // Refresh products list
         fetchProducts()
       } catch (err) {
         console.error("Error deleting product:", err)
@@ -349,8 +344,12 @@ const AdminProducts = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {products.map((product) => (
-              <tr key={product.id}>
+            {products.map((product, idx) => (
+              <tr
+                key={product.id}
+                className={`transition-all duration-200 border-b border-gray-100
+                  ${idx !== 0 ? 'hover:shadow-2xl hover:border-2 hover:border-blue-400 hover:-translate-y-1 hover:bg-blue-50' : 'hover:shadow-2xl hover:-translate-y-1 hover:bg-blue-50'}`}
+              >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10">

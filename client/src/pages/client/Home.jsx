@@ -14,11 +14,9 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch featured products
         const productsResponse = await axios.get("http://localhost:5000/api/products/featured")
         setFeaturedProducts(productsResponse.data)
 
-        // Fetch categories
         const categoriesResponse = await axios.get("http://localhost:5000/api/categories")
         setCategories(categoriesResponse.data)
       } catch (error) {

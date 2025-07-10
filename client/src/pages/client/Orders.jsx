@@ -25,13 +25,11 @@ const Orders = () => {
     fetchOrders()
   }, [])
 
-  // Helper function to format date
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" }
     return new Date(dateString).toLocaleDateString(undefined, options)
   }
 
-  // Helper function to get status badge color
   const getStatusColor = (status) => {
     switch (status) {
       case "pending":
@@ -49,7 +47,6 @@ const Orders = () => {
     }
   }
 
-  // Helper function to get status label in Romanian
   const getStatusLabel = (status) => {
     switch (status) {
       case "pending":

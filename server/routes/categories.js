@@ -3,7 +3,6 @@ const router = express.Router()
 const { Category } = require("../models")
 const { authenticate, isAdmin } = require("../middleware/auth")
 
-// Get all categories
 router.get("/", async (req, res) => {
   try {
     const categories = await Category.findAll()
@@ -14,7 +13,6 @@ router.get("/", async (req, res) => {
   }
 })
 
-// Get category by ID
 router.get("/:id", async (req, res) => {
   try {
     const category = await Category.findByPk(req.params.id)
@@ -30,7 +28,6 @@ router.get("/:id", async (req, res) => {
   }
 })
 
-// Create a new category (admin only)
 router.post("/", authenticate, isAdmin, async (req, res) => {
   try {
     const { name, description, imageUrl } = req.body
@@ -55,7 +52,6 @@ router.post("/", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Update a category (admin only)
 router.put("/:id", authenticate, isAdmin, async (req, res) => {
   try {
     const category = await Category.findByPk(req.params.id)
@@ -88,7 +84,6 @@ router.put("/:id", authenticate, isAdmin, async (req, res) => {
   }
 })
 
-// Delete a category (admin only)
 router.delete("/:id", authenticate, isAdmin, async (req, res) => {
   try {
     const category = await Category.findByPk(req.params.id)

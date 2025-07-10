@@ -90,7 +90,7 @@ const AdminDashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5 mb-8">
-        <div className="bg-white overflow-hidden shadow rounded-lg">
+        <div className="bg-white overflow-hidden shadow-xl rounded-2xl border-2 border-solid border-gray-300 transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
           <div className="px-4 py-5 sm:p-6">
             <dl>
               <dt className="text-sm font-medium text-gray-500 truncate">Comenzi totale</dt>
@@ -99,7 +99,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white overflow-hidden shadow rounded-lg">
+        <div className="bg-white overflow-hidden shadow-xl rounded-2xl border-2 border-solid border-gray-300 transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
           <div className="px-4 py-5 sm:p-6">
             <dl>
               <dt className="text-sm font-medium text-gray-500 truncate">Venit total</dt>
@@ -108,7 +108,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white overflow-hidden shadow rounded-lg">
+        <div className="bg-white overflow-hidden shadow-xl rounded-2xl border-2 border-solid border-gray-300 transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
           <div className="px-4 py-5 sm:p-6">
             <dl>
               <dt className="text-sm font-medium text-gray-500 truncate">Comenzi în așteptare</dt>
@@ -117,7 +117,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white overflow-hidden shadow rounded-lg">
+        <div className="bg-white overflow-hidden shadow-xl rounded-2xl border-2 border-solid border-gray-300 transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
           <div className="px-4 py-5 sm:p-6">
             <dl>
               <dt className="text-sm font-medium text-gray-500 truncate">Produse cu stoc redus</dt>
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white overflow-hidden shadow rounded-lg">
+        <div className="bg-white overflow-hidden shadow-xl rounded-2xl border-2 border-solid border-gray-300 transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
           <div className="px-4 py-5 sm:p-6">
             <dl>
               <dt className="text-sm font-medium text-gray-500 truncate">Total produse</dt>

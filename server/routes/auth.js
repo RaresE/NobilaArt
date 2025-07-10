@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken")
 const { User } = require("../models")
 const { authenticate } = require("../middleware/auth")
 
-// Register a new user
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password, address, phone } = req.body
@@ -46,7 +45,6 @@ router.post("/register", async (req, res) => {
   }
 })
 
-// Login user
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body
@@ -84,7 +82,6 @@ router.post("/login", async (req, res) => {
   }
 })
 
-// Admin login
 router.post("/admin/login", async (req, res) => {
   try {
     const { email, password } = req.body
@@ -136,7 +133,6 @@ router.post("/admin/login", async (req, res) => {
   }
 })
 
-// Get current user
 router.get("/me", authenticate, async (req, res) => {
   try {
     // Return user data (without password)
@@ -154,7 +150,6 @@ router.get("/me", authenticate, async (req, res) => {
   }
 })
 
-// Update user profile
 router.put("/profile", authenticate, async (req, res) => {
   try {
     const { name, email, address, phone, password } = req.body
