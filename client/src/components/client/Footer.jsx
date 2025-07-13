@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="text-2xl font-bold text-white">
-              MobiLux
+              Mobilux
             </Link>
             <p className="mt-2 text-sm text-gray-300">
               Mobilier de calitate pentru casa ta. Realizat cu grijă și atenție la detalii.
@@ -80,7 +80,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-6 border-t border-gray-700 pt-4">
-          <span className="block text-xs text-gray-400">© 2025 MobiLux. Toate drepturile rezervate.</span>
+          <span className="block text-xs text-gray-400">© 2025 Mobilux. Toate drepturile rezervate.</span>
         </div>
       </div>
     </footer>

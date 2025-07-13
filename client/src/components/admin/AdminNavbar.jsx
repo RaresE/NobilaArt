@@ -16,7 +16,7 @@ const AdminNavbar = () => {
     <header className="bg-white shadow">
       <div className="px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl font-bold text-gray-900 truncate">MobiLux Administrare</h1>
+          <h1 className="text-2xl font-bold text-gray-900 truncate">Mobilux Administrare</h1>
         </div>
         <div className="flex items-center space-x-4">
           <span className="text-sm font-medium text-gray-700">{user?.name}</span>
