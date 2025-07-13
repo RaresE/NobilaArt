@@ -218,10 +218,11 @@ const AdminInventory = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6 mb-6">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <div className="bg-white/80 backdrop-blur-md p-6 rounded-2xl shadow-2xl mb-8 border border-blue-200 flex flex-col gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
           <div>
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="search" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+              <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               Caută
             </label>
             <input
@@ -231,11 +232,12 @@ const AdminInventory = () => {
               value={filters.search}
               onChange={handleFilterChange}
               placeholder="Nume produs"
-              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
+              className="block w-full rounded-full border border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow transition placeholder:text-gray-400 bg-blue-50/60 px-4 py-2 text-base outline-none"
             />
           </div>
           <div>
-            <label htmlFor="stockStatus" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="stockStatus" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+              <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 3v4M8 3v4"/></svg>
               Status stoc
             </label>
             <select
@@ -243,7 +245,7 @@ const AdminInventory = () => {
               name="stockStatus"
               value={filters.stockStatus}
               onChange={handleFilterChange}
-              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
+              className="block w-full rounded-full border border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow transition bg-blue-50/60 px-4 py-2 text-base outline-none"
             >
               <option value="">Toate</option>
               <option value="low">Stoc redus</option>
@@ -252,7 +254,8 @@ const AdminInventory = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="sortBy" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="sortBy" className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+              <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 6h18M3 12h12M3 18h6"/></svg>
               Sortează după
             </label>
             <select
@@ -260,7 +263,7 @@ const AdminInventory = () => {
               name="sortBy"
               value={filters.sortBy}
               onChange={handleFilterChange}
-              className="block w-full rounded-md border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
+              className="block w-full rounded-full border border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow transition bg-blue-50/60 px-4 py-2 text-base outline-none"
             >
               <option value="name">Nume</option>
               <option value="stock">Stoc</option>
@@ -269,15 +272,15 @@ const AdminInventory = () => {
             </select>
           </div>
         </div>
-        {/* Add Stock Button - left aligned under filters */}
-        <div className="mt-4 flex justify-start">
-          <button
-            onClick={startAddMaterial}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Adaugă stoc nou
-          </button>
-        </div>
+      </div>
+      <div className="mb-6">
+        <button
+          onClick={startAddMaterial}
+          className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-blue-800 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-base"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+          Adaugă stoc nou
+        </button>
       </div>
 
       {/* Material Form */}
@@ -381,17 +384,17 @@ const AdminInventory = () => {
               <button
                 type="button"
                 onClick={cancelForm}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gray-200 text-gray-800 font-semibold shadow hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-base"
               >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
                 Anulează
               </button>
               <button
                 type="submit"
                 disabled={formLoading}
-                className={`px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm ${
-                  formLoading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                className={`inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-blue-800 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-base ${formLoading ? 'opacity-60 cursor-not-allowed' : ''}`}
               >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
                 {formLoading ? "Se salvează..." : formMode === "add" ? "Adaugă Material" : "Actualizează Material"}
               </button>
             </div>

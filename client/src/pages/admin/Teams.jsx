@@ -73,7 +73,13 @@ const Teams = () => {
         <p className="mt-1 text-sm text-gray-500">Adaugă, editează și gestionează echipele de angajați</p>
       </div>
       {!showForm && (
-        <button className="mb-6 px-4 py-2 bg-blue-600 text-white rounded" onClick={() => { setShowForm(true); setEditingId(null); setForm({ name: "", description: "" }) }}>Adaugă echipă</button>
+        <button
+          className="mb-6 inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-blue-800 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-base"
+          onClick={() => { setShowForm(true); setEditingId(null); setForm({ name: "", description: "" }) }}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+          Adaugă echipă
+        </button>
       )}
       {showForm && (
         <form onSubmit={handleSubmit} className="mb-6 space-y-2">
@@ -88,8 +94,22 @@ const Teams = () => {
             </div>
           </div>
           <div className="mt-6 flex justify-end space-x-3">
-            <button type="button" onClick={() => { setEditingId(null); setForm({ name: "", description: "" }); setShowForm(false) }} className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Anulează</button>
-            <button type="submit" disabled={saving} className={`px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm ${saving ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>{saving ? "Se salvează..." : "Actualizează echipa"}</button>
+            <button
+              type="button"
+              onClick={() => { setEditingId(null); setForm({ name: "", description: "" }); setShowForm(false) }}
+              className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gray-200 text-gray-800 font-semibold shadow hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-base"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+              Anulează
+            </button>
+            <button
+              type="submit"
+              disabled={saving}
+              className={`inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-blue-800 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-base ${saving ? 'opacity-60 cursor-not-allowed' : ''}`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+              {saving ? "Se salvează..." : "Actualizează echipa"}
+            </button>
           </div>
         </form>
       )}

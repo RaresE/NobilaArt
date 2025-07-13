@@ -272,17 +272,19 @@ const AddProduct = () => {
         <div className="flex justify-end gap-2">
           <button
             type="button"
-            className="px-4 py-2 bg-gray-200 rounded"
+            className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gray-200 text-gray-800 font-semibold shadow hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-base"
             onClick={() => navigate("/admin/products")}
             disabled={saving}
           >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
             Anulează
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded"
+            className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-blue-800 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-base"
             disabled={saving}
           >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
             {saving ? "Se salvează..." : "Adaugă Produs"}
           </button>
         </div>
