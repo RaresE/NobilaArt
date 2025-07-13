@@ -104,7 +104,7 @@ const AdminSidebar = () => {
   ]
 
   return (
-    <div className={`bg-gray-800 text-white ${collapsed ? "w-16" : "w-64"} flex flex-col transition-all duration-300`}>
+    <div className={`bg-gradient-to-b from-[#202a5a] to-[#181f3a] text-white ${collapsed ? "w-16" : "w-64"} flex flex-col transition-all duration-300`}>
       <div className="flex items-center justify-between h-16 px-4 border-b border-gray-700">
         {!collapsed && <span className="text-xl font-bold">Panou administrare</span>}
         <button

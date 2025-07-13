@@ -54,8 +54,9 @@ const Home = () => {
           <p className="text-xl mb-2 drop-shadow">Eleganță și calitate pentru casa ta. Descoperă colecția noastră de mobilier lucrat manual.</p>
             <Link
               to={user ? "/products" : "/register"}
-              className="inline-block bg-white text-blue-700 font-bold py-1.5 px-5 rounded-full shadow-lg hover:bg-blue-100 transition text-base mt-1"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-7 rounded-full shadow-lg hover:from-blue-600 hover:to-blue-800 transition text-base mt-1 drop-shadow"
             >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               {user ? "Vezi produsele" : "Înregistrează-te"}
             </Link>
         </div>
@@ -116,7 +117,7 @@ const Home = () => {
           <div className="mt-10 text-center">
             <Link
               to="/products"
-              className="inline-block bg-blue-600 hover:bg-blue-700 py-3 px-8 rounded-md text-white font-medium transition duration-300"
+              className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-blue-800 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-base"
             >
               Vezi toate produsele
             </Link>
