@@ -146,7 +146,7 @@ const AdminProducts = () => {
     if (window.confirm(`Sunteți sigur că doriți să ștergeți ${selectedProducts.length} produse selectate?`)) {
       setBulkActionLoading(true)
       try {
-        await axios.post("http://localhost:5000/api/admin/products/bulk-delete", {
+        await axios.post("http://localhost:5000/api/products/bulk-delete", {
           productIds: selectedProducts,
         })
 
@@ -165,7 +165,7 @@ const AdminProducts = () => {
   const handleDeleteProduct = async (productId) => {
     if (window.confirm("Sunteți sigur că doriți să ștergeți acest produs?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/products/${productId}`)
+        await axios.delete(`http://localhost:5000/api/products/${productId}`)
 
         fetchProducts()
       } catch (err) {

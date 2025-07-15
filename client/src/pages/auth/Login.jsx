@@ -53,7 +53,7 @@ const Login = () => {
           </div>
         )}
 
-        <div className="flex gap-4 mb-4">
+        <div className="flex justify-center gap-4 mb-4">
           <button
             type="button"
             onClick={() => { setEmail("rares@gmail.com"); setPassword("raresrares"); }}

@@ -343,7 +343,7 @@ const ProductDetail = () => {
                 name="material"
                 value={customizations.material}
                 onChange={handleCustomizationChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               >
                 {filteredMaterials.length > 0 ? (
                   filteredMaterials.map((material) => (
@@ -369,7 +369,7 @@ const ProductDetail = () => {
                 min="1"
                 value={quantity}
                 onChange={handleQuantityChange}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               />
             </div>
           </div>
@@ -380,9 +380,7 @@ const ProductDetail = () => {
               type="button"
               onClick={handleAddToCart}
               disabled={addingToCart}
-              className={`flex-1 py-3 px-4 rounded-md text-white font-medium ${
-                addingToCart ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
-              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+              className={`flex-1 px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-blue-800 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 text-base ${addingToCart ? 'opacity-70 cursor-not-allowed' : ''}`}
             >
               {addingToCart ? "Se adaugă..." : "Adaugă în coș"}
             </button>
@@ -390,9 +388,7 @@ const ProductDetail = () => {
               type="button"
               onClick={handleBuyNow}
               disabled={addingToCart}
-              className={`flex-1 py-3 px-4 rounded-md text-white font-medium ${
-                addingToCart ? "bg-green-400" : "bg-green-600 hover:bg-green-700"
-              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
+              className={`flex-1 px-6 py-2 rounded-full bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold shadow-lg hover:from-green-600 hover:to-green-800 transition focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 text-base ${addingToCart ? 'opacity-70 cursor-not-allowed' : ''}`}
             >
               Cumpără acum
             </button>
